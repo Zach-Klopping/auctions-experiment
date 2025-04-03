@@ -78,3 +78,10 @@ document.getElementById('update-button').addEventListener('click', function(even
     event.preventDefault();  // Prevent page from advancing
     updatePayoffTable();  // Update the payoff table
 });
+
+// Disable Copying
+document.addEventListener('copy', function(event) {
+    event.preventDefault();
+    alert("Copying is disabled on this page.");
+});
+

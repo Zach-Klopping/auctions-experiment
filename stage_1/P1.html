@@ -4,6 +4,12 @@
 Payoff Table
 {{ endblock }}
 
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
 <!-- Dropdown to select the value -->
 <select id="value-input">
     <option value="0">0</option>
@@ -22,11 +28,5 @@ Payoff Table
 
 <!-- Container to hold the dynamically generated payoff table -->
 <div id="payoff-table-container"></div>
-
-<!-- Link to the external CSS file -->
-<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
-
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
-<script src="{% static 'general.js' %}"></script>
 
 {{ endblock }}
