@@ -1,0 +1,32 @@
+{{ block content }}
+
+{{ block title }}
+Payoff Table
+{{ endblock }}
+
+<!-- Dropdown to select the value -->
+<select id="value-input">
+    <option value="0">0</option>
+    <option value="40">40</option>
+    <option value="80">80</option>
+    <option value="120">120</option>
+    <option value="160">160</option>
+    <option value="200">200</option>
+    <option value="240">240</option>
+    <option value="280">280</option>
+    <option value="320">320</option>
+    <option value="360">360</option>
+    <option value="400">400</option>
+</select>
+<button id="update-button">Update Table</button>
+
+<!-- Container to hold the dynamically generated payoff table -->
+<div id="payoff-table-container"></div>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
+{{ endblock }}

@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
          name='stage_1',
          display_name="Instructions and Quiz",
          app_sequence=['stage_1','stage_2'],
-         num_demo_participants=2,
+         num_demo_participants=1,
      ),
     dict(
          name='stage_2',
