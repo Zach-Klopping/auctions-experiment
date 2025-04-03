@@ -1,0 +1,15 @@
+/* Styling for the payoff table container */
+#payoff-table-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-left: 50px;
+}
+/* Styling for the payoff table */
+table {
+    width: 110%;
+}
+/* Styling for the value input drop-down */
+#value-input {
+    height:30px
+}
