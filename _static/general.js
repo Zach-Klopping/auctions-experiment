@@ -68,15 +68,14 @@ function updatePayoffTable() {
     document.getElementById('payoff-table-container').innerHTML = tableHTML;
 }
 
-// Event listener to update the table when the page loads
 document.addEventListener('DOMContentLoaded', function () {
-    updatePayoffTable();
-});
+    // Add event listener for the "Update Table" button
+    document.getElementById('update-button').addEventListener('click', function() {
+        updatePayoffTable();  // Call the function when the button is clicked
+    });
 
-// Event listener to prevent page advancement and update the table when the button is clicked
-document.getElementById('update-button').addEventListener('click', function(event) {
-    event.preventDefault();  // Prevent page from advancing
-    updatePayoffTable();  // Update the payoff table
+    // Call updatePayoffTable on page load (if needed)
+    updatePayoffTable();
 });
 
 // Disable Copying
