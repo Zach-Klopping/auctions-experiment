@@ -1,0 +1,44 @@
+{{ block content }}
+
+{{ block title }}
+Instructions: Payoff Table
+{{ endblock }}
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. Notice that you can change the value used to calculate the payoff table. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff table, use the pull-down menu. This does not change your value, but lets you see what payoff table looks like for the other participant if they draw a different value than you. Your value is highlighted in red on the pull-down menu so you can always easily find it.</p>
+<p class="center-text"><b>Your randomly drawn value for the widget is YYY cents.</b></p>
+<p>Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
+
+<!-- Dropdown to select the value -->
+<div class="dropdown">
+    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Select Value</button>
+    <div id="dropdown-content" class="dropdown-content" style="display: none;">
+      <div class="dropdown-option" onclick="selectValue(0)">0</div>
+      <div class="dropdown-option" onclick="selectValue(50)">50</div>
+      <div class="dropdown-option" onclick="selectValue(100)">100</div>
+      <div class="dropdown-option" onclick="selectValue(150)">150</div>
+      <div class="dropdown-option" onclick="selectValue(200)">200</div>
+      <div class="dropdown-option" onclick="selectValue(250)">250</div>
+      <div class="dropdown-option" onclick="selectValue(300)">300</div>
+      <div class="dropdown-option" onclick="selectValue(350)">350</div>
+      <div class="dropdown-option" onclick="selectValue(400)">400</div>
+      <div class="dropdown-option" onclick="selectValue(450)">450</div>
+      <div class="dropdown-option" onclick="selectValue(500)">500</div>
+    </div>
+</div>
+
+<button type="button" id="update-button">Update Table</button>
+
+<!-- Container to hold the dynamically generated payoff table -->
+<div id="payoff-table-container"></div>
+
+<button id="payoff-table-continue-button">Continue</button>
+
+
+
+{{ endblock }}
