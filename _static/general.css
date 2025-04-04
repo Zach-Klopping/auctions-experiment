@@ -1,3 +1,11 @@
+/* Styling for the Continue Button */
+#continue-button {
+    position: fixed;
+    bottom: 200px;
+    right: 100px;
+    text-align: center;
+}
+
 /* Styling for the payoff table container */
 #payoff-table-container {
     margin-top: 20px;
@@ -5,11 +13,26 @@
     text-align: center;
     margin-left: 50px;
 }
-/* Styling for the payoff table */
 table {
     width: 110%;
 }
-/* Styling for the value input drop-down */
-#value-input {
-    height:30px
+
+/* Styling for the Update Table Button */
+#update-button {
+    position: fixed;
+    margin-left: 130px;
+    margin-top: -30px;
+    text-align: center;
+}
+
+/* Styling for the dropdown menu */
+.dropdown-content {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+.dropdown-option {
+    padding: 8px 12px;
+    cursor: pointer;
 }
