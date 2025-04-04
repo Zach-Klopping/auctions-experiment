@@ -29,4 +29,8 @@ class P1(Page):
     pass
 
 
-page_sequence = [P1]
+class P2(Page):
+    pass
+
+
+page_sequence = [P1,P2]

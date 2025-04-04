@@ -1,7 +1,13 @@
+// Disable Copying
+document.addEventListener('copy', function(event) {
+    event.preventDefault();
+    alert("Copying is disabled on this page.");
+});
+
+// Create payoff table based on the selected value
 function createPayoffTable(value) {
-    // Function to create the payoff table based on the selected value
-    // Define the valid values (multiples of 40 from 0 to 400)
-    const validValues = Array.from({length: 11}, (_, i) => i * 40);  // [0, 40, 80, ..., 400]
+    // Define the valid values (multiples of 50 from 0 to 500)
+    const validValues = Array.from({length: 11}, (_, i) => i * 50);  // [0, 50, 100, ..., 500]
     
     // Ensure the provided value is valid
     if (!validValues.includes(value)) {
@@ -33,14 +39,14 @@ function createPayoffTable(value) {
 // Function to update the payoff table displayed on the webpage
 function updatePayoffTable() {
     // Get the selected value from the input field (or default to 0 if invalid)
-    const value = parseInt(document.getElementById('value-input').value) || 0;
-    
-    // Define the valid values (multiples of 40 from 0 to 400)
-    const validValues = Array.from({length: 11}, (_, i) => i * 40);
+    const value = parseInt(document.querySelector('.dropdown-btn').innerText.split(": ")[1]) || 0;
+
+    // Define the valid values (multiples of 50 from 0 to 500)
+    const validValues = Array.from({length: 11}, (_, i) => i * 50);
     
     // Check if the entered value is valid
     if (!validValues.includes(value)) {
-        alert("Please enter a valid value (0, 40, 80, ..., 400)");
+        alert("Please enter a valid value (0, 50, 100, ..., 500)");
         return;
     }
     
@@ -68,19 +74,33 @@ function updatePayoffTable() {
     document.getElementById('payoff-table-container').innerHTML = tableHTML;
 }
 
+// Toggle the dropdown visibility
+function toggleDropdown() {
+    const content = document.getElementById("dropdown-content");
+    content.style.display = content.style.display === "none" ? "block" : "none";
+}
+
+// Handle selection of a value from the dropdown
+function selectValue(value) {
+    document.querySelector('.dropdown-btn').innerText = `Selected: ${value}`;
+    toggleDropdown();  // Hide the dropdown after selecting a value
+}
+
+// Close dropdown if clicked outside of it
+document.addEventListener('click', function(event) {
+    const dropdown = document.querySelector('.dropdown');
+    if (!dropdown.contains(event.target)) {
+        document.getElementById("dropdown-content").style.display = "none";
+    }
+});
+
+// Add event listener for the "Update Table" button
 document.addEventListener('DOMContentLoaded', function () {
-    // Add event listener for the "Update Table" button
     document.getElementById('update-button').addEventListener('click', function() {
         updatePayoffTable();  // Call the function when the button is clicked
     });
-
-    // Call updatePayoffTable on page load (if needed)
+    // Call updatePayoffTable on page load
     updatePayoffTable();
 });
 
-// Disable Copying
-document.addEventListener('copy', function(event) {
-    event.preventDefault();
-    alert("Copying is disabled on this page.");
-});
 

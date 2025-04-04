@@ -4,27 +4,33 @@
 Payoff Table
 {{ endblock }}
 
-<!-- Link to the external CSS file -->
-<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
-
 <!-- Link to your general.js file that contains the logic for generating the payoff table -->
 <script src="{% static 'general.js' %}"></script>
 
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
 <!-- Dropdown to select the value -->
-<select id="value-input">
-    <option value="0">0</option>
-    <option value="40">40</option>
-    <option value="80">80</option>
-    <option value="120">120</option>
-    <option value="160">160</option>
-    <option value="200">200</option>
-    <option value="240">240</option>
-    <option value="280">280</option>
-    <option value="320">320</option>
-    <option value="360">360</option>
-    <option value="400">400</option>
-</select>
+<div class="dropdown">
+    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Select Value</button>
+    <div id="dropdown-content" class="dropdown-content" style="display: none;">
+      <div class="dropdown-option" onclick="selectValue(0)">0</div>
+      <div class="dropdown-option" onclick="selectValue(50)">50</div>
+      <div class="dropdown-option" onclick="selectValue(100)">100</div>
+      <div class="dropdown-option" onclick="selectValue(150)">150</div>
+      <div class="dropdown-option" onclick="selectValue(200)">200</div>
+      <div class="dropdown-option" onclick="selectValue(250)">250</div>
+      <div class="dropdown-option" onclick="selectValue(300)">300</div>
+      <div class="dropdown-option" onclick="selectValue(350)">350</div>
+      <div class="dropdown-option" onclick="selectValue(400)">400</div>
+      <div class="dropdown-option" onclick="selectValue(450)">450</div>
+      <div class="dropdown-option" onclick="selectValue(500)">500</div>
+    </div>
+</div>
+
 <button type="button" id="update-button">Update Table</button>
+
+<button id="continue-button">Continue</button>
 
 <!-- Container to hold the dynamically generated payoff table -->
 <div id="payoff-table-container"></div>
