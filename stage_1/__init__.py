@@ -33,4 +33,20 @@ class P2(Page):
     pass
 
 
-page_sequence = [P1,P2]
+class P3(Page):
+    pass
+
+
+class P4(Page):
+    pass
+
+
+class P5(Page):
+    pass
+
+
+class P6(Page):
+    pass
+
+
+page_sequence = [P1,P2,P3,P4,P5,P6]
