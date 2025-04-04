@@ -1,7 +1,7 @@
 {{ block content }}
 
 {{ block title }}
-Instructions: Payoff Table
+Instructions: Comprehension Quiz
 {{ endblock }}
 
 <!-- Link to your general.js file that contains the logic for generating the payoff table -->
@@ -10,9 +10,14 @@ Instructions: Payoff Table
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. Notice that you can change the value used to calculate the payoff table. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff table, use the pull-down menu. This does not change your value, but lets you see what payoff table looks like for the other participant if they draw a different value than you. Your value is highlighted in red on the pull-down menu so you can always easily find it.</p>
-<p class="center-text"><b>Your randomly drawn value for the widget is YYY cents.</b></p>
-<p>Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
+<p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
+<p>You should use the payoff table shown below to answer the quiz questions. If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
+<p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
+<ol>
+    <li>Suppose you bid AAA and the other participant bids BBB. What will your payoff from the auction be in pennies? Please use the payoff table below to answer this question. </li>
+    <li>Suppose you bid CCC and the other participant bids DDD. What will your payoff from the auction be in pennies? Please use the payoff table below to answer this question. </li>
+    <li>Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant. </li>
+</ol>
 
 <!-- Dropdown to select the value -->
 <div class="dropdown">
@@ -38,5 +43,6 @@ Instructions: Payoff Table
 <div id="payoff-table-container"></div>
 
 <button id="payoff-table-continue-button">Continue</button>
+
 
 {{ endblock }}
