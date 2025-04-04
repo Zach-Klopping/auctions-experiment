@@ -1,0 +1,22 @@
+{{ block content }}
+
+{{ block title }}
+Attention Check 1
+{{ endblock }}
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+
+<p>Please answer the following question before continuing to the remainder of the experiment:</p>
+<p>I have never used a computer.</p>
+<p>Yes, this is true of me</p>
+<p>No, this is not true of me</p>
+
+<button id="continue-button">Continue</button>
+
+
+{{ endblock }}

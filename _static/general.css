@@ -41,7 +41,12 @@ table {
     cursor: pointer;
 }
 
-/* Styling for the Value */
+/* Styling for Description Title */
 .center-text {
     text-align: center;
+}
+
+/* Styling for lists */
+li {
+    margin-bottom: 20px;
 }

@@ -1,0 +1,22 @@
+{{ block content }}
+
+{{ block title }}
+Follow-up Quiz
+{{ endblock }}
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<p>Please answer the following three questions. You will receive 25 cents for each question you answer correctly.</p>
+<ol>
+    <li>Emily's father has three daughters. The first two are named April and May. What is thethird daughter's name? </li>
+    <li>How many cubic feet of dirt are there in a hole that is 3' deep x 3' wide x 3' long?</li>
+    <li>Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class? </li>
+</ol>
+
+<button id="continue-button">Continue</button>
+
+{{ endblock }}

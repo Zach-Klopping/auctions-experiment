@@ -25,16 +25,16 @@ class Player(BasePlayer):
 
 
 # PAGES
-class MyPage(Page):
+class P1(Page):
     pass
 
 
-class ResultsWaitPage(WaitPage):
+class P2(Page):
     pass
 
 
-class Results(Page):
+class P3(Page):
     pass
 
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [P1, P2, P3]

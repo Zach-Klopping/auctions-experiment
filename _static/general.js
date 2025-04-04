@@ -102,5 +102,3 @@ document.addEventListener('DOMContentLoaded', function () {
     // Call updatePayoffTable on page load
     updatePayoffTable();
 });
-
-
