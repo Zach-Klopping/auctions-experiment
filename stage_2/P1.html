@@ -10,7 +10,7 @@ Auction
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text"><b>Your randomly drawn value for the widget is YYY</b></p>
+<p class="center-text-auctions"><b>Your randomly drawn value for the widget is YYY</b></p>
 <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 <p>If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
 <p>After you have looked at the payoff table, please enter your bid using the pulldown menu below the payoff table. Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500).</p>
@@ -32,8 +32,6 @@ Auction
       <div class="dropdown-option" onclick="selectValue(500)">500</div>
     </div>
 </div>
-
-<button type="button" id="update-button">Update Table</button>
 
 <!-- Container to hold the dynamically generated payoff table -->
 <div id="payoff-table-container"></div>

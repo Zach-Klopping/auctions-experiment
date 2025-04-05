@@ -12,21 +12,12 @@
 
 /* Styling for the payoff table container */
 #payoff-table-container {
-    margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
     margin-left: 50px;
 }
 table {
     width: 110%;
-}
-
-/* Styling for the Update Table Button */
-#update-button {
-    position: absolute;
-    margin-left: 130px;
-    margin-top: -30px;
-    text-align: center;
 }
 
 /* Styling for the dropdown menu */
@@ -44,6 +35,12 @@ table {
 /* Styling for Description Title */
 .center-text {
     text-align: center;
+}
+
+/* Styling for Description Title */
+.center-text-auctions {
+    text-align: center;
+    margin-top: -10px;
 }
 
 /* Styling for lists */

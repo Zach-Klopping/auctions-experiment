@@ -53,9 +53,11 @@ function updatePayoffTable() {
     // Generate the payoff table based on the selected value
     const payoffTable = createPayoffTable(value);
     let tableHTML = '<table>';
+    tableHTML += `<tr><th></th><th colspan="${validValues.length+1}">Other Participant's Bid</th></tr>`;
+    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">My Bid</th>`;
     
-    // Create the header row with the valid bid values
-    tableHTML += '<tr><th></th>';
+    // Inline styles for the header
+    tableHTML += `<th></th>`;
     validValues.forEach(bid => tableHTML += `<th>${bid}</th>`);
     tableHTML += '</tr>';
     
@@ -84,6 +86,7 @@ function toggleDropdown() {
 function selectValue(value) {
     document.querySelector('.dropdown-btn').innerText = `Selected: ${value}`;
     toggleDropdown();  // Hide the dropdown after selecting a value
+    updatePayoffTable();  // Automatically update the payoff table after selection
 }
 
 // Close dropdown if clicked outside of it
@@ -96,9 +99,6 @@ document.addEventListener('click', function(event) {
 
 // Add event listener for the "Update Table" button
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('update-button').addEventListener('click', function() {
-        updatePayoffTable();  // Call the function when the button is clicked
-    });
     // Call updatePayoffTable on page load
     updatePayoffTable();
 });
