@@ -21,7 +21,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    fllw_up_Q1 = models.StringField()
+    fllw_up_Q2 = models.IntegerField()
+    fllw_up_Q3 = models.IntegerField()
 
 
 # PAGES
@@ -30,8 +32,8 @@ class P1(Page):
 
 
 class P2(Page):
-    pass
-
+    form_model = 'player'
+    form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
 
 class P3(Page):
     pass
