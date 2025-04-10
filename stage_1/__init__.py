@@ -1,6 +1,5 @@
 from otree.api import *
 
-
 doc = """
 Your app description
 """
@@ -21,7 +20,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    ethics = models.BooleanField(blank=0)
+    attn_check_1 = models.BooleanField(blank=0)
+    attn_check_2 = models.BooleanField(blank=0)
 
 
 # PAGES
@@ -30,7 +31,8 @@ class P1(Page):
 
 
 class P2(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['ethics']
 
 
 class P3(Page):
@@ -50,7 +52,8 @@ class P6(Page):
 
 
 class P7(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['attn_check_1']
 
 
 class P8(Page):
@@ -58,7 +61,8 @@ class P8(Page):
 
 
 class P9(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['attn_check_2']
 
 
 page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9]
