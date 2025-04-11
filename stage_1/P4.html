@@ -10,7 +10,7 @@ Instructions: Values
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>You and the other participant will each be randomly assigned a value for the widget. All values are denominated in US cents ($.01). Values range between 0 and 500 cents and are in 50 cent increments. Each possible value (0, 50, 100, 150 … 450, 500) is equally likely to be drawn. The draws for you and the other participant are “independent”. This means that the two draws are done separately, and the outcome of your draw tells you nothing about the outcome for the other participant. You will know your value for the widget but will not know what value was drawn for the other experimental participant.</p>
+{{ include 'stage_1/instructions/P4_values.html' }}
 
 <button id="continue-button">Continue</button>
 

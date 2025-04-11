@@ -102,3 +102,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // Call updatePayoffTable on page load
     updatePayoffTable();
 });
+
+function showInstructions() {
+    document.getElementById('instructions-bttn').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Disable background scroll
+}
+
+// Function that closes the Explainer popup
+function closeInstructions() {
+    // Close the popup and hide the overlay
+    document.getElementById('instructions-bttn').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Re-enable background scroll
+}
