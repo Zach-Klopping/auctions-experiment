@@ -48,7 +48,16 @@ class P5(Page):
 
 
 class P6(Page):
-    pass
+    def is_displayed(player):
+        return player.session.config['integrated_payoff_matrix'] == True
+    
+    def js_vars(player):
+        integrated_endowment = player.session.config['integrated_endowment']
+        if integrated_endowment == True:
+            constant = 400
+        else:
+            constant = 0
+        return dict(constant=constant)
 
 
 class P7(Page):
@@ -57,8 +66,18 @@ class P7(Page):
 
 
 class P8(Page):
-    pass
-
+    def vars_for_template(player):
+        return {
+            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True 
+        }
+    
+    def js_vars(player):
+        integrated_endowment = player.session.config['integrated_endowment']
+        if integrated_endowment == True:
+            constant = 400
+        else:
+            constant = 0
+        return dict(constant=constant)
 
 class P9(Page):
     form_model = 'player'

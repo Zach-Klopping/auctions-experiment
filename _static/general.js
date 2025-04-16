@@ -6,6 +6,8 @@ document.addEventListener('copy', function(event) {
 
 // Create payoff table based on the selected value
 function createPayoffTable(value) {
+    var constant = js_vars.constant;
+    
     // Define the valid values (multiples of 50 from 0 to 500)
     const validValues = Array.from({length: 11}, (_, i) => i * 50);  // [0, 50, 100, ..., 500]
     
@@ -22,9 +24,9 @@ function createPayoffTable(value) {
         validValues.forEach(bid2 => {
             let payoff;
             if (bid1 > bid2) {
-                payoff = value - bid2;  // Winner's payoff
+                payoff = constant + (value - bid2);  // Winner's payoff
             } else if (bid1 === bid2) {
-                payoff = Math.floor((value - bid2) / 2);  // Average payoff if bids are equal
+                payoff = constant + Math.floor((value - bid2) / 2);  // Average payoff if bids are equal
             } else {
                 payoff = 0;  // Loser's payoff
             }

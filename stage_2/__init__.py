@@ -28,7 +28,19 @@ class Player(BasePlayer):
 
 # PAGES
 class P1(Page):
-    pass
+    def vars_for_template(player):
+        return {
+            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
+            'integrated_endowment' : player.session.config['integrated_endowment'] == True 
+        }
+
+    def js_vars(player):
+        integrated_endowment = player.session.config['integrated_endowment']
+        if integrated_endowment == True:
+            constant = 400
+        else:
+            constant = 0
+        return dict(constant=constant)
 
 
 class P2(Page):
