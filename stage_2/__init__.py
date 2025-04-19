@@ -31,10 +31,13 @@ class Player(BasePlayer):
     fllw_up_Q2_incorrect = models.IntegerField(default=0)
     fllw_up_Q3_incorrect = models.IntegerField(default=0)
     auction_value = models.IntegerField()
+    selected_bid = models.IntegerField()
 
 
 # PAGES
 class P1(Page):
+    form_model = 'player'
+    form_fields = ['selected_bid']
     def vars_for_template(player):
         player.auction_value = random.choice(range(0, 501, 50))  # ensures js_vars uses the same one
 
@@ -71,6 +74,7 @@ class P2(Page):
         # Check Q3
         if str(player.fllw_up_Q3).strip() != str(correct_answers['Q3']).strip():
             player.fllw_up_Q3_incorrect += 1
+
 
 class P3(Page):
     pass

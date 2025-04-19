@@ -15,21 +15,25 @@ Follow-up Quiz
 
 <p>Please answer the following three questions. You will receive 25 cents for each question you answer correctly.</p>
 <ol>
-    <li>
+    <li style="white-space: nowrap;">
         <label> Emily's father has three daughters. The first two are named April and May. What is the third daughter's name?
-        <input type="text" id="fllw_up_Q1" name="fllw_up_Q1" style="width: 60px;" required></li>
-    <li>
+        <input type="text" id="fllw_up_Q1" name="fllw_up_Q1" style="width: 60px;" required>
+        <span id="errorQ1" style="color: red; display: none;"></span>
+    </li>
+    <li style="white-space: nowrap;">
         <label>How many cubic feet of dirt are there in a hole that is 3' deep x 3' wide x 3' long? 
         <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace') return true; else return false;" 
         id="fllw_up_Q2" name="fllw_up_Q2" style="width: 60px;" required> 
+        <span id="errorQ2" style="color: red; display: none;"></span>
     </li>
-    <li>
+    <li style="white-space: nowrap;">
         <label> Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class? 
         <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" 
         id="fllw_up_Q3" name="fllw_up_Q3" style="width: 60px;" required>
+        <span id="errorQ3" style="color: red; display: none;"></span>
     </li>
 </ol>
 
-<button id="continue-button">Continue</button>
+<button type="submit" onclick="return ValidateQuiz2()" id="continue-button">Continue</button>
 
 {{ endblock }}

@@ -38,7 +38,8 @@ Auction
 </div>
 
 <!-- Dropdown to select the bid -->
-<div class="bid-dropdown">
+<div id="bid-dropdown" class="bid-dropdown">
+  <span id="bid-error-message" style="display: none; color: red; position: absolute; top: -25px; font-size: 0.95em;"></span>
   <button type="button" class="bid-dropdown-btn" onclick="toggleBidDropdown()">ENTER YOUR BID</button>
   <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
     <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
@@ -55,13 +56,15 @@ Auction
   </div>
 </div>
 
+<input type="hidden" name="selected_bid" id="selected-bid-input">
+
 {% if integrated_payoff_matrix %}
     <div class= "game" id="payoff-table-container"></div>
 {% endif %}
 
 <div class="button">
   <button type="button" class="instructions_bttn" style="background-color: #f73c3c;" onclick="showInstructions()">Instructions</button>
-  <button id="continue-button">Continue</button>
+  <button type="submit" onclick="return validateBidSelection()" id="continue-button">Continue</button>
 <div>
 
 {{ include '_static/popups/instructions_bttn.html' }}
