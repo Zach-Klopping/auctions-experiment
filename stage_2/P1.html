@@ -14,7 +14,7 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text-auctions" style="color: red"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
+<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 <p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}</p> 
 <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 <p>If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
@@ -40,8 +40,8 @@
 
 <!-- Dropdown to select the bid -->
 <div id="bid-dropdown" class="bid-dropdown">
-  <span id="bid-error-message" style="display: none; color: red; position: absolute; top: -25px; font-size: 0.95em;"></span>
-  <button type="button" class="bid-dropdown-btn" onclick="toggleBidDropdown()">ENTER YOUR BID</button>
+  <span id="bid-error-message" style="display: none; color: red; position: absolute; left: -180px; font-size: 1.20em; white-space: nowrap;;"></span>
+  <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 204, 255);" onclick="toggleBidDropdown()"><b>Select Your Bid</b></button>
   <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
     <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
     <div class="bid-dropdown-option" onclick="selectBid(50)">50</div>
