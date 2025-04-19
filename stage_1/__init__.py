@@ -57,7 +57,11 @@ class P6(Page):
             constant = 400
         else:
             constant = 0
-        return dict(constant=constant)
+        return dict(constant = constant)
+    def vars_for_template(player):
+        return {
+            'default_value' : 250
+        }
 
 
 class P7(Page):
@@ -68,16 +72,18 @@ class P7(Page):
 class P8(Page):
     def vars_for_template(player):
         return {
-            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True 
+            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
+            'default_value' : 250
         }
     
     def js_vars(player):
+        default_value = 250
         integrated_endowment = player.session.config['integrated_endowment']
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant=constant)
+        return dict(constant = constant, auction_value = default_value)
 
 class P9(Page):
     form_model = 'player'

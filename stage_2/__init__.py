@@ -1,4 +1,5 @@
 from otree.api import *
+import random
 
 
 doc = """
@@ -24,23 +25,29 @@ class Player(BasePlayer):
     fllw_up_Q1 = models.StringField()
     fllw_up_Q2 = models.IntegerField()
     fllw_up_Q3 = models.IntegerField()
+    auction_value = models.IntegerField()
 
 
 # PAGES
 class P1(Page):
     def vars_for_template(player):
+        player.auction_value = random.choice(range(0, 501, 50))  # ensures js_vars uses the same one
+
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
-            'integrated_endowment' : player.session.config['integrated_endowment'] == True 
+            'integrated_endowment' : player.session.config['integrated_endowment'] == True,
+            'auction_value' : player.auction_value
+
         }
 
     def js_vars(player):
+        auction_value = player.auction_value
         integrated_endowment = player.session.config['integrated_endowment']
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant=constant)
+        return dict(constant=constant, auction_value = auction_value)
 
 
 class P2(Page):
