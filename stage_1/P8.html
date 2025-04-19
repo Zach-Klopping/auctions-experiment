@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Instructions: Comprehension Quiz
-{{ endblock }}
+
+<div class="title">
+  <p>Instructions: Comprehension Quiz</p>
+</div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -30,7 +31,6 @@ Instructions: Comprehension Quiz
         <span id="errorQ1" style="color: red; display: none;"></span>
       </div>
     </li>
-  
     <li>
       <div class="question-flex">
         <span>
@@ -43,7 +43,6 @@ Instructions: Comprehension Quiz
         <span id="errorQ2" style="color: red; display: none;"></span>
       </div>
     </li>
-  
     <li>
       <div class="question-flex">
         <span>
@@ -57,8 +56,7 @@ Instructions: Comprehension Quiz
         <span id="errorQ3" style="color: red; display: none;"></span>
       </div>
     </li>
-  </ol>
-  
+</ol>
 
 {% if integrated_payoff_matrix %}
     <div class= "quiz" id="payoff-table-container"></div>

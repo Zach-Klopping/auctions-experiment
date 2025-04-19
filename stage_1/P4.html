@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Instructions: Values
-{{ endblock }}
+
+<div class="title">
+    <p>Instructions: Values</p>
+  </div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -16,5 +17,6 @@ Instructions: Values
 {{ include 'stage_1/instructions/P4_values.html' }}
 
 <button id="continue-button">Continue</button>
+
 
 {{ endblock }}

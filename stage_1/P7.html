@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Attention Check 1
-{{ endblock }}
+
+<div class="title">
+    <p>Attention Check 1</p>
+</div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -31,5 +32,6 @@ Attention Check 1
 <span id="attn-error-message" style="display: none; color: red;"></span>
 
 <button type="submit" onclick="return validateAttentionCheck1()" id="continue-button">Continue</button>
+
 
 {{ endblock }}
