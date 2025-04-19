@@ -1,4 +1,5 @@
 from otree.api import *
+from statics import *
 import random
 
 
@@ -11,6 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'stage_2'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    correct_answers_follow_up_quiz = QUIZ_ANSWERS["correct_answers_follow_up_quiz"]
 
 
 class Subsession(BaseSubsession):
@@ -25,6 +27,9 @@ class Player(BasePlayer):
     fllw_up_Q1 = models.StringField()
     fllw_up_Q2 = models.IntegerField()
     fllw_up_Q3 = models.IntegerField()
+    fllw_up_Q1_incorrect = models.IntegerField(default=0)
+    fllw_up_Q2_incorrect = models.IntegerField(default=0)
+    fllw_up_Q3_incorrect = models.IntegerField(default=0)
     auction_value = models.IntegerField()
 
 
@@ -53,6 +58,19 @@ class P1(Page):
 class P2(Page):
     form_model = 'player'
     form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
+
+    def before_next_page(player, timeout_happened):
+        correct_answers = C.correct_answers_follow_up_quiz
+
+        # Check Q1
+        if str(player.fllw_up_Q1).strip().lower() != str(correct_answers['Q1']).strip().lower():
+            player.fllw_up_Q1_incorrect += 1
+        # Check Q2
+        if str(player.fllw_up_Q2).strip() != str(correct_answers['Q2']).strip():
+            player.fllw_up_Q2_incorrect += 1
+        # Check Q3
+        if str(player.fllw_up_Q3).strip() != str(correct_answers['Q3']).strip():
+            player.fllw_up_Q3_incorrect += 1
 
 class P3(Page):
     pass
