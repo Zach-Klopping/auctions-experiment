@@ -16,10 +16,21 @@ Attention Check 2
 <p>Please answer the following question before continuing to the remainder of the experiment:</p>
 <p>I logged into CloudResearch on eight different days last week.</p>
 
-<p><label><input id="attn_check_2_yes" type="radio" name="attn_check_2" value="1" required> Yes, this is true of me</p>
-<p><label><input id="attn_check_2_no" type="radio" name="attn_check_2" value="0" required> No, this is not true of me</p>
+<p>
+    <label>
+        <input id="attn_check_2_yes" type="radio" name="attn_check_2" value="1" required>
+        Yes, this is true of me
+    </label>
+</p>
+<p>
+    <label>
+        <input id="attn_check_2_no" type="radio" name="attn_check_2" value="0" required>
+        No, this is not true of me
+    </label>
+</p>
+<span id="attn-error-message" style="display: none; color: red;"></span>
 
-<button id="continue-button">Continue</button>
+<button type="submit" onclick="return validateAttentionCheck2()" id="continue-button">Continue</button>
 
 
 {{ endblock }}

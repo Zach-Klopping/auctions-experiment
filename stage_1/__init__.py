@@ -31,8 +31,6 @@ class Player(BasePlayer):
     Q1_incorrect = models.IntegerField(default=0)
     Q2_incorrect = models.IntegerField(default=0)
     Q3_incorrect = models.IntegerField(default=0)
-    next_page = models.StringField(blank=True)
-
 
 
 # PAGES

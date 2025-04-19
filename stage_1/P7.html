@@ -16,10 +16,20 @@ Attention Check 1
 <p>Please answer the following question before continuing to the remainder of the experiment:</p>
 <p>I have never used a computer.</p>
 
-<p><label><input id="attn_check_1_yes" type="radio" name="attn_check_1" value="1" required> Yes, this is true of me</p>
-<p><label><input id="attn_check_1_no" type="radio" name="attn_check_1" value="0" required> No, this is not true of me</p>
+<p>
+    <label>
+        <input id="attn_check_1_yes" type="radio" name="attn_check_1" value="1" required>
+        Yes, this is true of me
+    </label>
+</p>
+<p>
+    <label>
+        <input id="attn_check_1_no" type="radio" name="attn_check_1" value="0" required>
+        No, this is not true of me
+    </label>
+</p>
+<span id="attn-error-message" style="display: none; color: red;"></span>
 
-<button id="continue-button">Continue</button>
-
+<button type="submit" onclick="return validateAttentionCheck1()" id="continue-button">Continue</button>
 
 {{ endblock }}

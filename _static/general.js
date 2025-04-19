@@ -4,6 +4,44 @@ document.addEventListener('copy', function(event) {
     alert("Copying is disabled on this page.");
 });
 
+function validateAttentionCheck1() {
+    const selectedOption = document.querySelector('input[name="attn_check_1"]:checked');  // Find the selected radio button
+    const errorSpan = document.getElementById('attn-error-message');
+    
+    if (!selectedOption) {
+        if (errorSpan) {
+            errorSpan.textContent = 'Please select an option';
+            errorSpan.style.display = 'block';
+            errorSpan.style.fontWeight = 'bold';
+        }
+        return false;  // Stop further action
+    }
+    return true;  // Allow form submission
+}
+
+function validateAttentionCheck2() {
+    const selectedOption = document.querySelector('input[name="attn_check_2"]:checked');  // Find the selected radio button
+    const errorSpan = document.getElementById('attn-error-message');
+    
+    if (!selectedOption) {
+        if (errorSpan) {
+            errorSpan.textContent = 'Please select an option';
+            errorSpan.style.display = 'block';
+            errorSpan.style.fontWeight = 'bold';
+        }
+        return false;  // Stop further action
+    }
+    return true;  // Allow form submission
+}
+
+// Showing error message
+function Quiz1showErrorMessage(question) {
+    var errorSpan = document.getElementById('error' + question);
+    errorSpan.textContent = 'Incorrect';
+    errorSpan.style.fontWeight = 'bold';
+    errorSpan.style.display = 'inline';
+}
+
 // Create payoff table based on the selected value
 function createPayoffTable(value) {
     var constant = js_vars.constant;
@@ -110,7 +148,34 @@ function toggleBidDropdown() {
 // Handle selection of a bid from the dropdown
 function selectBid(value) {
     document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
+    document.getElementById('selected-bid-input').value = value;  // <-- Add this line
     toggleBidDropdown();  // Hide the bid dropdown after selection
+}
+
+function ValidateQuiz2() {
+    const questions = [
+        { id: 'fllw_up_Q1', errorId: 'errorQ1' },
+        { id: 'fllw_up_Q2', errorId: 'errorQ2' },
+        { id: 'fllw_up_Q3', errorId: 'errorQ3' }
+    ];
+
+    let isValid = true;
+
+    // Loop through each question and check if it has been answered
+    questions.forEach(function(question) {
+        const input = document.getElementById(question.id);
+        const errorSpan = document.getElementById(question.errorId);
+
+        if (!input.value) {
+            errorSpan.textContent = 'Answer required.';
+            errorSpan.style.display = 'inline';
+            isValid = false;
+        } else {
+            errorSpan.style.display = 'none';
+        }
+    });
+
+    return isValid;  // Return false if any question is unanswered
 }
 
 // Close dropdown if clicked outside of it
@@ -133,15 +198,6 @@ document.addEventListener('click', function(event) {
 document.addEventListener('DOMContentLoaded', function () {
     // Call updatePayoffTable on page load
     updatePayoffTable();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const options = document.querySelectorAll('.dropdown-option');
-    options.forEach(option => {
-        if (parseInt(option.innerText) === js_vars.auction_value) {
-            option.style.color = 'red';
-        }
-    });
 });
 
 // Function that showes the Instructions popup
@@ -167,9 +223,10 @@ function liveRecv(data) {
 }
 
 // Showing error message
-function showErrorMessage(question) {
+function Quiz1showErrorMessage(question) {
     var errorSpan = document.getElementById('error' + question);
     errorSpan.textContent = 'Incorrect';
+    errorSpan.style.fontWeight = 'bold';
     errorSpan.style.display = 'inline';
 }
 
@@ -195,7 +252,7 @@ function CheckQuiz1Answers() {
     // Check if all answers are correct
     for (var key in answers_quiz1) {
       if (answers_quiz1[key] !== correct_answers_quiz1[key]) {
-        showErrorMessage(key);
+        Quiz1showErrorMessage(key);
         correct = false;
       }
     }
