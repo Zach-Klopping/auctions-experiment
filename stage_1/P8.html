@@ -18,31 +18,47 @@ Instructions: Comprehension Quiz
 <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
 
 <ol>
-  <li>
+    <li>
       <div class="question-flex">
-          <span>Suppose you bid AAA and the other participant bids BBB. What will your payoff from the auction be in pennies? {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %} </span>
-          <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" 
-          id="Q1" name="Q1" style="width: 60px;" required>
+        <span>
+          Suppose you bid 100 and the other participant bids 400. What will your payoff from the auction be in pennies?
+          {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}
+        </span>
+        <input type="number"
+               id="Q1" name="Q1" style="width: 60px;" required
+               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+        <span id="errorQ1" style="color: red; display: none;"></span>
       </div>
-  </li>
-  <li>
+    </li>
+  
+    <li>
       <div class="question-flex">
-          <span>Suppose you bid CCC and the other participant bids DDD. What will your payoff from the auction be in pennies? {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}</span>
-          <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" 
-          id="Q2" name="Q2" style="width: 60px;" required>
+        <span>
+          Suppose you bid 300 and the other participant bids 50. What will your payoff from the auction be in pennies?
+          {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}
+        </span>
+        <input type="number"
+               id="Q2" name="Q2" style="width: 60px;" required
+               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+        <span id="errorQ2" style="color: red; display: none;"></span>
       </div>
-  </li>
-  <li>
-    <div class="question-flex">
-        <span>Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant.</span>
+    </li>
+  
+    <li>
+      <div class="question-flex">
+        <span>
+          Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant.
+        </span>
         <select id="Q3" name="Q3" required style="height: 30px;">
-            <option></option>
-            <option value="true">True</option>
-            <option value="false">False</option>
+          <option></option>
+          <option value="true">True</option>
+          <option value="false">False</option>
         </select>
-    </div>
-  </li>
-</ol>
+        <span id="errorQ3" style="color: red; display: none;"></span>
+      </div>
+    </li>
+  </ol>
+  
 
 {% if integrated_payoff_matrix %}
     <div class= "quiz" id="payoff-table-container"></div>
@@ -50,7 +66,7 @@ Instructions: Comprehension Quiz
 
 <div class="button">
   <button type="button" class="instructions_bttn" style="background-color: #f73c3c;" onclick="showInstructions()">Instructions</button>
-  <button id="continue-button">Continue</button>
+  <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
 <div>
 
 {{ include '_static/popups/instructions_bttn.html' }}

@@ -107,6 +107,7 @@ function toggleBidDropdown() {
     content.style.display = content.style.display === "none" ? "block" : "none";
 }
 
+// Handle selection of a bid from the dropdown
 function selectBid(value) {
     document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
     toggleBidDropdown();  // Hide the bid dropdown after selection
@@ -141,19 +142,68 @@ document.addEventListener("DOMContentLoaded", function () {
             option.style.color = 'red';
         }
     });
-    highlightBidDefault();
 });
 
+// Function that showes the Instructions popup
 function showInstructions() {
     document.getElementById('instructions-bttn').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden'; // Disable background scroll
 }
 
-// Function that closes the Explainer popup
+// Function that closes the Instructions popup
 function closeInstructions() {
     // Close the popup and hide the overlay
     document.getElementById('instructions-bttn').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
     document.body.style.overflow = 'auto'; // Re-enable background scroll
+}
+
+// Define liveRecv to handle the server response
+function liveRecv(data) {
+    if (data.advance_page) {
+        document.forms[0].submit();  // Submit the form to advance the page
+    }
+}
+
+// Showing error message
+function showErrorMessage(question) {
+    var errorSpan = document.getElementById('error' + question);
+    errorSpan.textContent = 'Incorrect';
+    errorSpan.style.display = 'inline';
+}
+
+/// Stage 1 instructions quiz answer validation
+function CheckQuiz1Answers() {
+    var answers_quiz1 = {
+      Q1: document.querySelector('input[name="Q1"]').value.trim(),
+      Q2: document.querySelector('input[name="Q2"]').value.trim(),
+      Q3: document.querySelector('select[name="Q3"]').value.trim(),
+    };
+
+    var correct_answers_quiz1 = js_vars.correct_answers_quiz1;
+
+    var correct = true;
+
+    // Clear previous error messages
+    var errorSpans = document.querySelectorAll('[id^="errorQ"]');
+    errorSpans.forEach(function (errorSpan) {
+      errorSpan.textContent = '';
+      errorSpan.style.display = 'none';
+    });
+
+    // Check if all answers are correct
+    for (var key in answers_quiz1) {
+      if (answers_quiz1[key] !== correct_answers_quiz1[key]) {
+        showErrorMessage(key);
+        correct = false;
+      }
+    }
+
+    liveSend({'action': 'submit_quiz', 'answers_quiz1': answers_quiz1});
+
+    if (correct) {
+      // Submit the form
+      document.forms[0].submit();
+    }
 }
