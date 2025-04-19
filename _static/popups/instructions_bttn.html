@@ -1,0 +1,17 @@
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
+<!-- Popup container -->
+<div id="instructions-bttn" class="popup-container">
+    <div class="popup-content">
+        <span class="close" onclick="closeInstructions()">x</span>
+        <!-- Scrollable Text Container -->
+        <div class="scrollable-content">
+            <p id="title-display" class="title-display">Instructions</p>
+                <h3>Values</h3>
+                {{ include 'stage_1/instructions/P4_values.html' }}
+                <h3>Payoffs</h3>
+                {{ include 'stage_1/instructions/P5_payoffs.html' }}
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ document.addEventListener('copy', function(event) {
 
 // Create payoff table based on the selected value
 function createPayoffTable(value) {
+    var constant = js_vars.constant;
+    
     // Define the valid values (multiples of 50 from 0 to 500)
     const validValues = Array.from({length: 11}, (_, i) => i * 50);  // [0, 50, 100, ..., 500]
     
@@ -22,9 +24,9 @@ function createPayoffTable(value) {
         validValues.forEach(bid2 => {
             let payoff;
             if (bid1 > bid2) {
-                payoff = value - bid2;  // Winner's payoff
+                payoff = constant + (value - bid2);  // Winner's payoff
             } else if (bid1 === bid2) {
-                payoff = Math.floor((value - bid2) / 2);  // Average payoff if bids are equal
+                payoff = constant + Math.floor((value - bid2) / 2);  // Average payoff if bids are equal
             } else {
                 payoff = 0;  // Loser's payoff
             }
@@ -38,9 +40,19 @@ function createPayoffTable(value) {
 
 // Function to update the payoff table displayed on the webpage
 function updatePayoffTable() {
+    const tableContainer = document.getElementById('payoff-table-container');
+    if (!tableContainer) return; // Exit if there's no container
+    
     // Get the selected value from the input field (or default to 0 if invalid)
-    const value = parseInt(document.querySelector('.dropdown-btn').innerText.split(": ")[1]) || 0;
-
+    let value;
+    const dropdown = document.querySelector('.dropdown-btn');
+    if (dropdown) {
+        const selectedText = dropdown.innerText;
+        const parsed = parseInt(selectedText.split(": ")[1]);
+        value = isNaN(parsed) ? js_vars.auction_value : parsed;
+    } else {
+        value = js_vars.auction_value;
+    }
     // Define the valid values (multiples of 50 from 0 to 500)
     const validValues = Array.from({length: 11}, (_, i) => i * 50);
     
@@ -84,16 +96,35 @@ function toggleDropdown() {
 
 // Handle selection of a value from the dropdown
 function selectValue(value) {
-    document.querySelector('.dropdown-btn').innerText = `Selected: ${value}`;
+    document.querySelector('.dropdown-btn').innerText = `Payoff Table: ${value}`;
     toggleDropdown();  // Hide the dropdown after selecting a value
     updatePayoffTable();  // Automatically update the payoff table after selection
+}
+ 
+// Bid-specific dropdown functions
+function toggleBidDropdown() {
+    const content = document.getElementById("bid-dropdown-content");
+    content.style.display = content.style.display === "none" ? "block" : "none";
+}
+
+function selectBid(value) {
+    document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
+    toggleBidDropdown();  // Hide the bid dropdown after selection
 }
 
 // Close dropdown if clicked outside of it
 document.addEventListener('click', function(event) {
     const dropdown = document.querySelector('.dropdown');
-    if (!dropdown.contains(event.target)) {
+    const bidDropdown = document.querySelector('.bid-dropdown');
+
+    // Close the general dropdown if clicked outside
+    if (dropdown && !dropdown.contains(event.target)) {
         document.getElementById("dropdown-content").style.display = "none";
+    }
+
+    // Close the bid dropdown if clicked outside
+    if (bidDropdown && !bidDropdown.contains(event.target)) {
+        document.getElementById("bid-dropdown-content").style.display = "none";
     }
 });
 
@@ -102,3 +133,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // Call updatePayoffTable on page load
     updatePayoffTable();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const options = document.querySelectorAll('.dropdown-option');
+    options.forEach(option => {
+        if (parseInt(option.innerText) === js_vars.auction_value) {
+            option.style.color = 'red';
+        }
+    });
+    highlightBidDefault();
+});
+
+function showInstructions() {
+    document.getElementById('instructions-bttn').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Disable background scroll
+}
+
+// Function that closes the Explainer popup
+function closeInstructions() {
+    // Close the popup and hide the overlay
+    document.getElementById('instructions-bttn').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Re-enable background scroll
+}

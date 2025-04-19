@@ -11,36 +11,46 @@ Instructions: Comprehension Quiz
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
-<p>You should use the payoff table shown below to answer the quiz questions. If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
+<p>{% if integrated_payoff_matrix %} You should use the payoff table shown below to answer the quiz questions. {% endif %} If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
 <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
+
 <ol>
-    <li>Suppose you bid AAA and the other participant bids BBB. What will your payoff from the auction be in pennies? Please use the payoff table below to answer this question. </li>
-    <li>Suppose you bid CCC and the other participant bids DDD. What will your payoff from the auction be in pennies? Please use the payoff table below to answer this question. </li>
-    <li>Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant. </li>
+  <li>
+      <div class="question-flex">
+          <span>Suppose you bid AAA and the other participant bids BBB. What will your payoff from the auction be in pennies? {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %} </span>
+          <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" 
+          id="Q1" name="Q1" style="width: 60px;" required>
+      </div>
+  </li>
+  <li>
+      <div class="question-flex">
+          <span>Suppose you bid CCC and the other participant bids DDD. What will your payoff from the auction be in pennies? {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}</span>
+          <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" 
+          id="Q2" name="Q2" style="width: 60px;" required>
+      </div>
+  </li>
+  <li>
+    <div class="question-flex">
+        <span>Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant.</span>
+        <select id="Q3" name="Q3" required style="height: 30px;">
+            <option></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+    </div>
+  </li>
 </ol>
 
-<!-- Dropdown to select the value -->
-<div class="dropdown">
-    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Select Value</button>
-    <div id="dropdown-content" class="dropdown-content" style="display: none;">
-      <div class="dropdown-option" onclick="selectValue(0)">0</div>
-      <div class="dropdown-option" onclick="selectValue(50)">50</div>
-      <div class="dropdown-option" onclick="selectValue(100)">100</div>
-      <div class="dropdown-option" onclick="selectValue(150)">150</div>
-      <div class="dropdown-option" onclick="selectValue(200)">200</div>
-      <div class="dropdown-option" onclick="selectValue(250)">250</div>
-      <div class="dropdown-option" onclick="selectValue(300)">300</div>
-      <div class="dropdown-option" onclick="selectValue(350)">350</div>
-      <div class="dropdown-option" onclick="selectValue(400)">400</div>
-      <div class="dropdown-option" onclick="selectValue(450)">450</div>
-      <div class="dropdown-option" onclick="selectValue(500)">500</div>
-    </div>
-</div>
+{% if integrated_payoff_matrix %}
+    <div class= "quiz" id="payoff-table-container"></div>
+{% endif %}
 
-<!-- Container to hold the dynamically generated payoff table -->
-<div id="payoff-table-container"></div>
+<div class="button">
+  <button type="button" class="instructions_bttn" style="background-color: #f73c3c;" onclick="showInstructions()">Instructions</button>
+  <button id="continue-button">Continue</button>
+<div>
 
-<button id="payoff-table-continue-button">Continue</button>
+{{ include '_static/popups/instructions_bttn.html' }}
 
 
 {{ endblock }}

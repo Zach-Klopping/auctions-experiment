@@ -10,14 +10,15 @@ Auction
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text-auctions"><b>Your randomly drawn value for the widget is YYY</b></p>
+<p class="center-text-auctions"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
+<p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}</p> 
 <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 <p>If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
-<p>After you have looked at the payoff table, please enter your bid using the pulldown menu below the payoff table. Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500).</p>
+<p>{% if integrated_payoff_matrix %} After you have looked at the payoff table, please enter your bid using the pulldown menu below the payoff table. {% endif %} {% if not integrated_payoff_matrix %} Please enter your bid using the pulldown menu below the payoff table. {% endif %}Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500).</p>
 
 <!-- Dropdown to select the value -->
 <div class="dropdown">
-    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Select Value</button>
+    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Payoff Table: {{ auction_value }}</button>
     <div id="dropdown-content" class="dropdown-content" style="display: none;">
       <div class="dropdown-option" onclick="selectValue(0)">0</div>
       <div class="dropdown-option" onclick="selectValue(50)">50</div>
@@ -33,9 +34,33 @@ Auction
     </div>
 </div>
 
-<!-- Container to hold the dynamically generated payoff table -->
-<div id="payoff-table-container"></div>
+<!-- Dropdown to select the bid -->
+<div class="bid-dropdown">
+  <button type="button" class="bid-dropdown-btn" onclick="toggleBidDropdown()">ENTER YOUR BID</button>
+  <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
+    <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
+    <div class="bid-dropdown-option" onclick="selectBid(50)">50</div>
+    <div class="bid-dropdown-option" onclick="selectBid(100)">100</div>
+    <div class="bid-dropdown-option" onclick="selectBid(150)">150</div>
+    <div class="bid-dropdown-option" onclick="selectBid(200)">200</div>
+    <div class="bid-dropdown-option" onclick="selectBid(250)">250</div>
+    <div class="bid-dropdown-option" onclick="selectBid(300)">300</div>
+    <div class="bid-dropdown-option" onclick="selectBid(350)">350</div>
+    <div class="bid-dropdown-option" onclick="selectBid(400)">400</div>
+    <div class="bid-dropdown-option" onclick="selectBid(450)">450</div>
+    <div class="bid-dropdown-option" onclick="selectBid(500)">500</div>
+  </div>
+</div>
 
-<button id="payoff-table-continue-button">Continue</button>
+{% if integrated_payoff_matrix %}
+    <div class= "game" id="payoff-table-container"></div>
+{% endif %}
+
+<div class="button">
+  <button type="button" class="instructions_bttn" style="background-color: #f73c3c;" onclick="showInstructions()">Instructions</button>
+  <button id="continue-button">Continue</button>
+<div>
+
+{{ include '_static/popups/instructions_bttn.html' }}
 
 {{ endblock }}
