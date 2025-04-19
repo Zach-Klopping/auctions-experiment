@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Instructions: Introduction
-{{ endblock }}
+
+<div class="title">
+    <p>Instructions: Introduction</p>
+  </div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -16,5 +17,6 @@ Instructions: Introduction
 <p>You are about to participate in a simple auction where you will bid to buy a “widget”. You start the auction with an endowment of 400 US cents. Your total payoff will be the sum of your endowment along with any gains or losses from the auction. You will also receive $2.50 for your time. This is based on pay of $10/hour and a typical completion time of 15 minutes. </p>
 
 <button id="continue-button">Continue</button>
+
 
 {{ endblock }}

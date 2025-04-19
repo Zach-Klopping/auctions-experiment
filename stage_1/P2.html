@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Ethics Statement
-{{ endblock }}
+
+<div class="title">
+    <p>Ethics Statement</p>
+  </div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -15,8 +16,10 @@ Ethics Statement
 
 <p>For this experiment, we are studying how human beings make decisions. Even though the experimental materials and the decisions you need to make may be unfamiliar to you, please do your best to read the materials and make the decisions on your own. Please do not use Google, ChatGPT, or similar aids.</p>
 
-<p><input name="ethics" type="checkbox" value="yes" required> I confirm that I have read the preceding statement and will not use Google, ChatGPT, or similar aids to assist me in completing this experiment.</p>
+<p><input name="ethics" id="ethics-check" type="checkbox" value="yes" required> I confirm that I have read the preceding statement and will not use Google, ChatGPT, or similar aids to assist me in completing this experiment.</p>
+<span id="ethics-error-message" style="color: red; display: none;"></span>
 
-<button id="continue-button">Continue</button>
+<button type="submit" id="continue-button" onclick="return validateEthicsStatement()">Continue</button>
+
 
 {{ endblock }}

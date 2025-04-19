@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Payment
-{{ endblock }}
+
+<div class="title">
+    <p>Payment</p>
+</div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -12,5 +13,6 @@ Payment
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
 
 {{ endblock }}

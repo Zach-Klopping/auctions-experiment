@@ -1,5 +1,10 @@
 {{ block content }}
 
+
+<div class="title">
+    <p>Experimental Study of Behavior in Games, Online Version</p>
+  </div>
+
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
 
@@ -9,7 +14,6 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text">Project Title: <b>Experimental Study of Behavior in Games, Online Version</b></p>
 <p class="center-text"><b>Principal Investigator: David Cooper</b></p>
 <p>We invite you to participate in a research study being conducted by investigators from The University of Iowa. The purpose of the study is to study decision-making in strategic situations.</p>
 <p>If you agree to participate, we would like you to interact with other participants in a game. The details will be described in the experimental instructions. It will take approximately 15 minutes to complete the study procedures.</p>
@@ -21,5 +25,6 @@
 <p>Thank you very much for your consideration of this research study. </p>
 
 <button id="continue-button">Continue</button>
+
 
 {{ endblock }}

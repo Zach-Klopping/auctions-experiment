@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Instructions: Payoff Table
-{{ endblock }}
+
+<div class="title">
+  <p>Instructions: Payoff Table</p>
+</div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -14,7 +15,7 @@ Instructions: Payoff Table
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. Notice that you can change the value used to calculate the payoff table. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff table, use the pull-down menu. This does not change your value, but lets you see what payoff table looks like for the other participant if they draw a different value than you. Your value is highlighted in red on the pull-down menu so you can always easily find it.</p>
-<p class="center-text"><b>Your value for the widget is 250 cents.</b></p>
+<p class="center-text" style="color: red"><b>Your value for the widget is 250 cents.</b></p>
 <p>Your randomly drawn value for the widget is 250 cents. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
 
 <!-- Dropdown to select the value -->
@@ -39,5 +40,6 @@ Instructions: Payoff Table
 <div class= "instructions" id="payoff-table-container" style="width: 100vw;"></div>
 
 <button id="continue-button">Continue</button>
+
 
 {{ endblock }}

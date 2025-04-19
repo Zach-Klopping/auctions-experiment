@@ -1,8 +1,9 @@
 {{ block content }}
 
-{{ block title }}
-Auction
-{{ endblock }}
+
+<div class="title">
+  <p>Auction</p>
+</div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
 {{ include '_static/popups/js_warning.html' }}
@@ -13,7 +14,7 @@ Auction
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text-auctions"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
+<p class="center-text-auctions" style="color: red"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 <p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}</p> 
 <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 <p>If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
@@ -68,5 +69,6 @@ Auction
 <div>
 
 {{ include '_static/popups/instructions_bttn.html' }}
+
 
 {{ endblock }}

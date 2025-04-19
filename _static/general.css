@@ -1,20 +1,47 @@
-/* Styling for the Continue Button */
+/* ================================
+   Layout: General Utility Classes
+=================================== */
+.center-text {
+    text-align: center;
+}
+.title {
+    text-align: center;
+    font-size: 2rem;
+    width: 100%;
+    font-weight: bold;
+    margin-top: -25px;
+}
+.center-text-auctions {
+    text-align: center;
+    margin-top: -10px;
+}
+li {
+    margin-bottom: 20px;
+    margin-left: -10px;
+}
+ol li::marker {
+    font-weight: bold;
+}
+
+/* ================================
+   Continue Button & Positioning
+=================================== */
 #continue-button {
     position: absolute;
     right: 250px;
 }
 
-/* Styling for P6 payoff table container */
+/* ================================
+   Payoff Table Containers
+=================================== */
 #payoff-table-container.instructions {
+    margin-left: 45px;
     margin-bottom: 20px;
     text-align: center;
-    margin-left: 45px;
 }
 #payoff-table-container.instructions table {
     width: 60%;
 }
-
-/* Styling for P8 payoff table container */
 #payoff-table-container.quiz {
     margin-bottom: 20px;
     text-align: center;
@@ -22,21 +49,19 @@
 #payoff-table-container.quiz table {
     width: 100%;
 }
-
-/* Styling for P1 payoff table container */
 #payoff-table-container.game {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin: 40px 0 20px 40px;
     text-align: center;
-    margin-left: 40px;
 }
 #payoff-table-container.game table {
     width: 95%;
 }
 
-
-/* Styling for the dropdown menu */
-.dropdown {
+/* ================================
+   Dropdown Menus
+=================================== */
+.dropdown,
+.bid-dropdown {
     position: absolute;
     top: 425px;
     z-index: 10000;
@@ -48,46 +73,29 @@
     z-index: 1;
 }
 .dropdown-option {
-    padding: 3px 8px;
+    padding: 2px 8px;
+    border: 1px solid #ddd;
     cursor: pointer;
 }
-
-/* Styling for the BID menu */
 .bid-dropdown {
-    position: absolute;
     right: 250px;
-    top: 425px;
-    z-index: 10000;
 }
 .bid-dropdown-content {
     position: absolute;
-    background-color: rgb(24, 180, 102);
-    border: 3px solid #ddd;
     left: 61.5%;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid #ddd;
     z-index: 1;
 }
 .bid-dropdown-option {
-    padding: 2px 10px;
+    padding: 2px 8px;
     border: 1px solid #ddd;
     cursor: pointer;
 }
 
-/* Styling for Description Title */
-.center-text {
-    text-align: center;
-}
-
-/* Styling for Description Title */
-.center-text-auctions {
-    text-align: center;
-    margin-top: -10px;
-}
-
-/* Styling for lists */
-li {
-    margin-bottom: 20px;
-}
-
+/* ================================
+    Instructions Popup & Overlay Styling
+=================================== */
 #overlay {
     display: none;
     position: fixed;
@@ -98,8 +106,6 @@ li {
     background: rgba(0, 0, 0, 0.5);
     z-index: 9999;
 }
-
-/* Popup container */
 #instructions-bttn {
     display: none;
     position: fixed;
@@ -108,30 +114,26 @@ li {
     transform: translate(-50%, -50%);
     background: white;
     padding: 20px;
-    z-index: 20000;
     width: 80vw;
     height: 80vh;
     border-radius: 20px;
+    z-index: 20000;
 }
-/* Close button */
 #instructions-bttn .close {
     float: right;
     cursor: pointer;
     font-size: 2vw;
 }
-/* Title styling */
 #instructions-bttn .title-display {
     text-align: center;
     font-size: 2vw;
     font-weight: bold;
 }
-/* Styling for the explainer button*/
 #instructions-bttn .scrollable-content {
-    max-height: 70vh; 
-    overflow-y: auto;  
-    padding: 1vw;     
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 1vw;
 }
-/* Styling for the popup container*/
 #instructions-bttn .scale-container {
     width: 90vw;
     max-width: 50vw;
@@ -139,13 +141,16 @@ li {
     padding-top: 2vh;
 }
 
+/* ================================
+   Question Layout For (Quiz / Input)
+=================================== */
 .question-flex {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem; /* smaller space between question and input */
+    gap: 0.5rem;
     margin-bottom: 1rem;
+    margin-left: 20px;
 }
-
 .question-flex span {
-    max-width: 70%;
+    max-width: 80%;
 }
