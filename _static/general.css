@@ -89,15 +89,21 @@ ol li::marker {
     margin: 0 50px;
 }
 #bid-error-message {
-    display: none; /* Keep it hidden initially */
-    position: absolute; /* Absolute positioning */
-    top: 101%; /* Position it directly below the dropdown button */
+    display: none;
+    position: absolute;
+    top: 101%;
     left: 61.5;
     color: red;
     font-size: 1.0em;
     white-space: nowrap;
-    margin-top: 5px; /* Optional: Add some spacing */
+    margin-top: 5px;
 }
+#continue-button.green {
+    background-color: rgb(76, 234, 76);
+    border: 2px solid black;
+    color: black;
+}
+
 /* ================================
     Instructions Popup & Overlay Styling
 =================================== */
@@ -158,22 +164,5 @@ ol li::marker {
 }
 .question-flex span {
     max-width: 80%;
-}
-
-/* Hide the default checkbox */
-.button-checkbox input[type="checkbox"] {
-    display: none;
-}
-  
-#colorButton {
-    background-color: rgb(254, 67, 67);
-    color: rgb(0, 0, 0);
-    border: 2px solid black;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#colorButton.green {
-    background-color: rgb(76, 234, 76);
 }
   

@@ -67,6 +67,11 @@ class P6_1(Page):
             constant = 0
         return dict(constant = constant)
     
+    def vars_for_template(player):
+        return {
+            'integrated_endowment' : player.session.config['integrated_endowment'] == True,
+        }
+    
 
 class P6_2(Page):
     def is_displayed(player):

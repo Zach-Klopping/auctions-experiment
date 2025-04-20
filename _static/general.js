@@ -220,6 +220,8 @@ function toggleBidDropdown() {
 function selectBid(value) {
     document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
     document.getElementById('selected-bid-input').value = value;
+    document.getElementById('selected-bid-display').innerText = value;
+    document.getElementById('continue-button').classList.add('green');
     toggleBidDropdown();
 }
 
@@ -275,12 +277,5 @@ function closeInstructions() {
 function liveRecv(data) {
     if (data.advance_page) {
         document.forms[0].submit();
-    }
-}
-
-function toggleColor() {
-    const colorButton = document.getElementById('colorButton');
-    if (colorButton && !colorButton.classList.contains('green')) {
-        colorButton.classList.add('green');
     }
 }
