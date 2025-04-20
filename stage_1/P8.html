@@ -14,19 +14,18 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
-<p>{% if integrated_payoff_matrix %} You should use the payoff table shown below to answer the quiz questions. {% endif %} If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
+<p> You should use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %}shown below to answer the quiz questions.  If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
 <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
-<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is 250</b></p>
 
 <ol>
     <li>
       <div class="question-flex">
         <span>
           Suppose you bid 100 and the other participant bids 400. What will your payoff from the auction be in pennies?
-          {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}
+          Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-               id="Q1" name="Q1" style="width: 60px;" required
+               id="Q1" name="Q1" style="width: 60px; border: 2px solid black;" required
                onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
         <span id="errorQ1" style="color: red; display: none;"></span>
       </div>
@@ -35,10 +34,10 @@
       <div class="question-flex">
         <span>
           Suppose you bid 300 and the other participant bids 50. What will your payoff from the auction be in pennies?
-          {% if integrated_payoff_matrix %} Please use the payoff table below to answer this question.{% endif %}
+          Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-               id="Q2" name="Q2" style="width: 60px;" required
+               id="Q2" name="Q2" style="width: 60px; border: 2px solid black;" required
                onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
         <span id="errorQ2" style="color: red; display: none;"></span>
       </div>
@@ -48,7 +47,7 @@
         <span>
           Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant.
         </span>
-        <select id="Q3" name="Q3" required style="height: 30px;">
+        <select id="Q3" name="Q3" required style="height: 30px; border: 2px solid black;">
           <option></option>
           <option value="true">True</option>
           <option value="false">False</option>
@@ -57,6 +56,7 @@
       </div>
     </li>
 </ol>
+<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is 250</b></p>
 
 {% if integrated_payoff_matrix %}
     <div class= "quiz" id="payoff-table-container"></div>
