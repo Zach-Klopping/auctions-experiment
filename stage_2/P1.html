@@ -1,5 +1,6 @@
 {{ block content }}
 
+<div class="container" style="height:150vh;">
 <div class="title">
   <p>Auction</p>
 </div>
@@ -13,59 +14,59 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
-<p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}</p> 
+<p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}{% if integrated_payoff_matrix %} After you have looked at the payoff table, please enter your bid using the pulldown menu below the payoff table. {% endif %} {% if not integrated_payoff_matrix %} Please enter your bid using the pulldown menu below the payoff table. {% endif %} Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500). You will need to confirm your bid.</p>
 <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 <p>If you cannot remember something about the instructions for the auction, click on the red button labeled “Instructions” to open a pop-up window with the instructions.</p>
-<p>{% if integrated_payoff_matrix %} After you have looked at the payoff table, please enter your bid using the pulldown menu below the payoff table. {% endif %} {% if not integrated_payoff_matrix %} Please enter your bid using the pulldown menu below the payoff table. {% endif %}Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500).</p>
-
-<!-- Dropdown to select the value -->
-<div class="dropdown">
-    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Payoff Table: {{ auction_value }}</button>
-    <div id="dropdown-content" class="dropdown-content" style="display: none;">
-      <div class="dropdown-option" onclick="selectValue(0)">0</div>
-      <div class="dropdown-option" onclick="selectValue(50)">50</div>
-      <div class="dropdown-option" onclick="selectValue(100)">100</div>
-      <div class="dropdown-option" onclick="selectValue(150)">150</div>
-      <div class="dropdown-option" onclick="selectValue(200)">200</div>
-      <div class="dropdown-option" onclick="selectValue(250)">250</div>
-      <div class="dropdown-option" onclick="selectValue(300)">300</div>
-      <div class="dropdown-option" onclick="selectValue(350)">350</div>
-      <div class="dropdown-option" onclick="selectValue(400)">400</div>
-      <div class="dropdown-option" onclick="selectValue(450)">450</div>
-      <div class="dropdown-option" onclick="selectValue(500)">500</div>
-    </div>
-</div>
-
-<!-- Dropdown to select the bid -->
-<div id="bid-dropdown" class="bid-dropdown">
-  <span id="bid-error-message" style="display: none; color: red; position: absolute; left: -180px; font-size: 1.20em; white-space: nowrap;;"></span>
-  <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 204, 255);" onclick="toggleBidDropdown()"><b>Select Your Bid</b></button>
-  <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
-    <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
-    <div class="bid-dropdown-option" onclick="selectBid(50)">50</div>
-    <div class="bid-dropdown-option" onclick="selectBid(100)">100</div>
-    <div class="bid-dropdown-option" onclick="selectBid(150)">150</div>
-    <div class="bid-dropdown-option" onclick="selectBid(200)">200</div>
-    <div class="bid-dropdown-option" onclick="selectBid(250)">250</div>
-    <div class="bid-dropdown-option" onclick="selectBid(300)">300</div>
-    <div class="bid-dropdown-option" onclick="selectBid(350)">350</div>
-    <div class="bid-dropdown-option" onclick="selectBid(400)">400</div>
-    <div class="bid-dropdown-option" onclick="selectBid(450)">450</div>
-    <div class="bid-dropdown-option" onclick="selectBid(500)">500</div>
-  </div>
-</div>
-
-<input type="hidden" name="selected_bid" id="selected-bid-input">
+<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 
 {% if integrated_payoff_matrix %}
     <div class= "game" id="payoff-table-container"></div>
 {% endif %}
 
-<div class="button">
+<div class="button-row">
   <button type="button" class="instructions_bttn" style="background-color: #f73c3c;" onclick="showInstructions()">Instructions</button>
-  <button type="submit" onclick="return validateBidSelection()" id="continue-button">Continue</button>
-<div>
+  <!-- Dropdown to select the value -->
+  <div class="dropdown">
+    <button type="button" class="dropdown-btn" onclick="toggleDropdown()">Payoff Table: {{ auction_value }}</button>
+    <div id="dropdown-content" class="dropdown-content" style="display: none;">
+      <div class="dropdown-option" onclick="selectValue(0)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
+      <div class="dropdown-option" onclick="selectValue(50)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
+      <div class="dropdown-option" onclick="selectValue(100)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
+      <div class="dropdown-option" onclick="selectValue(150)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
+      <div class="dropdown-option" onclick="selectValue(200)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
+      <div class="dropdown-option" onclick="selectValue(250)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
+      <div class="dropdown-option" onclick="selectValue(300)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
+      <div class="dropdown-option" onclick="selectValue(350)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
+      <div class="dropdown-option" onclick="selectValue(400)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
+      <div class="dropdown-option" onclick="selectValue(450)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
+      <div class="dropdown-option" onclick="selectValue(500)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
+    </div>
+  </div>
+
+  <!-- Dropdown to select the bid -->
+  <div id="bid-dropdown" class="bid-dropdown">
+    <button type="button" class="bid-dropdown-btn" style="background-color: rgb(112, 255, 110);" onclick="toggleBidDropdown()">Select Your Bid</button>
+    <span id="bid-error-message"></span>
+    <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
+      <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
+      <div class="bid-dropdown-option" onclick="selectBid(50)">50</div>
+      <div class="bid-dropdown-option" onclick="selectBid(100)">100</div>
+      <div class="bid-dropdown-option" onclick="selectBid(150)">150</div>
+      <div class="bid-dropdown-option" onclick="selectBid(200)">200</div>
+      <div class="bid-dropdown-option" onclick="selectBid(250)">250</div>
+      <div class="bid-dropdown-option" onclick="selectBid(300)">300</div>
+      <div class="bid-dropdown-option" onclick="selectBid(350)">350</div>
+      <div class="bid-dropdown-option" onclick="selectBid(400)">400</div>
+      <div class="bid-dropdown-option" onclick="selectBid(450)">450</div>
+      <div class="bid-dropdown-option" onclick="selectBid(500)">500</div>
+    </div>
+  </div>
+  <div>
+    <button type="button" id="colorButton" onclick="toggleColor()">Confirm</button>
+    <button type="submit" onclick="return validateBidSelection()" id="continue-button">Continue</button>
+  </div>
+
+<input type="hidden" name="selected_bid" id="selected-bid-input">
 
 {{ include '_static/popups/instructions_bttn.html' }}
 
