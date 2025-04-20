@@ -1,5 +1,7 @@
 from os import environ
 
+DEBUG = True
+
 SESSION_CONFIGS = [
     dict(
          name='stage_1',

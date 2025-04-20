@@ -277,3 +277,10 @@ function liveRecv(data) {
         document.forms[0].submit();
     }
 }
+
+function toggleColor() {
+    const colorButton = document.getElementById('colorButton');
+    if (colorButton && !colorButton.classList.contains('green')) {
+        colorButton.classList.add('green');
+    }
+}

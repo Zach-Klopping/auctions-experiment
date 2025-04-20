@@ -55,7 +55,7 @@ class P5(Page):
     pass
 
 
-class P6(Page):
+class P6_1(Page):
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == True
     
@@ -66,10 +66,11 @@ class P6(Page):
         else:
             constant = 0
         return dict(constant = constant)
-    def vars_for_template(player):
-        return {
-            'default_value' : 250
-        }
+    
+
+class P6_2(Page):
+    def is_displayed(player):
+        return player.session.config['integrated_payoff_matrix'] == False
 
 
 class P7(Page):
@@ -81,18 +82,17 @@ class P8(Page):
     def vars_for_template(player):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
-            'default_value' : 250
         }
     
     def js_vars(player):
-        default_value = 250
+        auction_value = 250
         integrated_endowment = player.session.config['integrated_endowment']
         correct_answers_quiz1 = C.correct_answers_quiz1_integrated_endowment if integrated_endowment == True else C.correct_answers_quiz1_no_endowment
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, auction_value = default_value, correct_answers_quiz1 = correct_answers_quiz1)
+        return dict(constant = constant, auction_value = auction_value, correct_answers_quiz1 = correct_answers_quiz1)
     
     def live_method(player: Player, data):
         if data.get('action') == 'submit_quiz':
@@ -117,4 +117,4 @@ class P9(Page):
     form_fields = ['attn_check_2']
 
 
-page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9]
+page_sequence = [P1, P2, P3, P4, P5, P6_1, P6_2, P7, P8, P9]

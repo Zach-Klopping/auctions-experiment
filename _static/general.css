@@ -51,6 +51,7 @@ ol li::marker {
 }
 #payoff-table-container.game {
     margin: 40px 0 20px 40px;
+    margin-top: -10px;
     text-align: center;
 }
 #payoff-table-container.game table {
@@ -60,12 +61,6 @@ ol li::marker {
 /* ================================
    Dropdown Menus
 =================================== */
-.dropdown,
-.bid-dropdown {
-    position: absolute;
-    top: 425px;
-    z-index: 10000;
-}
 .dropdown-content {
     position: absolute;
     background-color: white;
@@ -77,12 +72,8 @@ ol li::marker {
     border: 1px solid #ddd;
     cursor: pointer;
 }
-.bid-dropdown {
-    right: 250px;
-}
 .bid-dropdown-content {
     position: absolute;
-    left: 61.5%;
     background-color: rgb(255, 255, 255);
     border: 3px solid #ddd;
     z-index: 1;
@@ -92,7 +83,21 @@ ol li::marker {
     border: 1px solid #ddd;
     cursor: pointer;
 }
-
+.button-row > button, 
+.button-row > div {
+    display: inline-block;
+    margin: 0 50px;
+}
+#bid-error-message {
+    display: none; /* Keep it hidden initially */
+    position: absolute; /* Absolute positioning */
+    top: 101%; /* Position it directly below the dropdown button */
+    left: 61.5;
+    color: red;
+    font-size: 1.0em;
+    white-space: nowrap;
+    margin-top: 5px; /* Optional: Add some spacing */
+}
 /* ================================
     Instructions Popup & Overlay Styling
 =================================== */
@@ -154,3 +159,21 @@ ol li::marker {
 .question-flex span {
     max-width: 80%;
 }
+
+/* Hide the default checkbox */
+.button-checkbox input[type="checkbox"] {
+    display: none;
+}
+  
+#colorButton {
+    background-color: rgb(254, 67, 67);
+    color: rgb(0, 0, 0);
+    border: 2px solid black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#colorButton.green {
+    background-color: rgb(76, 234, 76);
+}
+  
