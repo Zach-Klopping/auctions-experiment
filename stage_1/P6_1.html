@@ -18,24 +18,23 @@
 <p>Your randomly drawn value for the widget is 250 cents. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant.</p>
 
 <!-- Container to hold the dynamically generated payoff table -->
-<div class= "instructions" id="payoff-table-container" style="width: 105vw;"></div>
+<div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
 
 <div class="button-row">
-  <!-- Dropdown to select the value -->
-  <div class="default-dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="dropdown-btn" onclick="toggleDropdown()">Value for Payoff Table: 250</button>
-      <div id="dropdown-content" class="dropdown-content" style="display: none;">
-        <div class="dropdown-option" onclick="selectValue(0)">0</div>
-        <div class="dropdown-option" onclick="selectValue(50)">50</div>
-        <div class="dropdown-option" onclick="selectValue(100)">100</div>
-        <div class="dropdown-option" onclick="selectValue(150)">150</div>
-        <div class="dropdown-option" onclick="selectValue(200)">200</div>
-        <div class="dropdown-option" onclick="selectValue(250)" style="color: red"><b>250</b></div>
-        <div class="dropdown-option" onclick="selectValue(300)">300</div>
-        <div class="dropdown-option" onclick="selectValue(350)">350</div>
-        <div class="dropdown-option" onclick="selectValue(400)">400</div>
-        <div class="dropdown-option" onclick="selectValue(450)">450</div>
-        <div class="dropdown-option" onclick="selectValue(500)">500</div>
+  <div class="value-dropdown">
+    <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: 250</button>
+      <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+        <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+        <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+        <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+        <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+        <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+        <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
+        <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+        <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+        <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+        <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+        <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
       </div>
   </div>
   <button id="continue-button">Continue</button>

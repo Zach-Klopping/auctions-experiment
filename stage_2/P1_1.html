@@ -45,46 +45,46 @@
 
 <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top: 10px; margin-bottom: 30px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 
-<div class= "game" id="payoff-table-container"></div>
+<div class="game-page" id="payoff-table-container"></div>
 
 <div class="button-row">
   <button type="button" class="instructions_bttn" style="background-color:orange;" onclick="showInstructions()">Instructions</button>
-  <!-- Dropdown to select the value -->
-  <div class="dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="dropdown-btn" onclick="toggleDropdown()">Value for Payoff Table: {{ auction_value }}</button>
-    <div id="dropdown-content" class="dropdown-content" style="display: none; width: 100%;">
-      <div class="dropdown-option" onclick="selectValue(0)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
-      <div class="dropdown-option" onclick="selectValue(50)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
-      <div class="dropdown-option" onclick="selectValue(100)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
-      <div class="dropdown-option" onclick="selectValue(150)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
-      <div class="dropdown-option" onclick="selectValue(200)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
-      <div class="dropdown-option" onclick="selectValue(250)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
-      <div class="dropdown-option" onclick="selectValue(300)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
-      <div class="dropdown-option" onclick="selectValue(350)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
-      <div class="dropdown-option" onclick="selectValue(400)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
-      <div class="dropdown-option" onclick="selectValue(450)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
-      <div class="dropdown-option" onclick="selectValue(500)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
+
+  <div class="value-dropdown">
+    <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{ auction_value }}</button>
+    <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+      <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
+      <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
+      <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
+      <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
+      <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
+      <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
+      <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
+      <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
+      <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
+      <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
+      <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
     </div>
   </div>
 
-  <!-- Dropdown to select the bid -->
   <div id="bid-dropdown" class="bid-dropdown">
-    <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 207, 255);" onclick="toggleBidDropdown()">Select Your Bid</button>
-    <span id="bid-error-message"></span>
+    <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 207, 255);" onclick="toggleDropdown(this)">Select Your Bid</button>
     <div id="bid-dropdown-content" class="bid-dropdown-content" style="display: none;">
-      <div class="bid-dropdown-option" onclick="selectBid(0)">0</div>
-      <div class="bid-dropdown-option" onclick="selectBid(50)">50</div>
-      <div class="bid-dropdown-option" onclick="selectBid(100)">100</div>
-      <div class="bid-dropdown-option" onclick="selectBid(150)">150</div>
-      <div class="bid-dropdown-option" onclick="selectBid(200)">200</div>
-      <div class="bid-dropdown-option" onclick="selectBid(250)">250</div>
-      <div class="bid-dropdown-option" onclick="selectBid(300)">300</div>
-      <div class="bid-dropdown-option" onclick="selectBid(350)">350</div>
-      <div class="bid-dropdown-option" onclick="selectBid(400)">400</div>
-      <div class="bid-dropdown-option" onclick="selectBid(450)">450</div>
-      <div class="bid-dropdown-option" onclick="selectBid(500)">500</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(0)">0</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(50)">50</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(100)">100</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(150)">150</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(200)">200</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(250)">250</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(300)">300</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(350)">350</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(400)">400</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(450)">450</div>
+      <div class="bid-dropdown-option" onclick="confirmBid(500)">500</div>
     </div>
+    <span id="bid-error-message"></span>
   </div>
+
   <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your Bid: <span id="selected-bid-display">None</span></button>
   <input type="hidden" name="selected_bid" id="selected-bid-input">
 </div>

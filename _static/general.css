@@ -34,58 +34,52 @@ ol li::marker {
 /* ================================
    Payoff Table Containers
 =================================== */
-#payoff-table-container.instructions {
+#payoff-table-container.instructions-page {
     margin-left: -25px;
     margin-bottom: 20px;
     text-align: center;
 }
-#payoff-table-container.instructions table {
+#payoff-table-container.instructions-page table {
     width: 60%;
 }
-#payoff-table-container.quiz {
+#payoff-table-container.quiz-page {
     margin-bottom: 20px;
     text-align: center;
 }
-#payoff-table-container.quiz table {
+#payoff-table-container.quiz-page table {
     width: 100%;
 }
-#payoff-table-container.game {
+#payoff-table-container.game-page {
     margin: 40px 0 20px 40px;
     margin-top: -10px;
     text-align: center;
 }
-#payoff-table-container.game table {
+#payoff-table-container.game-page table {
     width: 95%;
 }
 
 /* ================================
    Dropdown Menus
 =================================== */
-.dropdown-content {
-    position: absolute;
-    background-color: white;
-    border: 3px solid #ddd;
-    z-index: 1;
-}
-.dropdown-option {
-    padding: 1px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    text-align: center;  
-}
+.value-dropdown-content,
+.opponent-bid-dropdown-content,
+.your-bid-dropdown-content,
 .bid-dropdown-content {
     position: absolute;
     background-color: white;
     border: 3px solid #ddd;
     z-index: 1;
 }
+.value-dropdown-option,
+.opponent-bid-dropdown-option,
+.your-bid-dropdown-option,
 .bid-dropdown-option {
     padding: 1px;
     border: 1px solid #ddd;
     text-align: center;  
     cursor: pointer;
 }
-.dropdown-option:hover,
+.value-dropdown-option:hover,
 .bid-dropdown-option:hover {
     background-color: #f1f1f1;
 }
@@ -93,6 +87,16 @@ ol li::marker {
 .button-row > div {
     display: inline-block;
     margin: 0 35px;
+}
+.button-row-calculator > button, 
+.button-row-calculator > div {
+    display: inline-block;
+    margin: 0 20px;
+}
+.button-row-calculator-game > button, 
+.button-row-calculator-game > div {
+    display: inline-block;
+    margin: 10px 40px;
 }
 #bid-error-message {
     display: none;
@@ -104,6 +108,7 @@ ol li::marker {
     white-space: nowrap;
     margin-top: 5px;
 }
+#calculate-button.green, 
 #confirm-button.green {
     background-color: rgb(76, 234, 76);
     border: 2px solid black;

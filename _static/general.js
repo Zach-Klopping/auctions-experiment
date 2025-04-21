@@ -134,10 +134,6 @@ function createPayoffTable(value) {
     var constant = js_vars.constant;
     const validValues = Array.from({length: 11}, (_, i) => i * 50);
 
-    if (!validValues.includes(value)) {
-        throw new Error(`Value must be one of the following: ${validValues.join(", ")}`);
-    }
-
     const payoffTable = {};
 
     validValues.forEach(bid1 => {
@@ -161,9 +157,9 @@ function updatePayoffTable() {
     if (!tableContainer) return;
 
     let value;
-    const dropdown = document.querySelector('.dropdown-btn');
-    if (dropdown) {
-        const selectedText = dropdown.innerText;
+    const valuedropdown = document.querySelector('.value-dropdown-btn');
+    if (valuedropdown) {
+        const selectedText = valuedropdown.innerText;
         const parsed = parseInt(selectedText.split(": ")[1]);
         value = isNaN(parsed) ? js_vars.auction_value : parsed;
     } else {
@@ -201,39 +197,54 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==================================================
 // Dropdown Logic For Bid & Payoff Table Value
 // ==================================================
-function toggleDropdown() {
-    const content = document.getElementById("dropdown-content");
-    const button = document.querySelector('.dropdown-btn');
-    content.style.display = content.style.display === "none" ? "block" : "none";
-    content.style.width = `${button.offsetWidth}px`;
-
+function toggleDropdown(button) {
+    const content = button.nextElementSibling;
+    if (content) {
+        content.style.display = content.style.display === "none" ? "block" : "none";
+        content.style.width = `${button.offsetWidth}px`;
+    }
 }
 
-function selectValue(value) {
-    document.querySelector('.dropdown-btn').innerText = `Payoff Table: ${value}`;
-    toggleDropdown();
+function selectValue(value, option) {
+    const dropdown = option.closest('.value-dropdown');
+    if (!dropdown) return;
+
+    const button = dropdown.querySelector('button');
+    if (!button) return;
+
+    const label = button.classList.contains('PC-value-dropdown-btn')
+        ? `Value for Payoff: ${value}`
+        : `Value for Payoff Table: ${value}`;
+
+    button.innerText = label;
+
+    toggleDropdown(button);
     updatePayoffTable();
 }
 
-function toggleBidDropdown() {
-    const content = document.getElementById("bid-dropdown-content");
-    const button = document.querySelector('.bid-dropdown-btn');
-    content.style.display = content.style.display === "none" ? "block" : "none";
-    content.style.width = `${button.offsetWidth}px`;
+function selectYourBid(bid) {
+    const button = document.querySelector('.your-bid-dropdown-btn');
+    document.querySelector('.your-bid-dropdown-btn').innerText = `Your Bid: ${bid}`;
+    toggleDropdown(button);
+}
+function selectOpponentBid(bid) {
+    const button = document.querySelector('.opponent-bid-dropdown-btn');
+    document.querySelector('.opponent-bid-dropdown-btn').innerText = `Opponent Bid: ${bid}`;
+    toggleDropdown(button);
 }
 
-function selectBid(value) {
-    document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
-    document.getElementById('selected-bid-input').value = value;
-    document.getElementById('selected-bid-display').innerText = value;
+function confirmBid(bid) {
+    const button = document.querySelector('.bid-dropdown-btn');
+    document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${bid}`;
+    document.getElementById('selected-bid-input').bid = bid;
+    document.getElementById('selected-bid-display').innerText = bid;
     document.getElementById('confirm-button').classList.add('green');
-    toggleBidDropdown();
+    toggleDropdown(button);
 }
 
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
     const errorSpan = document.getElementById('bid-error-message');
-
     if (!bidInput || !bidInput.value) {
         if (errorSpan) {
             errorSpan.textContent = 'Please Select a Bid';
@@ -249,13 +260,11 @@ function validateBidSelection() {
 // Close Dropdowns When Clicking Outside
 // ==================================================
 document.addEventListener('click', function(event) {
-    const dropdown = document.querySelector('.dropdown');
+    const valuedropdown = document.querySelector('.value-dropdown');
     const bidDropdown = document.querySelector('.bid-dropdown');
-
-    if (dropdown && !dropdown.contains(event.target)) {
-        document.getElementById("dropdown-content").style.display = "none";
+    if (valuedropdown && !valuedropdown.contains(event.target)) {
+        document.getElementById("value-dropdown-content").style.display = "none";
     }
-
     if (bidDropdown && !bidDropdown.contains(event.target)) {
         document.getElementById("bid-dropdown-content").style.display = "none";
     }
@@ -283,4 +292,30 @@ function liveRecv(data) {
     if (data.advance_page) {
         document.forms[0].submit();
     }
+}
+
+// ==================================================
+// Calculate Function
+// ==================================================
+// Function to calculate the total value from the selected values
+function calculateTotal() {
+    // Get the selected values from the buttons
+    const payoffValue = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    const yourBidValue = parseInt(document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    const opponentBidValue = parseInt(document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
+
+    let payoff;
+    if (yourBidValue > opponentBidValue) {
+        payoff = payoffValue - opponentBidValue;
+    } else if (yourBidValue === opponentBidValue) {
+        payoff = Math.floor((payoffValue - opponentBidValue) / 2);
+    } else {
+        payoff = 0;
+    }
+
+    document.querySelector('.calculate-button').innerText = `Calculated Payoff: ${payoff}`;
+    document.getElementById('calculate-button').classList.add('green');
+
+    return false;
+
 }

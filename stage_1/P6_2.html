@@ -17,6 +17,62 @@
 <p class="center-text" style="color: red; font-size: 20px; margin-top:-10px; margin-bottom: 10px;"><b>Your value for the widget is 250 cents.</b></p>
 <p>Your randomly drawn value for the widget is 250 cents. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
 
-<button id="continue-button">Continue</button>
+<div class="button-row-calculator">
+  <div class="value-dropdown">
+    <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+      <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+        <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+        <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+        <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+        <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+        <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+        <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
+        <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+        <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+        <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+        <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+        <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+      </div>
+  </div>
+
+  <div id="your-bid-dropdown" class="your-bid-dropdown">
+    <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
+    <div id="your-bid-dropdown-content" class="your-bid-dropdown-content" style="display: none;">
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(0)">0</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(50)">50</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(100)">100</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(150)">150</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(200)">200</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(250)">250</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(300)">300</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(350)">350</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(400)">400</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(450)">450</div>
+      <div class="your-bid-dropdown-option" onclick="selectYourBid(500)">500</div>
+    </div>
+  </div>
+
+  <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
+    <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Opponent Bid</button>
+    <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(100)">100</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(150)">150</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(200)">200</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(250)">250</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(300)">300</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(350)">350</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(400)">400</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(450)">450</div>
+      <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(500)">500</div>
+    </div>
+  </div>
+
+  <button type="button" style="background-color: rgb(110, 255, 156);" onclick="return calculateTotal()" class="calculate-button" id="calculate-button">Calculate Payoff</button>
+  <button id="continue-button">Continue</button>
+</div> 
+
+
 
 {{ endblock }}
