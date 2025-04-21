@@ -22,7 +22,7 @@
       <li style="margin-bottom: -10px;">Accesses the full instructions for the experiment.</li>
     </ul>
   </li>
-  <li>Payoff Table <span style="color:rgb(187, 124, 255)">(Purple)</span>
+  <li>Value for Payoff Table <span style="color:rgb(187, 124, 255)">(Purple)</span>
     <ul>
       <li style="margin-bottom: 4px;">Accesses a pulldown menu that allows you to see the payoff table for other values.</li>
       <li style="margin-bottom: -10px;">Your value is highlighted in <span style="color:red">red</span> so you can easily find it.</li>
@@ -51,7 +51,7 @@
   <button type="button" class="instructions_bttn" style="background-color:orange;" onclick="showInstructions()">Instructions</button>
   <!-- Dropdown to select the value -->
   <div class="dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="dropdown-btn" onclick="toggleDropdown()">Payoff Table: {{ auction_value }}</button>
+    <button type="button" style="background-color: rgb(187, 124, 255);" class="dropdown-btn" onclick="toggleDropdown()">Value for Payoff Table: {{ auction_value }}</button>
     <div id="dropdown-content" class="dropdown-content" style="display: none; width: 100%;">
       <div class="dropdown-option" onclick="selectValue(0)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
       <div class="dropdown-option" onclick="selectValue(50)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
