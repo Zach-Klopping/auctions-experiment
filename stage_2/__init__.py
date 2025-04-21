@@ -35,9 +35,11 @@ class Player(BasePlayer):
 
 
 # PAGES
-class P1(Page):
+class P1_1(Page):
     form_model = 'player'
     form_fields = ['selected_bid']
+    def is_displayed(player):
+        return player.session.config['integrated_payoff_matrix'] == True
     def vars_for_template(player):
         player.auction_value = random.choice(range(0, 501, 50))  # ensures js_vars uses the same one
 
@@ -57,6 +59,18 @@ class P1(Page):
             constant = 0
         return dict(constant=constant, auction_value = auction_value)
 
+
+class P1_2(Page):
+    def is_displayed(player):
+        return player.session.config['integrated_payoff_matrix'] == False
+    
+    def vars_for_template(player):
+        player.auction_value = random.choice(range(0, 501, 50))
+        return {'auction_value' : player.auction_value}
+
+    def js_vars(player):
+        auction_value = player.auction_value
+        return dict(auction_value = auction_value)
 
 class P2(Page):
     form_model = 'player'
@@ -80,4 +94,4 @@ class P3(Page):
     pass
 
 
-page_sequence = [P1, P2, P3]
+page_sequence = [P1_1, P1_2, P2, P3]

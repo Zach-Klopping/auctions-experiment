@@ -203,7 +203,10 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==================================================
 function toggleDropdown() {
     const content = document.getElementById("dropdown-content");
+    const button = document.querySelector('.dropdown-btn');
     content.style.display = content.style.display === "none" ? "block" : "none";
+    content.style.width = `${button.offsetWidth}px`;
+
 }
 
 function selectValue(value) {
@@ -214,14 +217,16 @@ function selectValue(value) {
 
 function toggleBidDropdown() {
     const content = document.getElementById("bid-dropdown-content");
+    const button = document.querySelector('.bid-dropdown-btn');
     content.style.display = content.style.display === "none" ? "block" : "none";
+    content.style.width = `${button.offsetWidth}px`;
 }
 
 function selectBid(value) {
     document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
     document.getElementById('selected-bid-input').value = value;
     document.getElementById('selected-bid-display').innerText = value;
-    document.getElementById('continue-button').classList.add('green');
+    document.getElementById('confirm-button').classList.add('green');
     toggleBidDropdown();
 }
 

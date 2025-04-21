@@ -14,7 +14,7 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>{% if integrated_payoff_matrix %} The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}. {% endif %}</p>
+<p>The payoff table below shows your payoffs from the auction, {% if integrated_endowment %} including your initial endowment of 400 cents,{% endif %} given your randomly drawn value of {{ auction_value }}.</p>
 <p style="margin-bottom: 4px;">There are four buttons below the payoff table:</p>
 <ul>
   <li>Instructions <span style="color:orange">(Orange)</span>
@@ -30,8 +30,7 @@
   </li>
   <li>Select Your Bid <span style="color:rgb(110, 207, 255)">(Blue)</span>
     <ul>
-      <li style="margin-bottom: 4px;">Accesses a pulldown menu that you will use to select a bid.</li>
-      <li style="margin-bottom: -10px;">Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500).</li>
+      <li style="margin-bottom: -10px;">Accesses a pulldown menu that you will use to select a bid.</li>
     </ul>
   </li>
   <li>Confirm Your Bid <span style="color:rgb(76, 234, 76)">(Green)</span>
@@ -46,16 +45,14 @@
 
 <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top: 10px; margin-bottom: 30px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 
-{% if integrated_payoff_matrix %}
-    <div class= "game" id="payoff-table-container"></div>
-{% endif %}
+<div class= "game" id="payoff-table-container"></div>
 
 <div class="button-row">
   <button type="button" class="instructions_bttn" style="background-color:orange;" onclick="showInstructions()">Instructions</button>
   <!-- Dropdown to select the value -->
   <div class="dropdown">
     <button type="button" style="background-color: rgb(187, 124, 255);" class="dropdown-btn" onclick="toggleDropdown()">Payoff Table: {{ auction_value }}</button>
-    <div id="dropdown-content" class="dropdown-content" style="display: none;">
+    <div id="dropdown-content" class="dropdown-content" style="display: none; width: 100%;">
       <div class="dropdown-option" onclick="selectValue(0)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
       <div class="dropdown-option" onclick="selectValue(50)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
       <div class="dropdown-option" onclick="selectValue(100)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
@@ -88,8 +85,8 @@
       <div class="bid-dropdown-option" onclick="selectBid(500)">500</div>
     </div>
   </div>
+  <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your Bid: <span id="selected-bid-display">None</span></button>
   <input type="hidden" name="selected_bid" id="selected-bid-input">
-  <button type="submit" onclick="return validateBidSelection()" id="continue-button">Confirm Your Bid: <span id="selected-bid-display">None</span></button>
 </div>
 
 {{ include '_static/popups/instructions_bttn.html' }}
