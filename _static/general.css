@@ -80,7 +80,7 @@ ol li::marker {
     cursor: pointer;
 }
 .opponent-bid-dropdown-option:hover,
-.your-bid-dropdown-option:hover,
+.your-bid-dropdown-option,
 .value-dropdown-option:hover,
 .bid-dropdown-option:hover {
     background-color: #f1f1f1;
@@ -88,7 +88,7 @@ ol li::marker {
 .button-row > button, 
 .button-row > div {
     display: inline-block;
-    margin: 0 35px;
+    margin: 0 25px;
 }
 .button-row-calculator > button, 
 .button-row-calculator > div {

@@ -13,39 +13,40 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
-<p> You should use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %}shown below to answer the quiz questions.  If you cannot remember something about the instructions for the auction, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+
+<p>Before starting the real {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} please answer the following three questions. These questions test your comprehension of the instructions. All {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} numbers {% endif %} used in these questions have been drawn randomly. As such, the {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} numbers {% endif %} in these questions do not provide any guidance on how you ought to {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} in the real {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %}.</p>
+<p> You should use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %}shown below to answer the quiz questions.  If you cannot remember something about the instructions for the  {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
 <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
 
 <ol>
     <li>
       <div class="question-flex">
         <span>
-          Suppose you bid 100 and the other participant bids 400. What will your payoff from the auction be in pennies?
+          Suppose you {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} 100 and the other participant {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} chooses {% endif %} 400. What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
           Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-               id="Q1" name="Q1" style="width: 60px; border: 2px solid black;" required
-               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+              id="Q1" name="Q1" style="width: 60px; border: 2px solid black;" required
+              onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
         <span id="errorQ1" style="color: red; display: none;"></span>
       </div>
     </li>
     <li>
       <div class="question-flex">
         <span>
-          Suppose you bid 300 and the other participant bids 50. What will your payoff from the auction be in pennies?
+          Suppose you {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} 300 and the other participant {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} chooses {% endif %} 50. What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
           Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-               id="Q2" name="Q2" style="width: 60px; border: 2px solid black;" required
-               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+              id="Q2" name="Q2" style="width: 60px; border: 2px solid black;" required
+              onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
         <span id="errorQ2" style="color: red; display: none;"></span>
       </div>
     </li>
     <li>
       <div class="question-flex">
         <span>
-          Knowing what value has randomly been drawn for me does <b><i>not</i></b> tell me anything about what value has been randomly drawn for the other participant.
+          Knowing what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has been randomly drawn for the other participant.
         </span>
         <select id="Q3" name="Q3" required style="height: 30px; border: 2px solid black;">
           <option></option>
@@ -56,40 +57,41 @@
       </div>
     </li>
 </ol>
+
 {% if not integrated_payoff_matrix %}
   <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
   <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
 {% endif %}
 
-<p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-30px;"><b>Your randomly drawn value for the widget is 250</b></p>
-
 {% if integrated_payoff_matrix %}
-    <div class="quiz-page" id="payoff-table-container"></div>
-    <div class="button">
-      <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
-      <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
-    <div>
+  <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-5px;"><b>{% if standard_instructions %} Your randomly drawn value for the widget is 250 {% endif %} {% if not standard_instructions %} Your type is 250 {% endif %}</b></p>
+  <div class="quiz-page" id="payoff-table-container"></div>
+  <div class="button">
+    <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
+    <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
+  <div>
 {% endif %}
 
 {% if not integrated_payoff_matrix %}
-<div class="button-row-calculator">
-  <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
-  <div class="value-dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
-      <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
-        <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-        <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
-        <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
-        <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
-        <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
-        <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
-        <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
-        <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
-        <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
-        <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
-        <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
-      </div>
-  </div>
+  <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-30px;"><b>Your randomly drawn value for the widget is 250</b></p>
+  <div class="button-row-calculator">
+    <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
+    <div class="value-dropdown">
+      <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+        <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+          <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+          <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+          <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+          <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+          <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+          <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
+          <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+          <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+          <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+          <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+          <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+        </div>
+    </div>
 
   <div id="your-bid-dropdown" class="your-bid-dropdown">
     <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>

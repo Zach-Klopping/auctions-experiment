@@ -25,12 +25,12 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    ethics = models.BooleanField(blank=0)
-    attn_check_1 = models.BooleanField(blank=0)
-    attn_check_2 = models.BooleanField(blank=0)
-    Q1_incorrect = models.IntegerField(default=0)
-    Q2_incorrect = models.IntegerField(default=0)
-    Q3_incorrect = models.IntegerField(default=0)
+    ethics = models.BooleanField(blank = 0)
+    attn_check_1 = models.BooleanField(blank = 0)
+    attn_check_2 = models.BooleanField(blank = 0)
+    Q1_incorrect = models.IntegerField(default = 0)
+    Q2_incorrect = models.IntegerField(default = 0)
+    Q3_incorrect = models.IntegerField(default = 0)
 
 
 # PAGES
@@ -44,15 +44,24 @@ class P2(Page):
 
 
 class P3(Page):
-    pass
+    def vars_for_template(player):
+        return {
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
+        }
 
 
 class P4(Page):
-    pass
+    def vars_for_template(player):
+        return {
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
+        }
 
 
 class P5(Page):
-    pass
+    def vars_for_template(player):
+        return {
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
+        }
 
 
 class P6_1(Page):
@@ -61,15 +70,17 @@ class P6_1(Page):
     
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
+        standard_instructions = player.session.config['standard_instructions']
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant)
+        return dict(constant = constant, standard_instructions = standard_instructions)
     
     def vars_for_template(player):
         return {
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
         }
     
 
@@ -87,17 +98,19 @@ class P8(Page):
     def vars_for_template(player):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
         }
     
     def js_vars(player):
         auction_value = 250
+        standard_instructions = player.session.config['standard_instructions']
         integrated_endowment = player.session.config['integrated_endowment']
         correct_answers_quiz1 = C.correct_answers_quiz1_integrated_endowment if integrated_endowment == True else C.correct_answers_quiz1_no_endowment
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, auction_value = auction_value, correct_answers_quiz1 = correct_answers_quiz1)
+        return dict(constant = constant, auction_value = auction_value, correct_answers_quiz1 = correct_answers_quiz1, standard_instructions = standard_instructions)
     
     def live_method(player: Player, data):
         if data.get('action') == 'submit_quiz':

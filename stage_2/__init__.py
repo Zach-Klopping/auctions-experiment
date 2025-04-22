@@ -27,9 +27,9 @@ class Player(BasePlayer):
     fllw_up_Q1 = models.StringField()
     fllw_up_Q2 = models.IntegerField()
     fllw_up_Q3 = models.IntegerField()
-    fllw_up_Q1_incorrect = models.IntegerField(default=0)
-    fllw_up_Q2_incorrect = models.IntegerField(default=0)
-    fllw_up_Q3_incorrect = models.IntegerField(default=0)
+    fllw_up_Q1_incorrect = models.IntegerField(default = 0)
+    fllw_up_Q2_incorrect = models.IntegerField(default = 0)
+    fllw_up_Q3_incorrect = models.IntegerField(default = 0)
     auction_value = models.IntegerField()
     selected_bid = models.IntegerField()
 
@@ -46,18 +46,19 @@ class P1_1(Page):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
-            'auction_value' : player.auction_value
-
+            'auction_value' : player.auction_value,
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
         }
 
     def js_vars(player):
         auction_value = player.auction_value
         integrated_endowment = player.session.config['integrated_endowment']
+        standard_instructions = player.session.config['standard_instructions']
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant=constant, auction_value = auction_value)
+        return dict(constant = constant, auction_value = auction_value, standard_instructions = standard_instructions)
 
 
 class P1_2(Page):

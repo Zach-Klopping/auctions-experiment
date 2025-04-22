@@ -172,10 +172,16 @@ function updatePayoffTable() {
         return;
     }
 
+    var standard_instructions = js_vars.standard_instructions;
+
     const payoffTable = createPayoffTable(value);
     let tableHTML = '<table>';
-    tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">Other Participant's Bid</th></tr>`;
-    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">My Bid</th><th></th>`;
+
+    const columnHeader = standard_instructions ? "Other Participant's Bid" : "Other Participant's Number";
+    const rowHeader = standard_instructions ? "My Bid" : "My Number";
+
+    tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">${columnHeader}</th></tr>`;
+    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">${rowHeader}</th><th></th>`;
     validValues.forEach(bid => tableHTML += `<th>${bid}</th>`);
     tableHTML += '</tr>';
 
@@ -234,15 +240,18 @@ function selectOpponentBid(bid) {
 }
 
 function confirmBid(bid) {
+    var standard_instructions = js_vars.standard_instructions;
     const button = document.querySelector('.bid-dropdown-btn');
-    button.innerText = `Selected Bid: ${bid}`;
+    const label = standard_instructions ? 'Select Your Bid' : 'Select Your Number';
+    const confirmLabel = standard_instructions ? 'Confirm Your Bid' : 'Confirm Your Number';
     
+    button.innerText = `${label}: ${bid}`;
     document.getElementById('selected-bid-input').value = bid;
-    
-    // Update the whole button content
-    document.getElementById('confirm-button').innerHTML = `Confirm Your Bid: <span id="selected-bid-display">${bid}</span>`;
+
+    // Update the confirm button content with conditional label
+    document.getElementById('confirm-button').innerHTML = `${confirmLabel}: <span id="selected-bid-display">${bid}</span>`;
     document.getElementById('confirm-button').classList.add('green');
-    
+
     toggleDropdown(button);
 }
 
