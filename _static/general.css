@@ -79,6 +79,8 @@ ol li::marker {
     text-align: center;  
     cursor: pointer;
 }
+.opponent-bid-dropdown-option:hover,
+.your-bid-dropdown-option:hover,
 .value-dropdown-option:hover,
 .bid-dropdown-option:hover {
     background-color: #f1f1f1;

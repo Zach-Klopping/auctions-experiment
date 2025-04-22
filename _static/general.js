@@ -235,12 +235,17 @@ function selectOpponentBid(bid) {
 
 function confirmBid(bid) {
     const button = document.querySelector('.bid-dropdown-btn');
-    document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${bid}`;
-    document.getElementById('selected-bid-input').bid = bid;
-    document.getElementById('selected-bid-display').innerText = bid;
+    button.innerText = `Selected Bid: ${bid}`;
+    
+    document.getElementById('selected-bid-input').value = bid;
+    
+    // Update the whole button content
+    document.getElementById('confirm-button').innerHTML = `Confirm Your Bid: <span id="selected-bid-display">${bid}</span>`;
     document.getElementById('confirm-button').classList.add('green');
+    
     toggleDropdown(button);
 }
+
 
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
@@ -260,14 +265,22 @@ function validateBidSelection() {
 // Close Dropdowns When Clicking Outside
 // ==================================================
 document.addEventListener('click', function(event) {
-    const valuedropdown = document.querySelector('.value-dropdown');
-    const bidDropdown = document.querySelector('.bid-dropdown');
-    if (valuedropdown && !valuedropdown.contains(event.target)) {
-        document.getElementById("value-dropdown-content").style.display = "none";
-    }
-    if (bidDropdown && !bidDropdown.contains(event.target)) {
-        document.getElementById("bid-dropdown-content").style.display = "none";
-    }
+    const dropdowns = [
+        { wrapper: '.value-dropdown', content: 'value-dropdown-content' },
+        { wrapper: '.bid-dropdown', content: 'bid-dropdown-content' },
+        { wrapper: '.PC-value-dropdown', content: 'PC-value-dropdown-content' },
+        { wrapper: '.your-bid-dropdown', content: 'your-bid-dropdown-content' },
+        { wrapper: '.opponent-bid-dropdown', content: 'opponent-bid-dropdown-content' }
+    ];
+
+    dropdowns.forEach(({ wrapper, content }) => {
+        const container = document.querySelector(wrapper);
+        const contentEl = document.getElementById(content);
+
+        if (container && contentEl && !container.contains(event.target)) {
+            contentEl.style.display = "none";
+        }
+    });
 });
 
 // ==================================================

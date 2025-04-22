@@ -56,7 +56,12 @@
       </div>
     </li>
 </ol>
-<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is 250</b></p>
+{% if not integrated_payoff_matrix %}
+  <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
+  <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
+{% endif %}
+
+<p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-30px;"><b>Your randomly drawn value for the widget is 250</b></p>
 
 {% if integrated_payoff_matrix %}
     <div class="quiz-page" id="payoff-table-container"></div>
@@ -68,8 +73,7 @@
 
 {% if not integrated_payoff_matrix %}
 <div class="button-row-calculator">
-  <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
-
+  <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
   <div class="value-dropdown">
     <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
       <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
@@ -122,8 +126,6 @@
   </div>
 
   <button type="button" style="background-color: rgb(110, 255, 156);" onclick="return calculateTotal()" class="calculate-button" id="calculate-button">Calculate Payoff</button>
-  <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
-
 {% endif %}
 
 {{ include '_static/popups/instructions_bttn.html' }}
