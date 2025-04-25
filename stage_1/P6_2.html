@@ -13,7 +13,10 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>The payoff calculator, shown below, lets you calculate what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 400 cents. Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. Notice that you can change the value used to calculate the payoff. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff, use the pull-down menu. This does not change your value, but lets you see what payoffs looks like for the other participant if they draw a different value than you. Your value is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
+<p>The payoff calculator, shown below, lets you calculate what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 400 cents.</p>
+<p>Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
+<p>Notice that you can change the value used to calculate the payoff. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff, use the pull-down menu labeled “Value for Payoff.” This does not change your value, but lets you see what payoffs looks like for the other participant if they draw a different value than you. Your value is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
+<p>To calculate what your payoff might be, use the pull-down menus labeled “My Bid” and “Other's Bid” to enter values for your bid and the other participant's bid. The resulting payoff will show in the window labeled “Your Payoff”. </p>
 <p class="center-text" style="color: red; font-size: 20px; margin-top:-10px; margin-bottom: 10px;"><b>Your value for the widget is 250 cents.</b></p>
 <p>Your randomly drawn value for the widget is 250 cents. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
 
@@ -38,7 +41,7 @@
   </div>
 
   <div id="your-bid-dropdown" class="your-bid-dropdown">
-    <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
+    <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">My Bid</button>
     <div id="your-bid-dropdown-content" class="your-bid-dropdown-content" style="display: none;">
       <div class="your-bid-dropdown-option" onclick="selectYourBid(0)">0</div>
       <div class="your-bid-dropdown-option" onclick="selectYourBid(50)">50</div>
@@ -55,7 +58,7 @@
   </div>
 
   <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
-    <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Opponent Bid</button>
+    <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
     <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
       <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
       <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
@@ -71,7 +74,7 @@
     </div>
   </div>
 
-  <button type="button" style="background-color: rgb(110, 255, 156);" onclick="return calculateTotal()" class="calculate-button" id="calculate-button">Calculate Payoff</button>
+  <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
   <button id="continue-button">Continue</button>
 </div> 
 

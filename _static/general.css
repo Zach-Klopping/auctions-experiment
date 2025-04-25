@@ -80,7 +80,7 @@ ol li::marker {
     cursor: pointer;
 }
 .opponent-bid-dropdown-option:hover,
-.your-bid-dropdown-option,
+.your-bid-dropdown-option:hover,
 .value-dropdown-option:hover,
 .bid-dropdown-option:hover {
     background-color: #f1f1f1;
@@ -95,10 +95,15 @@ ol li::marker {
     display: inline-block;
     margin: 0 20px;
 }
+.button-row-calculator-game{
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+
+}
 .button-row-calculator-game > button, 
 .button-row-calculator-game > div {
     display: inline-block;
-    margin: 10px 40px;
+    margin: 0px 20px;
 }
 #bid-error-message {
     display: none;
@@ -110,7 +115,6 @@ ol li::marker {
     white-space: nowrap;
     margin-top: 5px;
 }
-#calculate-button.green, 
 #confirm-button.green {
     background-color: rgb(76, 234, 76);
     border: 2px solid black;

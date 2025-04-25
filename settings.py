@@ -4,10 +4,10 @@ DEBUG = True
 
 SESSION_CONFIGS = [
     dict(
-         name='stage_1',
-         display_name="Auction Experiment",
-         app_sequence=['stage_1','stage_2'],
-         num_demo_participants=1,
+         name = 'stage_1',
+         display_name = "Auction Experiment",
+         app_sequence = ['stage_1','stage_2'],
+         num_demo_participants = 1,
      ),
 ]
 
@@ -17,12 +17,13 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, 
-    participation_fee=0.00, 
-    doc="",
-    standard_instructions=True,
-    integrated_payoff_matrix=True,
-    integrated_endowment=True
+    real_world_currency_per_point = 1.00, 
+    participation_fee = 0.00, 
+    doc = "",
+    standard_instructions = True,
+    integrated_payoff_matrix = True,
+    integrated_endowment = True,
+    computer_opponent = True
 )
 
 PARTICIPANT_FIELDS = []

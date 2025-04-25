@@ -54,6 +54,7 @@ class P4(Page):
     def vars_for_template(player):
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
 
 
@@ -61,6 +62,7 @@ class P5(Page):
     def vars_for_template(player):
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
 
 
@@ -71,16 +73,19 @@ class P6_1(Page):
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
         standard_instructions = player.session.config['standard_instructions']
+        auction_value = 250
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, standard_instructions = standard_instructions)
+        return dict(constant = constant, standard_instructions = standard_instructions, auction_value = auction_value,)
+    
     
     def vars_for_template(player):
         return {
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
             'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
     
 
@@ -99,6 +104,7 @@ class P8(Page):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
             'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
     
     def js_vars(player):
@@ -126,7 +132,7 @@ class P8(Page):
             if answers_quiz1.get('Q3') != correct_answers_quiz1.get('Q3'):
                 player.Q3_incorrect += 1
 
-            if player.Q1_incorrect >= 3 or player.Q2_incorrect >= 3 or player.Q3_incorrect >= 3:
+            if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2:
                 return {player.id_in_group: {'advance_page': True}}
 
 

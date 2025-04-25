@@ -12,9 +12,12 @@
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+{% if standard_instructions and computer_opponent %}
+  <p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the computer's bid. {% if integrated_endowment %}This includes your initial endowment of 400 cents. {% endif %} Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction.</p>
+  <p class="center-text" style="color: red; font-size: 20px; margin-top:-5px;"><b>Your value for the widget is 250 cents.</b></p>
+{% endif %}
 
-
-{% if standard_instructions %}
+{% if standard_instructions and not computer_opponent %}
   <p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. {% if integrated_endowment %}This includes your initial endowment of 400 cents. {% endif %} Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. Notice that you can change the value used to calculate the payoff table. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff table, use the pull-down menu below <span style="color:rgb(187, 124, 255)">(purple button labeled "Value for Payoff Table").</span> This does not change your value, but lets you see what the payoff table looks like for the other participant if they draw a different value than you. Your value is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
   <p class="center-text" style="color: red; font-size: 20px; margin-top:-5px;"><b>Your value for the widget is 250 cents.</b></p>
   <p>Your randomly drawn value for the widget is 250 cents. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant.</p>
@@ -31,6 +34,10 @@
 <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
 
 <div class="button-row">
+  {% if computer_opponent %}
+    <div class="quiz-page" id="payoff-table-container"></div>
+  {% endif %}
+  {% if not computer_opponent %}
   <div class="value-dropdown">
     <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: 250</button>
       <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
@@ -47,6 +54,7 @@
         <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
       </div>
   </div>
+  {% endif %}
   <button id="continue-button">Continue</button>
 </div>
 

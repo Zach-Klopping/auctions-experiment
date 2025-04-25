@@ -32,6 +32,8 @@ class Player(BasePlayer):
     fllw_up_Q3_incorrect = models.IntegerField(default = 0)
     auction_value = models.IntegerField()
     selected_bid = models.IntegerField()
+    demographic_1 = models.BooleanField(blank = 0)
+    demographic_2 = models.BooleanField(blank = 0)
 
 
 # PAGES
@@ -92,7 +94,12 @@ class P2(Page):
 
 
 class P3(Page):
+    form_model = 'player'
+    form_fields = ['demographic_1','demographic_2']
+
+
+class P4(Page):
     pass
 
 
-page_sequence = [P1_1, P1_2, P2, P3]
+page_sequence = [P1_1, P1_2, P2, P3, P4]

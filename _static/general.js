@@ -61,13 +61,12 @@ function validateAttentionCheck2() {
 }
 
 function ValidateQuiz2() {
+    let isValid = true;
     const questions = [
         { id: 'fllw_up_Q1', errorId: 'errorQ1' },
         { id: 'fllw_up_Q2', errorId: 'errorQ2' },
         { id: 'fllw_up_Q3', errorId: 'errorQ3' }
     ];
-
-    let isValid = true;
 
     questions.forEach(function(question) {
         const input = document.getElementById(question.id);
@@ -84,7 +83,33 @@ function ValidateQuiz2() {
     });
     return isValid;
 }
+function validateDemographics() {
+    let isValid = true;
+    const selected1 = document.querySelector('input[name="demographic_1"]:checked');
+    const errorSpan1 = document.getElementById('errorQ1');
+    
+    if (!selected1) {
+        errorSpan1.textContent = 'Answer Required';
+        errorSpan1.style.display = 'inline';
+        errorSpan1.style.fontWeight = 'bold';
+        isValid = false;
+    } else {
+        errorSpan1.style.display = 'none';
+    }
 
+    const selected2 = document.querySelector('input[name="demographic_2"]:checked');
+    const errorSpan2 = document.getElementById('errorQ2');
+
+    if (!selected2) {
+        errorSpan2.textContent = 'Answer Required';
+        errorSpan2.style.display = 'inline';
+        errorSpan2.style.fontWeight = 'bold';
+        isValid = false;
+    } else {
+        errorSpan2.style.display = 'none';
+    }
+    return isValid;
+}
 // ==================================================
 // Checks if Quiz Answers are Correct
 // ==================================================
@@ -94,7 +119,6 @@ function Quiz1showErrorMessage(question) {
     errorSpan.style.fontWeight = 'bold';
     errorSpan.style.display = 'inline';
 }
-
 function CheckQuiz1Answers() {
     var answers_quiz1 = {
         Q1: document.querySelector('input[name="Q1"]').value.trim(),
@@ -105,14 +129,12 @@ function CheckQuiz1Answers() {
     var correct_answers_quiz1 = js_vars.correct_answers_quiz1;
     var correct = true;
 
-    // Clear previous error messages
     var errorSpans = document.querySelectorAll('[id^="errorQ"]');
     errorSpans.forEach(function (errorSpan) {
         errorSpan.textContent = '';
         errorSpan.style.display = 'none';
     });
 
-    // Check answers
     for (var key in answers_quiz1) {
         if (answers_quiz1[key] !== correct_answers_quiz1[key]) {
             Quiz1showErrorMessage(key);
@@ -133,7 +155,6 @@ function CheckQuiz1Answers() {
 function createPayoffTable(value) {
     var constant = js_vars.constant;
     const validValues = Array.from({length: 11}, (_, i) => i * 50);
-
     const payoffTable = {};
 
     validValues.forEach(bid1 => {
@@ -151,7 +172,6 @@ function createPayoffTable(value) {
     });
     return payoffTable;
 }
-
 function updatePayoffTable() {
     const tableContainer = document.getElementById('payoff-table-container');
     if (!tableContainer) return;
@@ -210,7 +230,6 @@ function toggleDropdown(button) {
         content.style.width = `${button.offsetWidth}px`;
     }
 }
-
 function selectValue(value, option) {
     const dropdown = option.closest('.value-dropdown');
     if (!dropdown) return;
@@ -226,19 +245,20 @@ function selectValue(value, option) {
 
     toggleDropdown(button);
     updatePayoffTable();
+    tryCalculatePayoff();
 }
-
 function selectYourBid(bid) {
     const button = document.querySelector('.your-bid-dropdown-btn');
     document.querySelector('.your-bid-dropdown-btn').innerText = `Your Bid: ${bid}`;
     toggleDropdown(button);
+    tryCalculatePayoff();
 }
 function selectOpponentBid(bid) {
     const button = document.querySelector('.opponent-bid-dropdown-btn');
     document.querySelector('.opponent-bid-dropdown-btn').innerText = `Opponent Bid: ${bid}`;
     toggleDropdown(button);
+    tryCalculatePayoff();
 }
-
 function confirmBid(bid) {
     var standard_instructions = js_vars.standard_instructions;
     const button = document.querySelector('.bid-dropdown-btn');
@@ -248,14 +268,11 @@ function confirmBid(bid) {
     button.innerText = `${label}: ${bid}`;
     document.getElementById('selected-bid-input').value = bid;
 
-    // Update the confirm button content with conditional label
     document.getElementById('confirm-button').innerHTML = `${confirmLabel}: <span id="selected-bid-display">${bid}</span>`;
     document.getElementById('confirm-button').classList.add('green');
 
     toggleDropdown(button);
 }
-
-
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
     const errorSpan = document.getElementById('bid-error-message');
@@ -300,7 +317,6 @@ function showInstructions() {
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
-
 function closeInstructions() {
     document.getElementById('instructions-bttn').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
@@ -319,9 +335,7 @@ function liveRecv(data) {
 // ==================================================
 // Calculate Function
 // ==================================================
-// Function to calculate the total value from the selected values
-function calculateTotal() {
-    // Get the selected values from the buttons
+function calculatePayoff() {
     const payoffValue = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const yourBidValue = parseInt(document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const opponentBidValue = parseInt(document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
@@ -335,9 +349,17 @@ function calculateTotal() {
         payoff = 0;
     }
 
-    document.querySelector('.calculate-button').innerText = `Calculated Payoff: ${payoff}`;
-    document.getElementById('calculate-button').classList.add('green');
+    document.getElementById("payoff-display").innerHTML = `Your Payoff: <span style="color: green">${payoff}</span>`;
 
     return false;
 
+}
+function tryCalculatePayoff() {
+    const val1 = document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1]?.trim();
+    const val2 = document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1]?.trim();
+    const val3 = document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1]?.trim();
+
+    if (val1 && val2 && val3) {
+        calculatePayoff();
+    }
 }
