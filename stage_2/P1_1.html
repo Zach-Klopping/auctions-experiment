@@ -68,23 +68,24 @@
 
 <div class="button-row">
   <button type="button" class="instructions_bttn" style="background-color:orange;" onclick="showInstructions()">Instructions</button>
-
-  <div class="value-dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %} for Payoff Table: {{ auction_value }}</button>
-    <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
-      <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
-      <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
-      <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
-      <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
-      <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
-      <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
-      <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
-      <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
-      <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
-      <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
-      <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
+  {% if not computer_opponent %}
+    <div class="value-dropdown">
+      <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %} for Payoff Table: {{ auction_value }}</button>
+      <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+        <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
+        <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
+        <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
+        <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
+        <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
+        <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
+        <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
+        <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
+        <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
+        <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
+        <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
+      </div>
     </div>
-  </div>
+    {% endif %}
 
   <div id="bid-dropdown" class="bid-dropdown">
     <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 207, 255);" onclick="toggleDropdown(this)">Select Your {% if standard_instructions %} Bid {% endif %} {% if not standard_instructions %} Number {% endif %}</button>
@@ -101,7 +102,12 @@
       <div class="bid-dropdown-option" onclick="confirmBid(450)">450</div>
       <div class="bid-dropdown-option" onclick="confirmBid(500)">500</div>
     </div>
+    {% if not computer_opponent %}
     <span id="bid-error-message"></span>
+    {% endif %}
+    {% if computer_opponent %}
+    <span style="margin-top:-80px" id="bid-error-message"></span>
+    {% endif %}
   </div>
 
   <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your {% if standard_instructions %} Bid{% endif %} {% if not standard_instructions %} Number{% endif %}: <span id="selected-bid-display">None</span></button>

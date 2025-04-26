@@ -31,9 +31,9 @@ class Player(BasePlayer):
     Q1_incorrect = models.IntegerField(default = 0)
     Q2_incorrect = models.IntegerField(default = 0)
     Q3_incorrect = models.IntegerField(default = 0)
+    stg1_value_dropdown_click = models.IntegerField(default=0)
 
 
-# PAGES
 class P1(Page):
     pass
 
@@ -92,6 +92,10 @@ class P6_1(Page):
             'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
     
+    @staticmethod
+    def live_method(player: Player, data):
+        if data.get('select_value') == 'select_value':
+            player.stg1_value_dropdown_click += 1
 
 class P6_2(Page):
     def is_displayed(player):
@@ -104,6 +108,11 @@ class P6_2(Page):
         else:
             constant = 0
         return dict(constant = constant)
+    
+    @staticmethod
+    def live_method(player: Player, data):
+        if data.get('select_value') == 'select_value':
+            player.stg1_value_dropdown_click += 1
 
 
 class P7(Page):
@@ -135,13 +144,16 @@ class P8(Page):
                     standard_instructions = standard_instructions,
                     computer_opponent = computer_opponent)
     
+    @staticmethod
     def live_method(player: Player, data):
-        if data.get('action') == 'submit_quiz':
+        if data.get('select_value') == 'select_value':
+            player.stg1_value_dropdown_click += 1
+
+        if data.get('submit_quiz') == 'submit_quiz':
             answers_quiz1 = data.get('answers_quiz1', {})
             integrated_endowment = player.session.config['integrated_endowment']
             correct_answers_quiz1 = C.correct_answers_quiz1_integrated_endowment if integrated_endowment == True else C.correct_answers_quiz1_no_endowment
 
-            # Check each answer and update the incorrect count for the specific question
             if answers_quiz1.get('Q1') != correct_answers_quiz1.get('Q1'):
                 player.Q1_incorrect += 1
             if answers_quiz1.get('Q2') != correct_answers_quiz1.get('Q2'):

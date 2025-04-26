@@ -142,7 +142,7 @@ function CheckQuiz1Answers() {
         }
     }
 
-    liveSend({'action': 'submit_quiz', 'answers_quiz1': answers_quiz1});
+    liveSend({'submit_quiz': 'submit_quiz', 'answers_quiz1': answers_quiz1});
 
     if (correct) {
         document.forms[0].submit();
@@ -250,6 +250,7 @@ function selectValue(value, option) {
 
     button.innerText = label;
 
+    liveSend({'select_value': 'select_value'});
     toggleDropdown(button);
     updatePayoffTable();
     tryCalculatePayoff();

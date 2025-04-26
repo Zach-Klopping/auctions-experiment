@@ -34,14 +34,15 @@ class Player(BasePlayer):
     selected_bid = models.IntegerField()
     demographic_1 = models.BooleanField(blank = 0)
     demographic_2 = models.BooleanField(blank = 0)
+    stg2_value_dropdown_click = models.IntegerField(default=0)
 
 
-# PAGES
 class P1_1(Page):
     form_model = 'player'
     form_fields = ['selected_bid']
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == True
+    
     def vars_for_template(player):
         player.auction_value = random.choice(range(0, 501, 50))
 
@@ -68,6 +69,10 @@ class P1_1(Page):
                     standard_instructions = standard_instructions,
                     computer_opponent = computer_opponent)
 
+    @staticmethod
+    def live_method(player: Player, data):
+        if data.get('select_value') == 'select_value':
+            player.stg2_value_dropdown_click += 1
 
 class P1_2(Page):
     def is_displayed(player):
@@ -84,7 +89,12 @@ class P1_2(Page):
         else:
             constant = 0
         auction_value = player.auction_value
-        return dict(auction_value = auction_value, constant = constant, )
+        return dict(auction_value = auction_value, constant = constant)
+    
+    @staticmethod
+    def live_method(player: Player, data):
+        if data.get('select_value') == 'select_value':
+            player.stg2_value_dropdown_click += 1
 
 class P2(Page):
     form_model = 'player'
