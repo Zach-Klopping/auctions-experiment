@@ -23,7 +23,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     standard_instructions = True,
     integrated_payoff_matrix = True,
     integrated_endowment = True,
-    computer_opponent = True
+    computer_opponent = False
 )
 
 PARTICIPANT_FIELDS = []

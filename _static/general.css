@@ -95,11 +95,6 @@ ol li::marker {
     display: inline-block;
     margin: 0 20px;
 }
-.button-row-calculator-game{
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 20px;
-
-}
 .button-row-calculator-game > button, 
 .button-row-calculator-game > div {
     display: inline-block;

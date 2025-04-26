@@ -43,24 +43,30 @@ class P1_1(Page):
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == True
     def vars_for_template(player):
-        player.auction_value = random.choice(range(0, 501, 50))  # ensures js_vars uses the same one
+        player.auction_value = random.choice(range(0, 501, 50))
 
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
             'auction_value' : player.auction_value,
             'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
 
     def js_vars(player):
         auction_value = player.auction_value
         integrated_endowment = player.session.config['integrated_endowment']
         standard_instructions = player.session.config['standard_instructions']
+        computer_opponent = player.session.config['computer_opponent']
+
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, auction_value = auction_value, standard_instructions = standard_instructions)
+        return dict(constant = constant, 
+                    auction_value = auction_value, 
+                    standard_instructions = standard_instructions,
+                    computer_opponent = computer_opponent)
 
 
 class P1_2(Page):
@@ -72,8 +78,13 @@ class P1_2(Page):
         return {'auction_value' : player.auction_value}
 
     def js_vars(player):
+        integrated_endowment = player.session.config['integrated_endowment']
+        if integrated_endowment == True:
+            constant = 400
+        else:
+            constant = 0
         auction_value = player.auction_value
-        return dict(auction_value = auction_value)
+        return dict(auction_value = auction_value, constant = constant, )
 
 class P2(Page):
     form_model = 'player'

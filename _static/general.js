@@ -165,7 +165,7 @@ function createPayoffTable(value) {
             } else if (bid1 === bid2) {
                 payoff = constant + Math.floor((value - bid2) / 2);
             } else {
-                payoff = 0;
+                payoff = constant;
             }
             payoffTable[`${bid1},${bid2}`] = payoff;
         });
@@ -187,18 +187,24 @@ function updatePayoffTable() {
     }
 
     const validValues = Array.from({length: 11}, (_, i) => i * 50);
-    if (!validValues.includes(value)) {
-        alert("Please enter a valid value (0, 50, 100, ..., 500)");
-        return;
-    }
-
     var standard_instructions = js_vars.standard_instructions;
+    var computer_opponent = js_vars.computer_opponent
 
     const payoffTable = createPayoffTable(value);
     let tableHTML = '<table>';
 
-    const columnHeader = standard_instructions ? "Other Participant's Bid" : "Other Participant's Number";
-    const rowHeader = standard_instructions ? "My Bid" : "My Number";
+    let columnHeader, rowHeader;
+
+    if (computer_opponent) {
+        columnHeader = "Computer's Bid";
+        rowHeader = "My Bid";
+    } else if (standard_instructions) {
+        columnHeader = "Other Participant's Bid";
+        rowHeader = "My Bid";
+    } else {
+        columnHeader = "Other Participant's Number";
+        rowHeader = "My Number";
+    }
 
     tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">${columnHeader}</th></tr>`;
     tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">${rowHeader}</th><th></th>`;
@@ -231,6 +237,7 @@ function toggleDropdown(button) {
     }
 }
 function selectValue(value, option) {
+    var standard_instructions = js_vars.standard_instructions;
     const dropdown = option.closest('.value-dropdown');
     if (!dropdown) return;
 
@@ -239,7 +246,7 @@ function selectValue(value, option) {
 
     const label = button.classList.contains('PC-value-dropdown-btn')
         ? `Value for Payoff: ${value}`
-        : `Value for Payoff Table: ${value}`;
+        : (standard_instructions ? `Value for Payoff Table: ${value}` : `Type for Payoff Table: ${value}`);
 
     button.innerText = label;
 
@@ -339,14 +346,15 @@ function calculatePayoff() {
     const payoffValue = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const yourBidValue = parseInt(document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const opponentBidValue = parseInt(document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    var constant = js_vars.constant;
 
     let payoff;
     if (yourBidValue > opponentBidValue) {
-        payoff = payoffValue - opponentBidValue;
+        payoff = constant + (payoffValue - opponentBidValue);
     } else if (yourBidValue === opponentBidValue) {
-        payoff = Math.floor((payoffValue - opponentBidValue) / 2);
+        payoff = constant + (Math.floor((payoffValue - opponentBidValue) / 2));
     } else {
-        payoff = 0;
+        payoff = constant;
     }
 
     document.getElementById("payoff-display").innerHTML = `Your Payoff: <span style="color: green">${payoff}</span>`;

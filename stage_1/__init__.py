@@ -73,12 +73,16 @@ class P6_1(Page):
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
         standard_instructions = player.session.config['standard_instructions']
+        computer_opponent = player.session.config['computer_opponent']
         auction_value = 250
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, standard_instructions = standard_instructions, auction_value = auction_value,)
+        return dict(constant = constant, 
+                    standard_instructions = standard_instructions, 
+                    auction_value = auction_value, 
+                    computer_opponent = computer_opponent)
     
     
     def vars_for_template(player):
@@ -92,6 +96,14 @@ class P6_1(Page):
 class P6_2(Page):
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == False
+    
+    def js_vars(player):
+        integrated_endowment = player.session.config['integrated_endowment']
+        if integrated_endowment == True:
+            constant = 400
+        else:
+            constant = 0
+        return dict(constant = constant)
 
 
 class P7(Page):
@@ -111,12 +123,17 @@ class P8(Page):
         auction_value = 250
         standard_instructions = player.session.config['standard_instructions']
         integrated_endowment = player.session.config['integrated_endowment']
+        computer_opponent = player.session.config['computer_opponent']
         correct_answers_quiz1 = C.correct_answers_quiz1_integrated_endowment if integrated_endowment == True else C.correct_answers_quiz1_no_endowment
         if integrated_endowment == True:
             constant = 400
         else:
             constant = 0
-        return dict(constant = constant, auction_value = auction_value, correct_answers_quiz1 = correct_answers_quiz1, standard_instructions = standard_instructions)
+        return dict(constant = constant, 
+                    auction_value = auction_value, 
+                    correct_answers_quiz1 = correct_answers_quiz1, 
+                    standard_instructions = standard_instructions,
+                    computer_opponent = computer_opponent)
     
     def live_method(player: Player, data):
         if data.get('action') == 'submit_quiz':
