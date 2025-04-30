@@ -15,22 +15,13 @@
 
 {{ include 'stage_1/instructions/P6_payoff_table.html' }}
 
-{% if standard_instructions %}
-<p class="center-text" style="color: red; font-size: 20px; margin-top:-5px;"><b>Your value for the widget is 250 cents.</b></p>
-{% endif %}
-
-{% if not standard_instructions %}
-<p class="center-text" style="color: red; font-size: 20px; margin-top:-15px;"><b>Your type is 250.</b></p>
-{% endif %}
-
 {% if integrated_payoff_matrix %}
-  <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
-
+  {% if computer_opponent %}
+      <div class="quiz-page" id="payoff-table-container" style="width: 61vw;"></div>
+    {% endif %}  
   <div class="button-row">
-    {% if computer_opponent %}
-      <div class="quiz-page" id="payoff-table-container"></div>
-    {% endif %}
     {% if not computer_opponent %}
+    <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
     <div class="value-dropdown">
       <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %}for Payoff Table: 250</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">

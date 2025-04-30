@@ -1,13 +1,83 @@
 from os import environ
 
-DEBUG = True
+DEBUG = False
 
 SESSION_CONFIGS = [
     dict(
-         name = 'stage_1',
-         display_name = "Auction Experiment",
-         app_sequence = ['stage_1','stage_2'],
-         num_demo_participants = 1,
+        name = 'standard_no_matrix',
+        display_name = "Standard Instructions, No Payoff Matrix",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = False,
+        integrated_endowment = True,
+        integrated_payoff_matrix = False,
+        standard_instructions = True,
+     ),
+
+      dict(
+        name = 'standard_with_matrix_integrated_endowment',
+        display_name = "Standard Instructions, With Payoff Matrix, Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = False,
+        integrated_endowment = True,
+        integrated_payoff_matrix = True,
+        standard_instructions = True,
+     ),
+
+     dict(
+        name = 'standard_with_matrix_not_integrated_endowment',
+        display_name = "Standard Instructions, With Payoff Matrix, Not Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = False,
+        integrated_endowment = False,
+        integrated_payoff_matrix = True,
+        standard_instructions = True,
+     ),
+
+    dict(
+        name = 'no_auction_with_matrix_integrated_endowment',
+        display_name = "No Auction Instructions, With Payoff Matrix, Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = False,
+        integrated_endowment = True,
+        integrated_payoff_matrix = True,
+        standard_instructions = False,
+     ),
+
+      dict(
+        name = 'no_auction_with_matrix_not_integrated_endowment',
+        display_name = "No Auction Instructions, With Payoff Matrix, Not Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = False,
+        integrated_endowment = False,
+        integrated_payoff_matrix = True,
+        standard_instructions = False,
+     ),
+
+     dict(
+        name = 'computer_with_matrix_integrated_endowment',
+        display_name = "Computer Opponent, With Payoff Matrix, Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = True,
+        integrated_endowment = True,
+        integrated_payoff_matrix = True,
+        standard_instructions = True,
+     ),
+     
+         dict(
+        name = 'computer_with_matrix_not_integrated_endowment',
+        display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
+        app_sequence = ['stage_1', 'stage_2'],
+        num_demo_participants = 1,
+        computer_opponent = True,
+        integrated_endowment = False,
+        integrated_payoff_matrix = True,
+        standard_instructions = True,
      ),
 ]
 
@@ -21,9 +91,6 @@ SESSION_CONFIG_DEFAULTS = dict(
     participation_fee = 0.00, 
     doc = "",
     standard_instructions = True,
-    integrated_payoff_matrix = True,
-    integrated_endowment = True,
-    computer_opponent = False
 )
 
 PARTICIPANT_FIELDS = []

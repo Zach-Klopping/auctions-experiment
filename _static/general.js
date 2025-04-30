@@ -173,7 +173,12 @@ function createPayoffTable(value) {
     return payoffTable;
 }
 function updatePayoffTable() {
-    const tableContainer = document.getElementById('payoff-table-container');
+    const popupContainer = document.getElementById('instructions-bttn');
+    const isPopup = popupContainer !== null && popupContainer.style.display === 'block';
+    
+    const tableContainer = isPopup
+        ? document.getElementById('payoff-table-popup')
+        : document.getElementById('payoff-table-container');   
     if (!tableContainer) return;
 
     let value;
@@ -324,6 +329,7 @@ function showInstructions() {
     document.getElementById('instructions-bttn').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden';
+    updatePayoffTable();
 }
 function closeInstructions() {
     document.getElementById('instructions-bttn').style.display = 'none';

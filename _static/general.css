@@ -42,6 +42,14 @@ ol li::marker {
 #payoff-table-container.instructions-page table {
     width: 60%;
 }
+#payoff-table-popup {
+    margin-left: 65px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+#payoff-table-popup, table {
+    width: 60%;
+}
 #payoff-table-container.quiz-page {
     margin-bottom: 20px;
     text-align: center;
