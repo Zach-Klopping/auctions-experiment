@@ -80,7 +80,14 @@ class P1_2(Page):
     
     def vars_for_template(player):
         player.auction_value = random.choice(range(0, 501, 50))
-        return {'auction_value' : player.auction_value}
+
+        return {
+            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
+            'integrated_endowment' : player.session.config['integrated_endowment'] == True,
+            'auction_value' : player.auction_value,
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
+            'computer_opponent' : player.session.config['computer_opponent'] == True,
+        }
 
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']

@@ -13,13 +13,7 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-{% if standard_instructions %}
-<p>You are about to participate in a simple auction where you will bid to buy a “widget”. You start the auction with an endowment of 400 US cents. Your total payoff will be the sum of your endowment along with any gains or losses from the auction. You will also receive $2.50 for your time. This is based on pay of $10/hour and a typical completion time of 15 minutes. </p>
-{% endif %}
-
-{% if not standard_instructions %}
-<p>You are about to participate in a simple game. You start the game with an endowment of 400 US cents. Your total payoff will be the sum of your endowment along with any gains or losses from the game. You will also receive $2.50 for your time. This is based on pay of $10/hour and a typical completion time of 15 minutes. </p>
-{% endif %}
+{{ include 'stage_1/instructions/P3_introduction.html' }}
 
 <button id="continue-button">Continue</button>
 

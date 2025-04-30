@@ -1,4 +1,61 @@
-<div class="button-row-calculator">
+{{ block content }}
+
+<div class="title">
+  <p>Instructions: Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</p>
+</div>
+
+<!-- Link to js_warning file that requires users to enable JavaScript -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+{{ include 'stage_1/instructions/P6_payoff_table.html' }}
+
+{% if standard_instructions %}
+<p class="center-text" style="color: red; font-size: 20px; margin-top:-5px;"><b>Your value for the widget is 250 cents.</b></p>
+{% endif %}
+
+{% if not standard_instructions %}
+<p class="center-text" style="color: red; font-size: 20px; margin-top:-15px;"><b>Your type is 250.</b></p>
+{% endif %}
+
+{% if integrated_payoff_matrix %}
+  <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
+
+  <div class="button-row">
+    {% if computer_opponent %}
+      <div class="quiz-page" id="payoff-table-container"></div>
+    {% endif %}
+    {% if not computer_opponent %}
+    <div class="value-dropdown">
+      <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %}for Payoff Table: 250</button>
+        <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+          <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+          <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+          <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+          <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+          <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+          <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
+          <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+          <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+          <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+          <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+          <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+        </div>
+    </div>
+    {% endif %}
+    <button id="continue-button">Continue</button>
+  </div>
+{% endif %}
+
+{% if not integrated_payoff_matrix %}
+  <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
+
+  <div class="button-row-calculator">
     <div class="value-dropdown">
       <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
@@ -34,7 +91,7 @@
     </div>
 
     <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
-      <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Opponent Bid</button>
+      <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
       <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
         <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
         <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
@@ -50,5 +107,9 @@
       </div>
     </div>
 
-    <button type="button" onclick="return calculateTotal()" class="calculate-button" id="calculate-button">Calculate Payoff</button>
-</div>
+    <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+    <button id="continue-button">Continue</button>
+  </div> 
+{% endif %}
+
+{{ endblock }}

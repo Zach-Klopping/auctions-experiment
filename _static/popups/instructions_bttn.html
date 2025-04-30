@@ -8,10 +8,14 @@
         <!-- Scrollable Text Container -->
         <div class="scrollable-content">
             <p id="title-display" class="title-display">Instructions</p>
-                <h3>Values</h3>
+                <h3><b>Introduction</b></h3>
+                {{ include 'stage_1/instructions/P3_introduction.html' }}
+                <h3><b>Values</b></h3>
                 {{ include 'stage_1/instructions/P4_values.html' }}
-                <h3>Payoffs</h3>
+                <h3><b>Payoffs</b></h3>
                 {{ include 'stage_1/instructions/P5_payoffs.html' }}
+                <h3><b>Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</b></h3>
+                {{ include 'stage_1/instructions/P6_payoff_table.html' }}
         </div>
     </div>
 </div>

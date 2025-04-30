@@ -65,10 +65,7 @@ class P5(Page):
         }
 
 
-class P6_1(Page):
-    def is_displayed(player):
-        return player.session.config['integrated_payoff_matrix'] == True
-    
+class P6(Page):
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
         standard_instructions = player.session.config['standard_instructions']
@@ -88,31 +85,15 @@ class P6_1(Page):
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
             'standard_instructions' : player.session.config['standard_instructions'] == True,
             'computer_opponent' : player.session.config['computer_opponent'] == True,
+            'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True
         }
     
     @staticmethod
     def live_method(player: Player, data):
         if data.get('select_value') == 'select_value':
             player.stg1_value_dropdown_click += 1
-
-class P6_2(Page):
-    def is_displayed(player):
-        return player.session.config['integrated_payoff_matrix'] == False
     
-    def js_vars(player):
-        integrated_endowment = player.session.config['integrated_endowment']
-        if integrated_endowment == True:
-            constant = 400
-        else:
-            constant = 0
-        return dict(constant = constant)
     
-    @staticmethod
-    def live_method(player: Player, data):
-        if data.get('select_value') == 'select_value':
-            player.stg1_value_dropdown_click += 1
-
-
 class P7(Page):
     form_model = 'player'
     form_fields = ['attn_check_1']
@@ -122,6 +103,7 @@ class P8(Page):
     def vars_for_template(player):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
+            'integrated_endowment' : player.session.config['integrated_endowment'] == True,
             'standard_instructions' : player.session.config['standard_instructions'] == True,
             'computer_opponent' : player.session.config['computer_opponent'] == True,
         }
@@ -170,4 +152,4 @@ class P9(Page):
     form_fields = ['attn_check_2']
 
 
-page_sequence = [P1, P2, P3, P4, P5, P6_1, P6_2, P7, P8, P9]
+page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9]
