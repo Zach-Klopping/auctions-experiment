@@ -11,7 +11,6 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    # Quiz Answers
     correct_answers_quiz1_integrated_endowment = QUIZ_ANSWERS["correct_answers_quiz1_integrated_endowment"]
     correct_answers_quiz1_no_endowment = QUIZ_ANSWERS["correct_answers_quiz1_no_endowment"]
 
@@ -84,7 +83,6 @@ class P6_1(Page):
                     auction_value = auction_value, 
                     computer_opponent = computer_opponent)
     
-    
     def vars_for_template(player):
         return {
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
@@ -156,8 +154,10 @@ class P8(Page):
 
             if answers_quiz1.get('Q1') != correct_answers_quiz1.get('Q1'):
                 player.Q1_incorrect += 1
+
             if answers_quiz1.get('Q2') != correct_answers_quiz1.get('Q2'):
                 player.Q2_incorrect += 1
+                
             if answers_quiz1.get('Q3') != correct_answers_quiz1.get('Q3'):
                 player.Q3_incorrect += 1
 

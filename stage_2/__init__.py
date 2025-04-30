@@ -103,13 +103,12 @@ class P2(Page):
     def before_next_page(player, timeout_happened):
         correct_answers = C.correct_answers_follow_up_quiz
 
-        # Check Q1
         if str(player.fllw_up_Q1).strip().lower() != str(correct_answers['Q1']).strip().lower():
             player.fllw_up_Q1_incorrect += 1
-        # Check Q2
+
         if str(player.fllw_up_Q2).strip() != str(correct_answers['Q2']).strip():
             player.fllw_up_Q2_incorrect += 1
-        # Check Q3
+            
         if str(player.fllw_up_Q3).strip() != str(correct_answers['Q3']).strip():
             player.fllw_up_Q3_incorrect += 1
 
