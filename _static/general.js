@@ -154,18 +154,31 @@ function CheckQuiz1Answers() {
 // ==================================================
 function createPayoffTable(value) {
     var constant = js_vars.constant;
-    const validValues = Array.from({length: 11}, (_, i) => i * 50);
+    var standard_instructions = js_vars.standard_instructions
+    const validValues = standard_instructions
+    ? Array.from({ length: 11 }, (_, i) => i * 50)
+    : Array.from({ length: 11 }, (_, i) => i);
     const payoffTable = {};
 
     validValues.forEach(bid1 => {
         validValues.forEach(bid2 => {
             let payoff;
-            if (bid1 > bid2) {
-                payoff = constant + (value - bid2);
-            } else if (bid1 === bid2) {
-                payoff = constant + Math.floor((value - bid2) / 2);
+            if (standard_instructions) {
+                if (bid1 > bid2) {
+                    payoff = constant + (value - bid2);
+                } else if (bid1 === bid2) {
+                    payoff = constant + Math.floor((value - bid2) / 2);
+                } else {
+                    payoff = constant;
+                }
             } else {
-                payoff = constant;
+                if (bid1 > bid2) {
+                    payoff = constant + (value - bid2) * 50;
+                } else if (bid1 === bid2) {
+                    payoff = constant + (value - bid2) * 25;
+                } else {
+                    payoff = constant;
+                }
             }
             payoffTable[`${bid1},${bid2}`] = payoff;
         });
@@ -175,7 +188,7 @@ function createPayoffTable(value) {
 function updatePayoffTable() {
     const popupContainer = document.getElementById('instructions-bttn');
     const isPopup = popupContainer !== null && popupContainer.style.display === 'block';
-    
+
     const tableContainer = isPopup
         ? document.getElementById('payoff-table-popup')
         : document.getElementById('payoff-table-container');   
@@ -191,8 +204,10 @@ function updatePayoffTable() {
         value = js_vars.auction_value;
     }
 
-    const validValues = Array.from({length: 11}, (_, i) => i * 50);
     var standard_instructions = js_vars.standard_instructions;
+    const validValues = standard_instructions
+    ? Array.from({ length: 11 }, (_, i) => i * 50)
+    : Array.from({ length: 11 }, (_, i) => i);
     var computer_opponent = js_vars.computer_opponent
 
     const payoffTable = createPayoffTable(value);

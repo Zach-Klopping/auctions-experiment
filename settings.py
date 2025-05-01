@@ -1,6 +1,6 @@
 from os import environ
 
-DEBUG = False
+DEBUG = True
 
 SESSION_CONFIGS = [
     dict(
@@ -68,7 +68,7 @@ SESSION_CONFIGS = [
         integrated_payoff_matrix = True,
         standard_instructions = True,
      ),
-     
+
          dict(
         name = 'computer_with_matrix_not_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",

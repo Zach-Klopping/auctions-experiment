@@ -1,7 +1,7 @@
 {{ block content }}
 
 <div class="title">
-    <p>Payoffs</p>
+    <p>Payment</p>
 </div>
 
 <!-- Link to js_warning file that requires users to enable JavaScript -->
@@ -17,7 +17,7 @@
     <p style="font-size:25px; font-weight:800;"> Dollars Earned in Experiment</p>
     <p style="font-weight:600;">Payment for your time: $2.50</p>
     <p style="font-weight:600;">Payment from Instructions Quiz: </p>
-    <p style="font-weight:600;">Payment from Auction: </p>
+    <p style="font-weight:600;">Payment from {% if standard_instructions %} Auction: {% endif %}{% if not standard_instructions %} Game: {% endif %}</p>
     <p style="font-weight:600;">Payment from Follow-Up Quiz: </p>
     <div style="border-top: 1px solid black; margin: 20px 0;"></div>
     <p style="font-weight:800; color: green; font-size:20px;">Total Payoff: </p>

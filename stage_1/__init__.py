@@ -109,7 +109,7 @@ class P8(Page):
         }
     
     def js_vars(player):
-        auction_value = 250
+        auction_value = 250 if player.session.config['standard_instructions'] == True else 5
         standard_instructions = player.session.config['standard_instructions']
         integrated_endowment = player.session.config['integrated_endowment']
         computer_opponent = player.session.config['computer_opponent']

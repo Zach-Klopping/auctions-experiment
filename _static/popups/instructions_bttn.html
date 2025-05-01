@@ -19,8 +19,11 @@
 
                 {% if integrated_payoff_matrix %}
                     <div id="payoff-table-popup" class="instructions-popup" style="width: 105vw;"></div>
-                    {% if not computer_opponent %}
-                    <button type="button" style="background-color: rgb(187, 124, 255);">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %}for Payoff Table: 250</button>
+                    {% if not computer_opponent and standard_instructions %}
+                    <button type="button" style="background-color: rgb(187, 124, 255);"> Value for Payoff Table: 250</button>
+                    {% endif %}
+                    {% if not standard_instructions %}
+                    <button type="button" style="background-color: rgb(187, 124, 255);"> Type for Payoff Table: 5</button>
                     {% endif %}
                 {% endif %}
 

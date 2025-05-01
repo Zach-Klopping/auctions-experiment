@@ -39,16 +39,15 @@ ol li::marker {
     margin-bottom: 20px;
     text-align: center;
 }
+#payoff-table-popup table,
 #payoff-table-container.instructions-page table {
     width: 60%;
+    table-layout: fixed;
 }
 #payoff-table-popup {
     margin-left: 65px;
     margin-bottom: 20px;
     text-align: center;
-}
-#payoff-table-popup, table {
-    width: 60%;
 }
 #payoff-table-container.quiz-page {
     margin-bottom: 20px;
@@ -56,6 +55,7 @@ ol li::marker {
 }
 #payoff-table-container.quiz-page table {
     width: 100%;
+    table-layout: fixed;
 }
 #payoff-table-container.game-page {
     margin: 40px 0 20px 40px;
@@ -64,6 +64,7 @@ ol li::marker {
 }
 #payoff-table-container.game-page table {
     width: 95%;
+    table-layout: fixed;
 }
 
 /* ================================

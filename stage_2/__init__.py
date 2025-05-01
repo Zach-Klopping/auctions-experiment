@@ -44,7 +44,10 @@ class P1_1(Page):
         return player.session.config['integrated_payoff_matrix'] == True
     
     def vars_for_template(player):
-        player.auction_value = random.choice(range(0, 501, 50))
+        if player.session.config['standard_instructions'] == True:
+            player.auction_value = random.choice(range(0, 501, 50))
+        elif player.session.config['standard_instructions'] == False:
+            player.auction_value = random.choice(range(0, 11, 1))
 
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
@@ -126,7 +129,10 @@ class P3(Page):
 
 
 class P4(Page):
-    pass
+    def vars_for_template(player):
+        return {
+            'standard_instructions' : player.session.config['standard_instructions'] == True,
+        }
 
 
 page_sequence = [P1_1, P1_2, P2, P3, P4]

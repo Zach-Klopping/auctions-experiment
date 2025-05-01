@@ -22,23 +22,43 @@
   <div class="button-row">
     {% if not computer_opponent %}
     <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
+    {% if standard_instructions %}
+      <div class="value-dropdown">
+        <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: 250</button>
+          <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+            <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+            <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+            <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+            <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+            <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+            <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
+            <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+            <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+            <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+            <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+            <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+          </div>
+      </div>
+    {% endif %}
+    {% if not standard_instructions %}
     <div class="value-dropdown">
-      <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %}for Payoff Table: 250</button>
+      <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: 5</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
           <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-          <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
-          <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
-          <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
-          <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
-          <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
-          <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
-          <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
-          <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
-          <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
-          <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+          <div class="value-dropdown-option" onclick="selectValue(1, this)">1</div>
+          <div class="value-dropdown-option" onclick="selectValue(2, this)">2</div>
+          <div class="value-dropdown-option" onclick="selectValue(3, this)">3</div>
+          <div class="value-dropdown-option" onclick="selectValue(4, this)">4</div>
+          <div class="value-dropdown-option" onclick="selectValue(5, this)" style="color: red"><b>5</b></div>
+          <div class="value-dropdown-option" onclick="selectValue(6, this)">6</div>
+          <div class="value-dropdown-option" onclick="selectValue(7, this)">7</div>
+          <div class="value-dropdown-option" onclick="selectValue(8, this)">8</div>
+          <div class="value-dropdown-option" onclick="selectValue(9, this)">9</div>
+          <div class="value-dropdown-option" onclick="selectValue(10, this)">10</div>
         </div>
     </div>
-    {% endif %}
+  {% endif %}
+  {% endif %}
     <button id="continue-button">Continue</button>
   </div>
 {% endif %}
