@@ -1,5 +1,6 @@
 {{ block content }}
 
+<div class="container" style="height:140vh;">
 <div class="title">
   <p>Instructions: Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</p>
 </div>
@@ -64,8 +65,7 @@
 {% endif %}
 
 {% if not integrated_payoff_matrix %}
-  <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
-
+  <p style="font-size: 1.5vw; margin-top:-1vh;"><b>Payoff Calculator</b></p>
   <div class="button-row-calculator">
     <div class="value-dropdown">
       <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
@@ -118,7 +118,7 @@
       </div>
     </div>
 
-    <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+    <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
     <button id="continue-button">Continue</button>
   </div> 
 {% endif %}

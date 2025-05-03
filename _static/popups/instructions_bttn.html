@@ -8,13 +8,13 @@
         <!-- Scrollable Text Container -->
         <div class="scrollable-content">
             <p id="title-display" class="title-display">Instructions</p>
-                <h3><b>Introduction</b></h3>
+                <h3><b style ="font-size:2vw">Introduction</b></h3>
                 {{ include 'stage_1/instructions/P3_introduction.html' }}
-                <h3><b>Values</b></h3>
+                <h3><b style ="font-size:2vw">Values</b></h3>
                 {{ include 'stage_1/instructions/P4_values.html' }}
-                <h3><b>Payoffs</b></h3>
+                <h3><b style ="font-size:2vw">Payoffs</b></h3>
                 {{ include 'stage_1/instructions/P5_payoffs.html' }}
-                <h3><b>Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</b></h3>
+                <h3><b style ="font-size:2vw">Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</b></h3>
                 {{ include 'stage_1/instructions/P6_payoff_table.html' }}
 
                 {% if integrated_payoff_matrix %}
@@ -28,12 +28,12 @@
                 {% endif %}
 
                 {% if not integrated_payoff_matrix %} 
-                    <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
+                    <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
                     <div class="button-row-calculator">
                         <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
                         <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
                         <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
-                        <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+                        <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
                     </div>
                 {% endif %}
         </div>

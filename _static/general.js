@@ -315,19 +315,25 @@ function confirmBid(bid) {
 
     toggleDropdown(button);
 }
+function showErrorPopup() {
+    document.getElementById('error-popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+  
+function closeErrorPopup() {
+    document.getElementById('error-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
-    const errorSpan = document.getElementById('bid-error-message');
     if (!bidInput || !bidInput.value) {
-        if (errorSpan) {
-            errorSpan.textContent = 'Please Select a Bid';
-            errorSpan.style.display = 'block';
-            errorSpan.style.fontWeight = 'bold';
-        }
+        showErrorPopup();
         return false;
     }
     return true;
 }
+
 
 // ==================================================
 // Close Dropdowns When Clicking Outside

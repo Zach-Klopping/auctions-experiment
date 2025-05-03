@@ -1,6 +1,6 @@
 QUIZ_ANSWERS = {
     "correct_answers_quiz1_integrated_endowment" : {
-        'Q1': '0',
+        'Q1': '400',
         'Q2': '600',
         'Q3': 'true',
     },

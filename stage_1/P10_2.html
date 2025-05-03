@@ -15,32 +15,32 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <p>The payoff calculator below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 400 cents.</p>
-<p style="margin-bottom: 4px;">There are three buttons below the payoff table:</p>
-<ul style="padding-left: 50px;">
+<p style="margin-bottom: 0.4vh;">There are three buttons below the payoff table:</p>
+<ul style="padding-left: 5vw;">
   <li>Instructions <span style="color:orange">(Orange)</span>
     <ul>
-      <li style="margin-bottom: -10px;">Accesses the full instructions for the experiment.</li>
+      <li style="margin-bottom: -1vh;">Accesses the full instructions for the experiment.</li>
     </ul>
   </li>
   <li>Select Your Bid <span style="color:rgb(110, 207, 255)">(Blue)</span>
     <ul>
-      <li style="margin-bottom: -10px;">Accesses a pulldown menu that you will use to select a bid.</li>
+      <li style="margin-bottom: -1vh;">Accesses a pulldown menu that you will use to select a bid.</li>
     </ul>
   </li>
   <li>Confirm Your Bid <span style="color:rgb(76, 234, 76)">(Green)</span>
     <ul>
-      <li style="margin-bottom: 0px;">Use this button to confirm your bid and continue to the final screen.</li>
-      <li style="margin-bottom: 15px;">This button will only turn green after you select a bid.</li>
+      <li style="margin-bottom: 0vw;">Use this button to confirm your bid and continue to the final screen.</li>
+      <li style="margin-bottom: 1.5vh;">This button will only turn green after you select a bid.</li>
     </ul>
   </li>
 </ul>
 
-<p style="margin-bottom: 30px;">The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
+<p style="margin-bottom: 4vh;">The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
 
-<p class="center-text-auctions" style="color: red; font-size: 20px;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
+<p class="center-text-auctions" style="color: red; font-size: 1.5vw;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
 
-<div class="button-row-calculator-game" style=" margin-top:-10px">
-  <p style="font-size: 20px; margin-bottom: 5px;"><b>Payoff Calculator</b></p>
+<div class="button-row-calculator-game" style=" margin-top:-1vh">
+  <p style="font-size: 1.5vw; margin-bottom: 0.5vh;"><b>Payoff Calculator</b></p>
   <div class="value-dropdown">
     <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
       <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
@@ -57,10 +57,10 @@
         <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
       </div>
   </div>
-  <input type="hidden" id="selected-bid-input" />
+  <input type="hidden" id="selected-bid-input">
 
   <div id="your-bid-dropdown" class="your-bid-dropdown">
-    <button type="button"  style="background-color: rgb(255, 110, 209); margin-top:10px" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
+    <button type="button"  style="background-color: rgb(255, 110, 209); margin-top:1vh" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
     <div id="your-bid-dropdown-content" class="your-bid-dropdown-content" style="display: none;">
       <div class="your-bid-dropdown-option" onclick="selectYourBid(0)">0</div>
       <div class="your-bid-dropdown-option" onclick="selectYourBid(50)">50</div>
@@ -77,7 +77,7 @@
   </div>
 
   <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
-    <button type="button"  style="background-color: rgb(255, 255, 110); margin-top:10px" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
+    <button type="button"  style="background-color: rgb(255, 255, 110); margin-top:1vh" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
     <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
       <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
       <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
@@ -93,11 +93,11 @@
     </div>
   </div>
 
-  <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+  <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
 </div>
 
 <div class="button-row">
-  <p style="font-size: 20px; margin-top: 0px; margin-bottom: -5px;"><b>Bidding</b></p>
+  <p style="font-size: 1.5vw; margin-top: 1vh; margin-bottom: -0.5vh;"><b>Bidding</b></p>
   <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
 
   <!-- Dropdown to select the bid -->
@@ -116,12 +116,15 @@
       <div class="bid-dropdown-option" onclick="confirmBid(450)">450</div>
       <div class="bid-dropdown-option" onclick="confirmBid(500)">500</div>
     </div>
-    <span style="margin-top: -300px" id="bid-error-message"></span>
   </div>
-
-  <button type="submit" style="margin-top:20px" onclick="return validateBidSelection()" id="confirm-button">Confirm Your Bid: None</button>
+  
+  <span id="bid-error-message"></span>
+  <button type="submit" style="margin-top: 2vh" onclick="return validateBidSelection()" id="confirm-button">Confirm Your Bid: None</button>
 </div>
 
 {{ include '_static/popups/instructions_bttn.html' }}
+
+{{ include '_static/popups/bid_error.html' }}
+
 
 {{ endblock }}

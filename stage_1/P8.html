@@ -1,5 +1,6 @@
 {{ block content }}
 
+<div class="container" style="height:140vh;">
 <div class="title">
   <p>Instructions: Comprehension Quiz</p>
 </div>
@@ -21,25 +22,25 @@
     <li>
       <div class="question-flex">
         <span>
-          Suppose you {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} 100 and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} chooses {% endif %} 400. What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
+          Suppose you {% if standard_instructions %} bid 100{% endif %} {% if not standard_instructions %} choose 2 {% endif %} and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids 400. {% endif %} {% if not standard_instructions %} chooses 8. {% endif %} What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
           Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-              id="Q1" name="Q1" style="width: 60px; border: 2px solid black;" required
+              id="Q1" name="Q1" style="width: 4vw; border: 0.15vw solid black;" required
               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
-        <span id="errorQ1" style="color: red; display: none;"></span>
+        <span class="error-message" id="errorQ1"></span>
       </div>
     </li>
     <li>
       <div class="question-flex">
         <span>
-          Suppose you {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} 300 and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} chooses {% endif %} 50. What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
+          Suppose you {% if standard_instructions %} bid 300 {% endif %} {% if not standard_instructions %} choose 6{% endif %} and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids 50.{% endif %} {% if not standard_instructions %} chooses 1. {% endif %} What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies?
           Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
-              id="Q2" name="Q2" style="width: 60px; border: 2px solid black;" required
+              id="Q2" name="Q2" style="width: 4vw; border: 0.15vw solid black;" required
               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
-        <span id="errorQ2" style="color: red; display: none;"></span>
+        <span class="error-message" id="errorQ2"></span>
       </div>
     </li>
     <li>
@@ -52,12 +53,12 @@
           Knowing what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has been randomly drawn for the other participant.
           {% endif %}
         </span>
-        <select id="Q3" name="Q3" required style="height: 30px; border: 2px solid black;">
+        <select id="Q3" name="Q3" style="height: 4vh; border: 0.15vw solid black;" required>
           <option></option>
           <option value="true">True</option>
           <option value="false">False</option>
         </select>
-        <span id="errorQ3" style="color: red; display: none;"></span>
+        <span class="error-message" id="errorQ3"></span>
       </div>
     </li>
 </ol>
@@ -68,7 +69,7 @@
 {% endif %}
 
 {% if integrated_payoff_matrix %}
-  <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-5px;"><b>{% if standard_instructions %} Your randomly drawn value for the widget is 250 {% endif %} {% if not standard_instructions %} Your type is 5 {% endif %}</b></p>
+  <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;"><b>{% if standard_instructions %} Your randomly drawn value for the widget is 250 {% endif %} {% if not standard_instructions %} Your type is 5 {% endif %}</b></p>
   <div class="quiz-page" id="payoff-table-container"></div>
   <div class="button">
     <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
@@ -77,9 +78,9 @@
 {% endif %}
 
 {% if not integrated_payoff_matrix %}
-  <p class="center-text-auctions" style="color: red; font-size: 20px; margin-top:-30px;"><b>Your randomly drawn value for the widget is 250</b></p>
+  <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-3vh;"><b>Your randomly drawn value for the widget is 250</b></p>
   <div class="button-row-calculator">
-    <p style="font-size: 20px;"><b>Payoff Calculator</b></p>
+    <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
     <div class="value-dropdown">
       <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
@@ -131,7 +132,7 @@
     </div>
   </div>
 
-  <div><p><b style="font-size: 25px;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+  <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
 {% endif %}
 
 {{ include '_static/popups/instructions_bttn.html' }}

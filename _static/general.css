@@ -1,23 +1,36 @@
 /* ================================
    Layout: General Utility Classes
 =================================== */
+body {
+    font-size: 1.05vw;
+}
+input[type="radio"] {
+    width: 2vw;           
+    height: 2vh;           
+}
+.error-message {
+    color: red;
+    white-space: nowrap;
+    display: none;
+    font-size: 1.2vw;
+}
 .center-text {
     text-align: center;
 }
 .title {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2vw;         
     width: 100%;
     font-weight: bold;
-    margin-top: -25px;
+    margin-top: -5vh;        
 }
 .center-text-auctions {
     text-align: center;
-    margin-top: -10px;
+    margin-top: -2vh;     
 }
 li {
-    margin-bottom: 20px;
-    margin-left: -10px;
+    margin-bottom: 4vh;      
+    margin-left: -2vw;        
 }
 ol li::marker {
     font-weight: bold;
@@ -28,15 +41,15 @@ ol li::marker {
 =================================== */
 #continue-button {
     position: absolute;
-    right: 250px;
+    right: 15vw;
 }
 
 /* ================================
    Payoff Table Containers
 =================================== */
 #payoff-table-container.instructions-page {
-    margin-left: -25px;
-    margin-bottom: 20px;
+    margin-left: -2.5vw;
+    margin-bottom: 2vh;
     text-align: center;
 }
 #payoff-table-popup table,
@@ -45,12 +58,12 @@ ol li::marker {
     table-layout: fixed;
 }
 #payoff-table-popup {
-    margin-left: 65px;
-    margin-bottom: 20px;
+    margin-left: 6.5vw;
+    margin-bottom: 2vh;
     text-align: center;
 }
 #payoff-table-container.quiz-page {
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
     text-align: center;
 }
 #payoff-table-container.quiz-page table {
@@ -58,8 +71,8 @@ ol li::marker {
     table-layout: fixed;
 }
 #payoff-table-container.game-page {
-    margin: 40px 0 20px 40px;
-    margin-top: -10px;
+    margin: 4vh 0 2vh 4vw;
+    margin-top: -1vh;
     text-align: center;
 }
 #payoff-table-container.game-page table {
@@ -76,15 +89,15 @@ ol li::marker {
 .bid-dropdown-content {
     position: absolute;
     background-color: white;
-    border: 3px solid #ddd;
+    border: 0.3vh solid #ddd;
     z-index: 1;
 }
 .value-dropdown-option,
 .opponent-bid-dropdown-option,
 .your-bid-dropdown-option,
 .bid-dropdown-option {
-    padding: 1px;
-    border: 1px solid #ddd;
+    padding: 0.1vw;
+    border: 0.1vh solid #ddd;
     text-align: center;  
     cursor: pointer;
 }
@@ -97,31 +110,20 @@ ol li::marker {
 .button-row > button, 
 .button-row > div {
     display: inline-block;
-    margin: 0 25px;
+    margin: 0 2vw;
 }
 .button-row-calculator > button, 
 .button-row-calculator > div {
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 2vw;
 }
 .button-row-calculator-game > button, 
 .button-row-calculator-game > div {
     display: inline-block;
-    margin: 0px 20px;
-}
-#bid-error-message {
-    display: none;
-    position: absolute;
-    top: 134%;
-    left: 61.5;
-    color: red;
-    font-size: 1.0em;
-    white-space: nowrap;
-    margin-top: 5px;
+    margin: 0 2vw;
 }
 #confirm-button.green {
     background-color: rgb(76, 234, 76);
-    border: 2px solid black;
     color: black;
 }
 
@@ -145,10 +147,10 @@ ol li::marker {
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 20px;
+    padding: 2vw;
     width: 80vw;
     height: 80vh;
-    border-radius: 20px;
+    border-radius: 2vw;
     z-index: 20000;
 }
 #instructions-bttn .close {
@@ -179,11 +181,47 @@ ol li::marker {
 .question-flex {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    margin-left: 20px;
+    gap: 1vh;
+    margin-bottom: 2vh;
+    margin-left: 2vw;
 }
 .question-flex span {
     max-width: 80%;
 }
-  
+
+/* ================================
+    Layout for ID Field
+=================================== */
+.id-wrapper input {
+    width: 4vw;            
+    height: 4vh;            
+    font-size: 1.1vw;
+    margin-left: 0.3vw;        
+    border: 0.3vh solid black;
+}
+/* ================================
+    Layout for Follow-Up Quiz
+=================================== */
+.fllw-up-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.fllw-up-wrapper label {
+    white-space: nowrap;
+    font-size: 1vw;
+}
+.fllw-up-wrapper input {
+    width: 4vw;
+    height: 4vh;
+    font-size: 1vw;
+    margin-left: 1vw;
+    border: 0.3vh solid black;
+}
+.fllw-up-wrapper .error-message {
+    color: red;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 1.2vw;
+    margin-left: 1vw;
+}

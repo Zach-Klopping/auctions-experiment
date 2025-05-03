@@ -14,26 +14,26 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <p>Please answer the following three questions. You will receive 25 cents for each question you answer correctly.</p>
-<ol>
+<ol style="margin-left: 1vw;">
     <li>
-        <div style="display: flex; align-items: center;">
-            <label style="margin-right: 15px; white-space: nowrap;">Emily's father has three daughters. The first two are named April and May. What is the third daughter's name?</label>
-            <input type="text" id="fllw_up_Q1" name="fllw_up_Q1" style="width: 60px; border: 2px solid black;" required>
-            <span id="errorQ1" style="color: red; display: inline-block; white-space: nowrap; margin-left: 10px; display: none;"></span>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q1">Emily's father has three daughters. The first two are named April and May. What is the third daughter's name?</label>
+            <input type="text" id="fllw_up_Q1" name="fllw_up_Q1" required>
+            <span class="error-message" id="errorQ1"></span>
         </div>
     </li>
     <li>
-        <div style="display: flex; align-items: center;">
-            <label style="margin-right: 15px; white-space: nowrap;">How many cubic feet of dirt are there in a hole that is 3' deep x 3' wide x 3' long?</label>
-            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace') return true; else return false;" id="fllw_up_Q2" name="fllw_up_Q2" style="width: 60px; border: 2px solid black;" required>
-            <span id="errorQ2" style="color: red; display: inline-block; white-space: nowrap; margin-left: 10px; display: none;"></span>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q2">How many cubic feet of dirt are there in a hole that is 3' deep x 3' wide x 3' long?</label>
+            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace') return true; else return false;" id="fllw_up_Q2" name="fllw_up_Q2" required>
+            <span class="error-message" id="errorQ2"></span>
         </div>
     </li>
     <li>
-        <div style="display: flex; align-items: center;">
-            <label style="margin-right: 15px; white-space: nowrap;">Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?</label>
-            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" id="fllw_up_Q3" name="fllw_up_Q3" style="width: 60px; border: 2px solid black;" required>
-            <span id="errorQ3" style="color: red; display: inline-block; white-space: nowrap; margin-left: 10px; display: none;"></span>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q3">Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?</label>
+            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" id="fllw_up_Q3" name="fllw_up_Q3" required>
+            <span class="error-message" id="errorQ3"></span>
         </div>
     </li>
 </ol>
