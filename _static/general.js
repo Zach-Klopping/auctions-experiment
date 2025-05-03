@@ -29,6 +29,20 @@ function validateEthicsStatement() {
     }
     return true;
 }
+function validateUserID() {
+    const userIDInput = document.getElementById('user_id');
+    const errorSpan = document.getElementById('IDerror');
+
+    if (!userIDInput.value.trim()) {
+        if (errorSpan) {
+            errorSpan.textContent = 'Please enter your unique Prolific ID';
+            errorSpan.style.display = 'inline-block';
+            errorSpan.style.fontWeight = 'bold';
+        }
+        return false;
+    }
+    return true;
+}
 
 function validateAttentionCheck1() {
     const selectedOption = document.querySelector('input[name="attn_check_1"]:checked');

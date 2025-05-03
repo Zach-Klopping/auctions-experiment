@@ -1,4 +1,4 @@
-{{ block content }}
+{% block content %}
 
 <div class="title">
     <p>Instructions: Introduction</p>
@@ -14,7 +14,12 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 {{ include 'stage_1/instructions/P3_introduction.html' }}
+<div style="display: flex; align-items: center;">
+  <label style="margin-right: 15px; white-space: nowrap;">Please Paste Your Unique Prolific Id Into the Text Box.</label>
+  <input type="text" id="user_id" name="user_id" style="width: 60px; border: 2px solid black;" required>
+  <span id="IDerror" style="color: red; display: inline-block; white-space: nowrap; margin-left: 10px; display: none;"></span>
+</div>
 
-<button id="continue-button">Continue</button>
+<button type="submit" onclick="return validateUserID()" id="continue-button">Continue</button>
 
-{{ endblock }}
+{% endblock %}

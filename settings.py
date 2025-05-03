@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
     dict(
         name = 'standard_no_matrix',
         display_name = "Standard Instructions, No Payoff Matrix",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = False,
         integrated_endowment = True,
@@ -17,7 +17,7 @@ SESSION_CONFIGS = [
       dict(
         name = 'standard_with_matrix_integrated_endowment',
         display_name = "Standard Instructions, With Payoff Matrix, Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = False,
         integrated_endowment = True,
@@ -28,7 +28,7 @@ SESSION_CONFIGS = [
      dict(
         name = 'standard_with_matrix_not_integrated_endowment',
         display_name = "Standard Instructions, With Payoff Matrix, Not Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = False,
         integrated_endowment = False,
@@ -39,7 +39,7 @@ SESSION_CONFIGS = [
     dict(
         name = 'no_auction_with_matrix_integrated_endowment',
         display_name = "No Auction Instructions, With Payoff Matrix, Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = False,
         integrated_endowment = True,
@@ -50,7 +50,7 @@ SESSION_CONFIGS = [
       dict(
         name = 'no_auction_with_matrix_not_integrated_endowment',
         display_name = "No Auction Instructions, With Payoff Matrix, Not Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = False,
         integrated_endowment = False,
@@ -61,7 +61,7 @@ SESSION_CONFIGS = [
      dict(
         name = 'computer_with_matrix_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = True,
         integrated_endowment = True,
@@ -72,7 +72,7 @@ SESSION_CONFIGS = [
          dict(
         name = 'computer_with_matrix_not_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
-        app_sequence = ['stage_1', 'stage_2'],
+        app_sequence = ['stage_1'],
         num_demo_participants = 1,
         computer_opponent = True,
         integrated_endowment = False,

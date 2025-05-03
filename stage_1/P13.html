@@ -16,9 +16,9 @@
 <div style="border: 2px solid black; padding: 20px; margin: 20px 0;">
     <p style="font-size:25px; font-weight:800;"> Dollars Earned in Experiment</p>
     <p style="font-weight:600;">Payment for your time: $2.50</p>
-    <p style="font-weight:600;">Payment from Instructions Quiz: </p>
+    <p style="font-weight:600;">Payment from Instructions Quiz: ${{ comprehension_quiz_payment }}</p>
     <p style="font-weight:600;">Payment from {% if standard_instructions %} Auction: {% endif %}{% if not standard_instructions %} Game: {% endif %}</p>
-    <p style="font-weight:600;">Payment from Follow-Up Quiz: </p>
+    <p style="font-weight:600;">Payment from Follow-Up Quiz: ${{ follow_up_quiz_payment }}</p>
     <div style="border-top: 1px solid black; margin: 20px 0;"></div>
     <p style="font-weight:800; color: green; font-size:20px;">Total Payoff: </p>
 </div>
