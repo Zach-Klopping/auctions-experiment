@@ -193,7 +193,7 @@ class P9(Page):
 
 class P10(Page):
     def is_displayed(player):
-        if player.attn_check_1 == 1 and player.attn_check_1 == 1:
+        if player.attn_check_1 == 1 and player.attn_check_2 == 1:
             return True
 
 class P11_1(Page):
@@ -238,6 +238,8 @@ class P11_1(Page):
 
 
 class P11_2(Page):
+    form_model = 'player'
+    form_fields = ['selected_bid']
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == False
     

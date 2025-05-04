@@ -65,9 +65,6 @@
       </div>
   </div>
 
-  <!-- Hidden input to store the selected bid -->
-  <input type="hidden" id="selected-bid-input">
-
   <!-- Dropdown for selecting your bid in the payoff calculator -->
   <div id="your-bid-dropdown" class="your-bid-dropdown">
     <button type="button"  style="background-color: rgb(255, 110, 209); margin-top:1vh" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
@@ -141,6 +138,7 @@
 
   <!-- Final submit button for confirming bid -->
   <button type="submit" style="margin-top: 2vh" onclick="return validateBidSelection()" id="confirm-button">Confirm Your Bid: None</button>
+  <input type="hidden" name="selected_bid" id="selected-bid-input">
 </div>
 
 <!-- Includes for popup modals -->
