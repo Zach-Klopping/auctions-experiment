@@ -1,23 +1,36 @@
 /* ================================
    Layout: General Utility Classes
 =================================== */
+body {
+    font-size: 1.05vw;
+}
+input[type="radio"] {
+    width: 2vw;           
+    height: 2vh;           
+}
+.error-message {
+    color: red;
+    white-space: nowrap;
+    display: none;
+    font-size: 1.2vw;
+}
 .center-text {
     text-align: center;
 }
 .title {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2vw;         
     width: 100%;
     font-weight: bold;
-    margin-top: -25px;
+    margin-top: -5vh;        
 }
 .center-text-auctions {
     text-align: center;
-    margin-top: -10px;
+    margin-top: -2vh;     
 }
 li {
-    margin-bottom: 20px;
-    margin-left: -10px;
+    margin-bottom: 4vh;      
+    margin-left: -2vw;        
 }
 ol li::marker {
     font-weight: bold;
@@ -28,79 +41,89 @@ ol li::marker {
 =================================== */
 #continue-button {
     position: absolute;
-    right: 250px;
+    right: 15vw;
 }
 
 /* ================================
    Payoff Table Containers
 =================================== */
-#payoff-table-container.instructions {
-    margin-left: 45px;
-    margin-bottom: 20px;
+#payoff-table-container.instructions-page {
+    margin-left: -2.5vw;
+    margin-bottom: 2vh;
     text-align: center;
 }
-#payoff-table-container.instructions table {
+#payoff-table-popup table,
+#payoff-table-container.instructions-page table {
     width: 60%;
+    table-layout: fixed;
 }
-#payoff-table-container.quiz {
-    margin-bottom: 20px;
+#payoff-table-popup {
+    margin-left: 6.5vw;
+    margin-bottom: 2vh;
     text-align: center;
 }
-#payoff-table-container.quiz table {
+#payoff-table-container.quiz-page {
+    margin-bottom: 2vh;
+    text-align: center;
+}
+#payoff-table-container.quiz-page table {
     width: 100%;
+    table-layout: fixed;
 }
-#payoff-table-container.game {
-    margin: 40px 0 20px 40px;
-    margin-top: -10px;
+#payoff-table-container.game-page {
+    margin: 4vh 0 2vh 4vw;
+    margin-top: -1vh;
     text-align: center;
 }
-#payoff-table-container.game table {
+#payoff-table-container.game-page table {
     width: 95%;
+    table-layout: fixed;
 }
 
 /* ================================
    Dropdown Menus
 =================================== */
-.dropdown-content {
-    position: absolute;
-    background-color: white;
-    border: 3px solid #ddd;
-    z-index: 1;
-}
-.dropdown-option {
-    padding: 2px 8px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-}
+.value-dropdown-content,
+.opponent-bid-dropdown-content,
+.your-bid-dropdown-content,
 .bid-dropdown-content {
     position: absolute;
-    background-color: rgb(255, 255, 255);
-    border: 3px solid #ddd;
+    background-color: white;
+    border: 0.3vh solid #ddd;
     z-index: 1;
 }
+.value-dropdown-option,
+.opponent-bid-dropdown-option,
+.your-bid-dropdown-option,
 .bid-dropdown-option {
-    padding: 2px 8px;
-    border: 1px solid #ddd;
+    padding: 0.1vw;
+    border: 0.1vh solid #ddd;
+    text-align: center;  
     cursor: pointer;
+}
+.opponent-bid-dropdown-option:hover,
+.your-bid-dropdown-option:hover,
+.value-dropdown-option:hover,
+.bid-dropdown-option:hover {
+    background-color: #f1f1f1;
 }
 .button-row > button, 
 .button-row > div {
     display: inline-block;
-    margin: 0 50px;
+    margin: 0 2vw;
 }
-#bid-error-message {
-    display: none;
-    position: absolute;
-    top: 101%;
-    left: 61.5;
-    color: red;
-    font-size: 1.0em;
-    white-space: nowrap;
-    margin-top: 5px;
+.button-row-calculator > button, 
+.button-row-calculator > div {
+    display: inline-block;
+    margin: 0 2vw;
 }
-#continue-button.green {
+.button-row-calculator-game > button, 
+.button-row-calculator-game > div {
+    display: inline-block;
+    margin: 0 2vw;
+}
+#confirm-button.green {
     background-color: rgb(76, 234, 76);
-    border: 2px solid black;
     color: black;
 }
 
@@ -124,10 +147,10 @@ ol li::marker {
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 20px;
+    padding: 2vw;
     width: 80vw;
     height: 80vh;
-    border-radius: 20px;
+    border-radius: 2vw;
     z-index: 20000;
 }
 #instructions-bttn .close {
@@ -158,11 +181,47 @@ ol li::marker {
 .question-flex {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    margin-left: 20px;
+    gap: 1vh;
+    margin-bottom: 2vh;
+    margin-left: 2vw;
 }
 .question-flex span {
     max-width: 80%;
 }
-  
+
+/* ================================
+    Layout for ID Field
+=================================== */
+.id-wrapper input {
+    width: 4vw;            
+    height: 4vh;            
+    font-size: 1.1vw;
+    margin-left: 0.3vw;        
+    border: 0.3vh solid black;
+}
+/* ================================
+    Layout for Follow-Up Quiz
+=================================== */
+.fllw-up-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.fllw-up-wrapper label {
+    white-space: nowrap;
+    font-size: 1vw;
+}
+.fllw-up-wrapper input {
+    width: 4vw;
+    height: 4vh;
+    font-size: 1vw;
+    margin-left: 1vw;
+    border: 0.3vh solid black;
+}
+.fllw-up-wrapper .error-message {
+    color: red;
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 1.2vw;
+    margin-left: 1vw;
+}

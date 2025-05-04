@@ -1,19 +1,23 @@
 {{ block content }}
 
+<!-- Page title -->
 <div class="title">
     <p>Instructions: Payoffs</p>
-  </div>
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+</div>
+  
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
-<!-- Link to the external CSS file -->
+<!-- Load general CSS stylesheet for consistent styling -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
+<!-- Include HTML fragment containing the payoff instructions -->
 {{ include 'stage_1/instructions/P5_payoffs.html' }}
 
+<!-- Continue button to proceed -->
 <button id="continue-button">Continue</button>
 
 {{ endblock }}

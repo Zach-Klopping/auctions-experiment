@@ -1,21 +1,22 @@
 {{ block content }}
 
+<!-- Page title -->
 <div class="title">
     <p>Attention Check 1</p>
 </div>
 
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
+<!-- Question prompt for attention check -->
 <p>Please answer the following question before continuing to the remainder of the experiment:</p>
 <p>I have never used a computer.</p>
-
 <p>
     <label>
         <input id="attn_check_1_yes" type="radio" name="attn_check_1" value="1" required>
@@ -28,8 +29,11 @@
         No, this is not true of me
     </label>
 </p>
-<span id="attn-error-message" style="display: none; color: red;"></span>
 
+<!-- Error message placeholder for failed validation -->
+<span class="error-message" id="attn-error-message" ></span>
+
+<!-- Continue button triggers validation function -->
 <button type="submit" onclick="return validateAttentionCheck1()" id="continue-button">Continue</button>
 
 {{ endblock }}

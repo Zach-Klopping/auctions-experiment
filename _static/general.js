@@ -29,6 +29,20 @@ function validateEthicsStatement() {
     }
     return true;
 }
+function validateUserID() {
+    const userIDInput = document.getElementById('user_id');
+    const errorSpan = document.getElementById('IDerror');
+
+    if (!userIDInput.value.trim()) {
+        if (errorSpan) {
+            errorSpan.textContent = 'Please enter your unique Prolific ID';
+            errorSpan.style.display = 'inline-block';
+            errorSpan.style.fontWeight = 'bold';
+        }
+        return false;
+    }
+    return true;
+}
 
 function validateAttentionCheck1() {
     const selectedOption = document.querySelector('input[name="attn_check_1"]:checked');
@@ -61,13 +75,12 @@ function validateAttentionCheck2() {
 }
 
 function ValidateQuiz2() {
+    let isValid = true;
     const questions = [
         { id: 'fllw_up_Q1', errorId: 'errorQ1' },
         { id: 'fllw_up_Q2', errorId: 'errorQ2' },
         { id: 'fllw_up_Q3', errorId: 'errorQ3' }
     ];
-
-    let isValid = true;
 
     questions.forEach(function(question) {
         const input = document.getElementById(question.id);
@@ -84,7 +97,33 @@ function ValidateQuiz2() {
     });
     return isValid;
 }
+function validateDemographics() {
+    let isValid = true;
+    const selected1 = document.querySelector('input[name="demographic_1"]:checked');
+    const errorSpan1 = document.getElementById('errorQ1');
+    
+    if (!selected1) {
+        errorSpan1.textContent = 'Answer Required';
+        errorSpan1.style.display = 'inline';
+        errorSpan1.style.fontWeight = 'bold';
+        isValid = false;
+    } else {
+        errorSpan1.style.display = 'none';
+    }
 
+    const selected2 = document.querySelector('input[name="demographic_2"]:checked');
+    const errorSpan2 = document.getElementById('errorQ2');
+
+    if (!selected2) {
+        errorSpan2.textContent = 'Answer Required';
+        errorSpan2.style.display = 'inline';
+        errorSpan2.style.fontWeight = 'bold';
+        isValid = false;
+    } else {
+        errorSpan2.style.display = 'none';
+    }
+    return isValid;
+}
 // ==================================================
 // Checks if Quiz Answers are Correct
 // ==================================================
@@ -94,7 +133,6 @@ function Quiz1showErrorMessage(question) {
     errorSpan.style.fontWeight = 'bold';
     errorSpan.style.display = 'inline';
 }
-
 function CheckQuiz1Answers() {
     var answers_quiz1 = {
         Q1: document.querySelector('input[name="Q1"]').value.trim(),
@@ -105,14 +143,12 @@ function CheckQuiz1Answers() {
     var correct_answers_quiz1 = js_vars.correct_answers_quiz1;
     var correct = true;
 
-    // Clear previous error messages
     var errorSpans = document.querySelectorAll('[id^="errorQ"]');
     errorSpans.forEach(function (errorSpan) {
         errorSpan.textContent = '';
         errorSpan.style.display = 'none';
     });
 
-    // Check answers
     for (var key in answers_quiz1) {
         if (answers_quiz1[key] !== correct_answers_quiz1[key]) {
             Quiz1showErrorMessage(key);
@@ -120,7 +156,7 @@ function CheckQuiz1Answers() {
         }
     }
 
-    liveSend({'action': 'submit_quiz', 'answers_quiz1': answers_quiz1});
+    liveSend({'submit_quiz': 'submit_quiz', 'answers_quiz1': answers_quiz1});
 
     if (correct) {
         document.forms[0].submit();
@@ -132,54 +168,80 @@ function CheckQuiz1Answers() {
 // ==================================================
 function createPayoffTable(value) {
     var constant = js_vars.constant;
-    const validValues = Array.from({length: 11}, (_, i) => i * 50);
-
-    if (!validValues.includes(value)) {
-        throw new Error(`Value must be one of the following: ${validValues.join(", ")}`);
-    }
-
+    var standard_instructions = js_vars.standard_instructions
+    const validValues = standard_instructions
+    ? Array.from({ length: 11 }, (_, i) => i * 50)
+    : Array.from({ length: 11 }, (_, i) => i);
     const payoffTable = {};
 
     validValues.forEach(bid1 => {
         validValues.forEach(bid2 => {
             let payoff;
-            if (bid1 > bid2) {
-                payoff = constant + (value - bid2);
-            } else if (bid1 === bid2) {
-                payoff = constant + Math.floor((value - bid2) / 2);
+            if (standard_instructions) {
+                if (bid1 > bid2) {
+                    payoff = constant + (value - bid2);
+                } else if (bid1 === bid2) {
+                    payoff = constant + Math.floor((value - bid2) / 2);
+                } else {
+                    payoff = constant;
+                }
             } else {
-                payoff = 0;
+                if (bid1 > bid2) {
+                    payoff = constant + (value - bid2) * 50;
+                } else if (bid1 === bid2) {
+                    payoff = constant + (value - bid2) * 25;
+                } else {
+                    payoff = constant;
+                }
             }
             payoffTable[`${bid1},${bid2}`] = payoff;
         });
     });
     return payoffTable;
 }
-
 function updatePayoffTable() {
-    const tableContainer = document.getElementById('payoff-table-container');
+    const popupContainer = document.getElementById('instructions-bttn');
+    const isPopup = popupContainer !== null && popupContainer.style.display === 'block';
+
+    const tableContainer = isPopup
+        ? document.getElementById('payoff-table-popup')
+        : document.getElementById('payoff-table-container');   
     if (!tableContainer) return;
 
     let value;
-    const dropdown = document.querySelector('.dropdown-btn');
-    if (dropdown) {
-        const selectedText = dropdown.innerText;
+    const valuedropdown = document.querySelector('.value-dropdown-btn');
+    if (valuedropdown) {
+        const selectedText = valuedropdown.innerText;
         const parsed = parseInt(selectedText.split(": ")[1]);
         value = isNaN(parsed) ? js_vars.auction_value : parsed;
     } else {
         value = js_vars.auction_value;
     }
 
-    const validValues = Array.from({length: 11}, (_, i) => i * 50);
-    if (!validValues.includes(value)) {
-        alert("Please enter a valid value (0, 50, 100, ..., 500)");
-        return;
-    }
+    var standard_instructions = js_vars.standard_instructions;
+    const validValues = standard_instructions
+    ? Array.from({ length: 11 }, (_, i) => i * 50)
+    : Array.from({ length: 11 }, (_, i) => i);
+    var computer_opponent = js_vars.computer_opponent
 
     const payoffTable = createPayoffTable(value);
     let tableHTML = '<table>';
-    tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">Other Participant's Bid</th></tr>`;
-    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">My Bid</th><th></th>`;
+
+    let columnHeader, rowHeader;
+
+    if (computer_opponent) {
+        columnHeader = "Computer's Bid";
+        rowHeader = "My Bid";
+    } else if (standard_instructions) {
+        columnHeader = "Other Participant's Bid";
+        rowHeader = "My Bid";
+    } else {
+        columnHeader = "Other Participant's Number";
+        rowHeader = "My Number";
+    }
+
+    tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">${columnHeader}</th></tr>`;
+    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">${rowHeader}</th><th></th>`;
     validValues.forEach(bid => tableHTML += `<th>${bid}</th>`);
     tableHTML += '</tr>';
 
@@ -201,40 +263,70 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==================================================
 // Dropdown Logic For Bid & Payoff Table Value
 // ==================================================
-function toggleDropdown() {
-    const content = document.getElementById("dropdown-content");
-    content.style.display = content.style.display === "none" ? "block" : "none";
+function toggleDropdown(button) {
+    const content = button.nextElementSibling;
+    if (content) {
+        content.style.display = content.style.display === "none" ? "block" : "none";
+        content.style.width = `${button.offsetWidth}px`;
+    }
 }
+function selectValue(value, option) {
+    var standard_instructions = js_vars.standard_instructions;
+    const dropdown = option.closest('.value-dropdown');
+    if (!dropdown) return;
 
-function selectValue(value) {
-    document.querySelector('.dropdown-btn').innerText = `Payoff Table: ${value}`;
-    toggleDropdown();
+    const button = dropdown.querySelector('button');
+    if (!button) return;
+
+    const label = button.classList.contains('PC-value-dropdown-btn')
+        ? `Value for Payoff: ${value}`
+        : (standard_instructions ? `Value for Payoff Table: ${value}` : `Type for Payoff Table: ${value}`);
+
+    button.innerText = label;
+
+    liveSend({'select_value': 'select_value'});
+    toggleDropdown(button);
     updatePayoffTable();
+    tryCalculatePayoff();
 }
-
-function toggleBidDropdown() {
-    const content = document.getElementById("bid-dropdown-content");
-    content.style.display = content.style.display === "none" ? "block" : "none";
+function selectYourBid(bid) {
+    const button = document.querySelector('.your-bid-dropdown-btn');
+    document.querySelector('.your-bid-dropdown-btn').innerText = `Your Bid: ${bid}`;
+    toggleDropdown(button);
+    tryCalculatePayoff();
 }
-
-function selectBid(value) {
-    document.querySelector('.bid-dropdown-btn').innerText = `Selected Bid: ${value}`;
-    document.getElementById('selected-bid-input').value = value;
-    document.getElementById('selected-bid-display').innerText = value;
-    document.getElementById('continue-button').classList.add('green');
-    toggleBidDropdown();
+function selectOpponentBid(bid) {
+    const button = document.querySelector('.opponent-bid-dropdown-btn');
+    document.querySelector('.opponent-bid-dropdown-btn').innerText = `Opponent Bid: ${bid}`;
+    toggleDropdown(button);
+    tryCalculatePayoff();
 }
+function confirmBid(bid) {
+    var standard_instructions = js_vars.standard_instructions;
+    const button = document.querySelector('.bid-dropdown-btn');
+    const label = standard_instructions ? 'Select Your Bid' : 'Select Your Number';
+    const confirmLabel = standard_instructions ? 'Confirm Your Bid' : 'Confirm Your Number';
+    
+    button.innerText = `${label}: ${bid}`;
+    document.getElementById('selected-bid-input').value = bid;
 
+    document.getElementById('confirm-button').innerHTML = `${confirmLabel}: <span id="selected-bid-display">${bid}</span>`;
+    document.getElementById('confirm-button').classList.add('green');
+
+    toggleDropdown(button);
+}
+function showErrorPopup() {
+    document.getElementById('error-popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+function closeErrorPopup() {
+    document.getElementById('error-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
-    const errorSpan = document.getElementById('bid-error-message');
-
     if (!bidInput || !bidInput.value) {
-        if (errorSpan) {
-            errorSpan.textContent = 'Please Select a Bid';
-            errorSpan.style.display = 'block';
-            errorSpan.style.fontWeight = 'bold';
-        }
+        showErrorPopup();
         return false;
     }
     return true;
@@ -244,16 +336,22 @@ function validateBidSelection() {
 // Close Dropdowns When Clicking Outside
 // ==================================================
 document.addEventListener('click', function(event) {
-    const dropdown = document.querySelector('.dropdown');
-    const bidDropdown = document.querySelector('.bid-dropdown');
+    const dropdowns = [
+        { wrapper: '.value-dropdown', content: 'value-dropdown-content' },
+        { wrapper: '.bid-dropdown', content: 'bid-dropdown-content' },
+        { wrapper: '.PC-value-dropdown', content: 'PC-value-dropdown-content' },
+        { wrapper: '.your-bid-dropdown', content: 'your-bid-dropdown-content' },
+        { wrapper: '.opponent-bid-dropdown', content: 'opponent-bid-dropdown-content' }
+    ];
 
-    if (dropdown && !dropdown.contains(event.target)) {
-        document.getElementById("dropdown-content").style.display = "none";
-    }
+    dropdowns.forEach(({ wrapper, content }) => {
+        const container = document.querySelector(wrapper);
+        const contentEl = document.getElementById(content);
 
-    if (bidDropdown && !bidDropdown.contains(event.target)) {
-        document.getElementById("bid-dropdown-content").style.display = "none";
-    }
+        if (container && contentEl && !container.contains(event.target)) {
+            contentEl.style.display = "none";
+        }
+    });
 });
 
 // ==================================================
@@ -263,8 +361,8 @@ function showInstructions() {
     document.getElementById('instructions-bttn').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden';
+    updatePayoffTable();
 }
-
 function closeInstructions() {
     document.getElementById('instructions-bttn').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
@@ -272,10 +370,43 @@ function closeInstructions() {
 }
 
 // ==================================================
-// Advances Page if 3 Incorrect Quiz Answers
+// Advances Page if 2 Incorrect Quiz Answers
 // ==================================================
 function liveRecv(data) {
     if (data.advance_page) {
         document.forms[0].submit();
+    }
+}
+
+// ==================================================
+// Calculate Function
+// ==================================================
+function calculatePayoff() {
+    const payoffValue = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    const yourBidValue = parseInt(document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    const opponentBidValue = parseInt(document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    var constant = js_vars.constant;
+
+    let payoff;
+    if (yourBidValue > opponentBidValue) {
+        payoff = constant + (payoffValue - opponentBidValue);
+    } else if (yourBidValue === opponentBidValue) {
+        payoff = constant + (Math.floor((payoffValue - opponentBidValue) / 2));
+    } else {
+        payoff = constant;
+    }
+
+    document.getElementById("payoff-display").innerHTML = `Your Payoff: <span style="color: green">${payoff}</span>`;
+
+    return false;
+
+}
+function tryCalculatePayoff() {
+    const val1 = document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1]?.trim();
+    const val2 = document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1]?.trim();
+    const val3 = document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1]?.trim();
+
+    if (val1 && val2 && val3) {
+        calculatePayoff();
     }
 }

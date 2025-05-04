@@ -1,8 +1,8 @@
 {{ block content }}
 
-<!-- Page title -->
+<!-- Title Section -->
 <div class="title">
-    <p>Instructions: Values</p>
+    <p>Failed Attention Checks</p>
 </div>
 
 <!-- Show popup warning if JavaScript is disabled -->
@@ -14,10 +14,6 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<!-- Include HTML fragment containing the values-related instructions -->
-{{ include 'stage_1/instructions/P4_values.html' }}
-
-<!-- Continue button to proceed -->
-<button id="continue-button">Continue</button>
+<p>Unfortunately, you have failed multiple attention checks and you will be unable to continue with the experiment. Please return to the Cloud Research Website.</p>
 
 {{ endblock }}

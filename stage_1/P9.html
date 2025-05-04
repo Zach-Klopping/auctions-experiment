@@ -1,21 +1,24 @@
 {{ block content }}
 
+<!-- Title Section -->
 <div class="title">
     <p>Attention Check 2</p>
 </div>
 
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
+<!-- Instructions for the attention check question -->
 <p>Please answer the following question before continuing to the remainder of the experiment:</p>
 <p>I logged into CloudResearch on eight different days last week.</p>
 
+<!-- Radio buttons for the user to select Yes or No -->
 <p>
     <label>
         <input id="attn_check_2_yes" type="radio" name="attn_check_2" value="1" required>
@@ -28,8 +31,11 @@
         No, this is not true of me
     </label>
 </p>
+
+<!-- Error message section for invalid selection -->
 <span id="attn-error-message" style="display: none; color: red;"></span>
 
+<!-- Continue button that triggers the validation function when clicked -->
 <button type="submit" onclick="return validateAttentionCheck2()" id="continue-button">Continue</button>
 
 {{ endblock }}
