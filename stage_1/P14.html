@@ -1,0 +1,34 @@
+{{ block content }}
+
+<div class="title">
+    <p>Payment</p>
+</div>
+
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<!-- Earnings -->
+<div style="border: 0.2vw solid black; padding: 2vw;">
+    <p style="font-size:2vw; font-weight:800;"> Dollars Earned in Experiment</p>
+    <p style="font-weight:600;">Payment for your time: $2.50</p>
+    <p style="font-weight:600;">Payment from Instructions Quiz: ${{ comprehension_quiz_payment }}</p>
+    <p style="font-weight:600;">Payment from {% if standard_instructions %} Auction: {% endif %}{% if not standard_instructions %} Game: {% endif %}</p>
+    <p style="font-weight:600;">Payment from Follow-Up Quiz: ${{ follow_up_quiz_payment }}</p>
+    <div style="border-top: 0.1vh solid black; margin: 2vh 0;"></div>
+    <p style="font-weight:800; color: green; font-size:1.5vw;">Total Payoff: </p>
+</div>
+
+<!-- Payment -->
+<div style="border: 0.2vw solid black; padding: 2vw; margin: 2vh 0;">
+    <p style="font-size:2vw; font-weight:700;">Submitting Payment</p>
+    <p style="font-weight:700; font-size:1.4vw;"> Completion Code:</p>
+    <p style="font-weight:500; margin-top:-1vh; color:red">You must enter this code on Cloud Research in order to be paid.</p>
+</div>
+
+{{ endblock }}

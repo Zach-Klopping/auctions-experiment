@@ -1,38 +1,53 @@
 {{ block content }}
 
+<!-- Title Section -->
 <div class="title">
-    <p>Follow-Up Survey</p>
+    <p>Follow-Up Quiz</p>
 </div>
 
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>Please answer the following two questions.</p>
-<p>Have you ever taken a college/university course in economics? </p>
-<p>
-    <label><input type="radio" name="demographic_1" value="1"> Yes</label>
-</p>
-<p>
-    <label><input type="radio" name="demographic_1" value="0"> No</label>
-</p>
-<span class="error-message" id="errorQ1"></span>
+<p>Please answer the following three questions. You will receive 25 cents for each question you answer correctly.</p>
 
-<p>Have you ever taken a course on game theory? </p>
-<p>
-    <label><input type="radio" name="demographic_2" value="1"> Yes</label>
-</p>
-<p>
-    <label><input type="radio" name="demographic_2" value="0"> No</label>
-</p>
-<span class="error-message" id="errorQ2"></span>
+<!-- Ordered list for the three follow-up quiz questions -->
+<ol style="margin-left: 1vw;">
+    <!-- Question 1 -->
+    <li>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q1">Emily's father has three daughters. The first two are named April and May. What is the third daughter's name?</label>
+            <input type="text" id="fllw_up_Q1" name="fllw_up_Q1" required>
+            <!-- Error message for invalid input -->
+            <span class="error-message" id="errorQ1"></span>
+        </div>
+    </li>
+    <!-- Question 2 -->
+    <li>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q2">How many cubic feet of dirt are there in a hole that is 3' deep x 3' wide x 3' long?</label>
+            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace') return true; else return false;" id="fllw_up_Q2" name="fllw_up_Q2" required>
+            <!-- Error message for invalid input -->
+            <span class="error-message" id="errorQ2"></span>
+        </div>
+    </li>
+    <!-- Question 3 -->
+    <li>
+        <div class="fllw-up-wrapper">
+            <label for="fllw_up_Q3">Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?</label>
+            <input type="number" onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;" id="fllw_up_Q3" name="fllw_up_Q3" required>
+            <!-- Error message for invalid input -->
+            <span class="error-message" id="errorQ3"></span>
+        </div>
+    </li>
+</ol>
 
-<button type="submit" onclick="return validateDemographics()" id="continue-button">Continue</button>
+<!-- Continue button for submitting answers -->
+<button type="submit" onclick="return ValidateQuiz2()" id="continue-button">Continue</button>
 
 {{ endblock }}
-

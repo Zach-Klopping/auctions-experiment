@@ -1,13 +1,14 @@
 {{ block content }}
 
+<!-- Title section of the page -->
 <div class="title">
     <p>Ethics Statement</p>
-  </div>
+</div>
 
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
 <!-- Link to the external CSS file -->
@@ -15,9 +16,13 @@
 
 <p>For this experiment, we are studying how human beings make decisions. Even though the experimental materials and the decisions you need to make may be unfamiliar to you, please do your best to read the materials and make the decisions on your own. Please do not use Google, ChatGPT, or similar aids.</p>
 
+<!-- Ethics confirmation statement with required checkbox -->
 <p><input name="ethics" id="ethics-check" type="checkbox" value="yes" required> I confirm that I have read the preceding statement and will not use Google, ChatGPT, or similar aids to assist me in completing this experiment.</p>
+
+<!-- Placeholder for validation error message -->
 <span class="error-message" id="ethics-error-message"></span>
 
+<!-- Continue button with JavaScript validation -->
 <button type="submit" id="continue-button" onclick="return validateEthicsStatement()">Continue</button>
 
 {{ endblock }}

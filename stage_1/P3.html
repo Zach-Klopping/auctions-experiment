@@ -1,25 +1,30 @@
-{% block content %}
+{{ block content }}
 
+<!-- Page title -->
 <div class="title">
     <p>Instructions: Introduction</p>
-  </div>
+</div>
 
-<!-- Link to js_warning file that requires users to enable JavaScript -->
+<!-- Show popup warning if JavaScript is disabled -->
 {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to your general.js file that contains the logic for generating the payoff table -->
+<!-- Load general JavaScript file -->
 <script src="{% static 'general.js' %}"></script>
 
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
+<!-- Include HTML fragment for the introduction section -->
 {{ include 'stage_1/instructions/P3_introduction.html' }}
+
+<!-- User ID input field with label and error message placeholder -->
 <div class="id-wrapper">
   <label for="user_id">Please Paste Your Unique Prolific Id Into the Text Box.</label>
   <input type="text" id="user_id" name="user_id" required>
   <span class="error-message" id="IDerror"></span>
 </div>
 
+<!-- Submit button with validation function on click -->
 <button type="submit" onclick="return validateUserID()" id="continue-button">Continue</button>
 
-{% endblock %}
+{{ endblock }}

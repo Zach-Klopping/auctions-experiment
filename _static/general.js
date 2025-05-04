@@ -319,12 +319,10 @@ function showErrorPopup() {
     document.getElementById('error-popup').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
 }
-  
 function closeErrorPopup() {
     document.getElementById('error-popup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
 }
-
 function validateBidSelection() {
     const bidInput = document.getElementById('selected-bid-input');
     if (!bidInput || !bidInput.value) {
@@ -333,7 +331,6 @@ function validateBidSelection() {
     }
     return true;
 }
-
 
 // ==================================================
 // Close Dropdowns When Clicking Outside
@@ -373,7 +370,7 @@ function closeInstructions() {
 }
 
 // ==================================================
-// Advances Page if 3 Incorrect Quiz Answers
+// Advances Page if 2 Incorrect Quiz Answers
 // ==================================================
 function liveRecv(data) {
     if (data.advance_page) {

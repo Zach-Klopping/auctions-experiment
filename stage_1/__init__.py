@@ -12,6 +12,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
+    # Quiz Answers from Statics File
     correct_answers_quiz1_integrated_endowment = QUIZ_ANSWERS["correct_answers_quiz1_integrated_endowment"]
     correct_answers_quiz1_no_endowment = QUIZ_ANSWERS["correct_answers_quiz1_no_endowment"]
     correct_answers_follow_up_quiz = QUIZ_ANSWERS["correct_answers_follow_up_quiz"]
@@ -26,25 +27,44 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # Participant ID
     user_id = models.StringField()
+
+    # Ethics Check Box
     ethics = models.BooleanField(blank = 0)
+
+    # Attention Check Answers
     attn_check_1 = models.BooleanField(blank = 0)
     attn_check_2 = models.BooleanField(blank = 0)
+
+    # Comprehension Questions Incorrect Counter
     Q1_incorrect = models.IntegerField(default = 0)
     Q2_incorrect = models.IntegerField(default = 0)
     Q3_incorrect = models.IntegerField(default = 0)
+
+    # Value For Payoff Table Dropdown Click Counter
     stg1_value_dropdown_click = models.IntegerField(default=0)
+    stg2_value_dropdown_click = models.IntegerField(default=0)
+
+    # Follow-Up Question's Answer
     fllw_up_Q1 = models.StringField()
     fllw_up_Q2 = models.IntegerField()
     fllw_up_Q3 = models.IntegerField()
+
+    # Follow-Up Question's Incorrect Counter
     fllw_up_Q1_incorrect = models.IntegerField(default = 0)
     fllw_up_Q2_incorrect = models.IntegerField(default = 0)
     fllw_up_Q3_incorrect = models.IntegerField(default = 0)
-    auction_value = models.IntegerField()
-    selected_bid = models.IntegerField()
+
+    # Demographic Answers
     demographic_1 = models.BooleanField(blank = 0)
     demographic_2 = models.BooleanField(blank = 0)
-    stg2_value_dropdown_click = models.IntegerField(default=0)
+
+    # Auction Value and Partcipant Bid
+    auction_value = models.IntegerField()
+    selected_bid = models.IntegerField()
+
+    # Payments
     comprehension_quiz_payment = models.FloatField(default = 0.00)
     follow_up_quiz_payment = models.FloatField(default = 0.00)
 
@@ -171,7 +191,12 @@ class P9(Page):
     form_fields = ['attn_check_2']
 
 
-class P10_1(Page):
+class P10(Page):
+    def is_displayed(player):
+        if player.attn_check_1 == 1 and player.attn_check_1 == 1:
+            return True
+
+class P11_1(Page):
     form_model = 'player'
     form_fields = ['selected_bid']
     def is_displayed(player):
@@ -212,7 +237,7 @@ class P10_1(Page):
             player.stg2_value_dropdown_click += 1
 
 
-class P10_2(Page):
+class P11_2(Page):
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == False
     
@@ -242,7 +267,7 @@ class P10_2(Page):
             player.stg2_value_dropdown_click += 1
 
 
-class P11(Page):
+class P12(Page):
     form_model = 'player'
     form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
 
@@ -259,12 +284,12 @@ class P11(Page):
             player.fllw_up_Q3_incorrect += 1
 
 
-class P12(Page):
+class P13(Page):
     form_model = 'player'
     form_fields = ['demographic_1','demographic_2']
 
 
-class P13(Page):
+class P14(Page):
     def calculate_comprehension_payment(player):
         if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
             player.comprehension_quiz_payment = 0.50
@@ -288,8 +313,8 @@ class P13(Page):
             player.follow_up_quiz_payment += 0.25
             
     def vars_for_template(player):
-        P13.calculate_comprehension_payment(player)
-        P13.calculate_follow_up_payment(player)
+        P14.calculate_comprehension_payment(player)
+        P14.calculate_follow_up_payment(player)
         
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True,
@@ -298,4 +323,4 @@ class P13(Page):
         }
 
 
-page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10_1, P10_2, P11, P12, P13]
+page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11_1, P11_2, P12, P13, P14]
