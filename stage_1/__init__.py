@@ -2,10 +2,7 @@ from otree.api import *
 from statics import *
 import random
 
-doc = """
-Your app description
-"""
-
+doc = '''Instructions and Game for Second-Price Auction Experiment'''
 
 class C(BaseConstants):
     NAME_IN_URL = 'stage_1'
@@ -31,11 +28,11 @@ class Player(BasePlayer):
     user_id = models.StringField()
 
     # Ethics Check Box
-    ethics = models.BooleanField(blank = 0)
+    ethics = models.BooleanField()
 
     # Attention Check Answers
-    attn_check_1 = models.BooleanField(blank = 0)
-    attn_check_2 = models.BooleanField(blank = 0)
+    attn_check_1 = models.BooleanField()
+    attn_check_2 = models.BooleanField()
 
     # Comprehension Questions Incorrect Counter
     Q1_incorrect = models.IntegerField(default = 0)
@@ -57,8 +54,8 @@ class Player(BasePlayer):
     fllw_up_Q3_incorrect = models.IntegerField(default = 0)
 
     # Demographic Answers
-    demographic_1 = models.BooleanField(blank = 0)
-    demographic_2 = models.BooleanField(blank = 0)
+    demographic_1 = models.BooleanField()
+    demographic_2 = models.BooleanField()
 
     # Auction Value and Partcipant Bid
     auction_value = models.IntegerField()
@@ -70,15 +67,18 @@ class Player(BasePlayer):
 
 
 class P1(Page):
+    ''' Consent Page'''
     pass
 
 
 class P2(Page):
+    ''' Ethics Statement'''
     form_model = 'player'
     form_fields = ['ethics']
 
 
 class P3(Page):
+    ''' Instructions: Introduction (ID)'''
     form_model = 'player'
     form_fields = ['user_id']
 
@@ -89,6 +89,7 @@ class P3(Page):
 
 
 class P4(Page):
+    '''Instructions: Values'''
     def vars_for_template(player):
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True,
@@ -97,6 +98,7 @@ class P4(Page):
 
 
 class P5(Page):
+    '''Instructions: Payoffs'''
     def vars_for_template(player):
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True,
@@ -105,6 +107,7 @@ class P5(Page):
 
 
 class P6(Page):
+    '''Instructions: Payoff Table/Calculator'''
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
         standard_instructions = player.session.config['standard_instructions']
@@ -134,11 +137,13 @@ class P6(Page):
     
     
 class P7(Page):
+    '''Attention Check 1'''
     form_model = 'player'
     form_fields = ['attn_check_1']
 
 
 class P8(Page):
+    '''Comprehension Quiz'''
     def vars_for_template(player):
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True,
@@ -187,27 +192,32 @@ class P8(Page):
 
 
 class P9(Page):
+    '''Attention Check 2'''
     form_model = 'player'
     form_fields = ['attn_check_2']
+    
+    def before_next_page(player: Player, timeout_happened):
+        if player.session.config['standard_instructions'] == True:
+            player.auction_value = random.choice(range(0, 501, 50))
+        else:
+            player.auction_value = random.choice(range(0, 11, 1))
 
 
 class P10(Page):
+    '''Optional Kickout Page'''
     def is_displayed(player):
         if player.attn_check_1 == 1 and player.attn_check_2 == 1:
             return True
 
+
 class P11_1(Page):
+    '''Auction/Game with Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == True
     
     def vars_for_template(player):
-        if player.session.config['standard_instructions'] == True:
-            player.auction_value = random.choice(range(0, 501, 50))
-        elif player.session.config['standard_instructions'] == False:
-            player.auction_value = random.choice(range(0, 11, 1))
-
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
@@ -238,14 +248,13 @@ class P11_1(Page):
 
 
 class P11_2(Page):
+    '''Auction Without Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
     def is_displayed(player):
         return player.session.config['integrated_payoff_matrix'] == False
     
     def vars_for_template(player):
-        player.auction_value = random.choice(range(0, 501, 50))
-
         return {
             'integrated_payoff_matrix' : player.session.config['integrated_payoff_matrix'] == True, 
             'integrated_endowment' : player.session.config['integrated_endowment'] == True,
@@ -270,6 +279,7 @@ class P11_2(Page):
 
 
 class P12(Page):
+    '''Follow-Up Quiz'''
     form_model = 'player'
     form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
 
@@ -287,11 +297,13 @@ class P12(Page):
 
 
 class P13(Page):
+    '''Demographics'''
     form_model = 'player'
     form_fields = ['demographic_1','demographic_2']
 
 
 class P14(Page):
+    '''Payment'''
     def calculate_comprehension_payment(player):
         if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
             player.comprehension_quiz_payment = 0.50
