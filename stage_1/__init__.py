@@ -326,14 +326,9 @@ class P14(Page):
         if player.fllw_up_Q3_incorrect == 0:
             player.follow_up_quiz_payment += 0.25
             
-    def vars_for_template(player):
-        P14.calculate_comprehension_payment(player)
-        P14.calculate_follow_up_payment(player)
-        
+    def vars_for_template(player):        
         return {
-            'standard_instructions' : player.session.config['standard_instructions'] == True,
-            'comprehension_quiz_payment': f"{player.comprehension_quiz_payment:.2f}",
-            'follow_up_quiz_payment': f"{player.follow_up_quiz_payment:.2f}",
+            'standard_instructions' : player.session.config['standard_instructions'] == True
         }
 
 
