@@ -85,7 +85,6 @@ ROOMS = [
     dict(
         name = 'computer_with_matrix_not_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
-        session_config = 'computer_with_matrix_not_integrated_endowment'
     ),
 ]
 
