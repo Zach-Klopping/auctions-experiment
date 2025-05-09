@@ -1,7 +1,7 @@
 QUIZ_ANSWERS = {
     "correct_answers_quiz1_integrated_endowment" : {
-        'Q1': '400',
-        'Q2': '600',
+        'Q1': '450',
+        'Q2': '650',
         'Q3': 'true',
     },
     "correct_answers_quiz1_no_endowment" : {

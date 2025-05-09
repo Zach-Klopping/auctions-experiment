@@ -81,6 +81,14 @@ SESSION_CONFIGS = [
      ),
 ]
 
+ROOMS = [
+    dict(
+        name = 'computer_with_matrix_not_integrated_endowment',
+        display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
+        session_config = 'computer_with_matrix_not_integrated_endowment'
+    ),
+]
+
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
 # the session config can be accessed from methods in your apps as self.session.config,
