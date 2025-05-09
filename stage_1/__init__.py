@@ -114,7 +114,7 @@ class P6(Page):
         computer_opponent = player.session.config['computer_opponent']
         auction_value = 250
         if integrated_endowment == True:
-            constant = 400
+            constant = 450
         else:
             constant = 0
         return dict(constant = constant, 
@@ -159,7 +159,7 @@ class P8(Page):
         computer_opponent = player.session.config['computer_opponent']
         correct_answers_quiz1 = C.correct_answers_quiz1_integrated_endowment if integrated_endowment == True else C.correct_answers_quiz1_no_endowment
         if integrated_endowment == True:
-            constant = 400
+            constant = 450
         else:
             constant = 0
         return dict(constant = constant, 
@@ -233,7 +233,7 @@ class P11_1(Page):
         computer_opponent = player.session.config['computer_opponent']
 
         if integrated_endowment == True:
-            constant = 400
+            constant = 450
         else:
             constant = 0
         return dict(constant = constant, 
@@ -266,7 +266,7 @@ class P11_2(Page):
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
         if integrated_endowment == True:
-            constant = 400
+            constant = 450
         else:
             constant = 0
         auction_value = player.auction_value
@@ -300,11 +300,7 @@ class P13(Page):
     '''Demographics'''
     form_model = 'player'
     form_fields = ['demographic_1','demographic_2']
-
-
-class P14(Page):
-    '''Payment'''
-    def calculate_comprehension_payment(player):
+    def before_next_page(player, timeout_happened):
         if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
             player.comprehension_quiz_payment = 0.50
 
@@ -313,8 +309,7 @@ class P14(Page):
 
         else:
             player.comprehension_quiz_payment = 0.00
-
-    def calculate_follow_up_payment(player):
+            
         player.follow_up_quiz_payment = 0
         
         if player.fllw_up_Q1_incorrect == 0:
@@ -325,7 +320,10 @@ class P14(Page):
             
         if player.fllw_up_Q3_incorrect == 0:
             player.follow_up_quiz_payment += 0.25
-            
+
+
+class P14(Page):
+    '''Submitting Payment'''
     def vars_for_template(player):        
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True

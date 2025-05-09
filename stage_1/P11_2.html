@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <!-- Instructions text -->
-<p>The payoff calculator below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 400 cents.</p>
+<p>The payoff calculator below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 450 cents.</p>
 <p style="margin-bottom: 0.4vh;">There are three buttons below the payoff table:</p>
 <ul style="padding-left: 5vw;">
   <li>Instructions <span style="color:orange">(Orange)</span>
@@ -51,17 +51,17 @@
     <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
       <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
         <!-- Options for value selection -->
-        <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-        <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
-        <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
-        <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
-        <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
-        <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red"><b>250</b></div>
-        <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
-        <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
-        <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
-        <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
-        <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+          <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
+          <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if auction_value == 50 %}style="color: red;"{% endif %}>50</div>
+          <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if auction_value == 100 %}style="color: red;"{% endif %}>100</div>
+          <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if auction_value == 150 %}style="color: red;"{% endif %}>150</div>
+          <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if auction_value == 200 %}style="color: red;"{% endif %}>200</div>
+          <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if auction_value == 250 %}style="color: red;"{% endif %}>250</div>
+          <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if auction_value == 300 %}style="color: red;"{% endif %}>300</div>
+          <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if auction_value == 350 %}style="color: red;"{% endif %}>350</div>
+          <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if auction_value == 400 %}style="color: red;"{% endif %}>400</div>
+          <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if auction_value == 450 %}style="color: red;"{% endif %}>450</div>
+          <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if auction_value == 500 %}style="color: red;"{% endif %}>500</div>
       </div>
   </div>
 
