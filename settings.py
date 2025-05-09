@@ -69,7 +69,7 @@ SESSION_CONFIGS = [
         standard_instructions = True,
      ),
 
-         dict(
+      dict(
         name = 'computer_with_matrix_not_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
         app_sequence = ['stage_1'],
@@ -83,9 +83,33 @@ SESSION_CONFIGS = [
 
 ROOMS = [
     dict(
+        name = 'standard_no_matrix',
+        display_name = "Standard Instructions, No Payoff Matrix",
+     ),
+      dict(
+        name = 'standard_with_matrix_integrated_endowment',
+        display_name = "Standard Instructions, With Payoff Matrix, Integrated",
+     ),
+     dict(
+        name = 'standard_with_matrix_not_integrated_endowment',
+        display_name = "Standard Instructions, With Payoff Matrix, Not Integrated",
+     ),
+    dict(
+        name = 'no_auction_with_matrix_integrated_endowment',
+        display_name = "No Auction Instructions, With Payoff Matrix, Integrated",
+     ),
+      dict(
+        name = 'no_auction_with_matrix_not_integrated_endowment',
+        display_name = "No Auction Instructions, With Payoff Matrix, Not Integrated",
+     ),
+     dict(
+        name = 'computer_with_matrix_integrated_endowment',
+        display_name = "Computer Opponent, With Payoff Matrix, Integrated",
+     ),
+      dict(
         name = 'computer_with_matrix_not_integrated_endowment',
         display_name = "Computer Opponent, With Payoff Matrix, Not Integrated",
-    ),
+     ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -97,11 +121,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point = 1.00, 
     participation_fee = 0.00, 
     doc = "",
-    standard_instructions = True,
 )
-
-PARTICIPANT_FIELDS = []
-SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
