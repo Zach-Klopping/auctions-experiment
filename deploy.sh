@@ -11,5 +11,3 @@ git push -f heroku main
 
 heroku addons:create heroku-postgresql:standard-0
 heroku ps:scale web=1:standard-1x
-
-heroku pg:wait
