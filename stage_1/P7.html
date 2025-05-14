@@ -1,39 +1,147 @@
 {{ block content }}
 
-<!-- Page title -->
-<div class="title">
-    <p>Attention Check 1</p>
-</div>
+<!-- Main container for the instruction content -->
+<div class="container" style="height:140vh;">
+  
+  <!-- Title header: dynamically shows "Table" or "Calculator" -->
+  <div class="title" >
+    <p>Instructions: Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</p>
+  </div>
 
-<!-- Show popup warning if JavaScript is disabled -->
-{{ include '_static/popups/js_warning.html' }}
+  <!-- Show popup warning if JavaScript is disabled -->
+  {{ include '_static/popups/js_warning.html' }}
 
-<!-- Load general JavaScript file -->
-<script src="{% static 'general.js' %}"></script>
+  <!-- Load general JavaScript file -->
+  <script src="{% static 'general.js' %}"></script>
 
-<!-- Link to the external CSS file -->
-<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<!-- Question prompt for attention check -->
-<p>Please answer the following question before continuing to the remainder of the experiment:</p>
-<p>I have never used a computer.</p>
-<p>
-    <label>
-        <input id="attn_check_1_yes" type="radio" name="attn_check_1" value="1" required>
-        Yes, this is true of me
-    </label>
-</p>
-<p>
-    <label>
-        <input id="attn_check_1_no" type="radio" name="attn_check_1" value="0" required>
-        No, this is not true of me
-    </label>
-</p>
+  <!-- Include page-specific payoff table structure -->
+  {{ include 'stage_1/instructions/P7_payoff_table.html' }}
 
-<!-- Error message placeholder for failed validation -->
-<span class="error-message" id="attn-error-message" ></span>
+  {% if integrated_payoff_matrix %}
+    {% if computer_opponent %}
+      <!-- Container for payoff table shown to computer-opponent players -->
+      <div class="quiz-page" id="payoff-table-container" style="width: 61vw;"></div>
+    {% endif %}  
 
-<!-- Continue button triggers validation function -->
-<button type="submit" onclick="return validateAttentionCheck1()" id="continue-button">Continue</button>
+    <div class="button-row">
+      {% if not computer_opponent %}
+        <!-- Container for payoff table shown to human-opponent players -->
+        <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
+
+        {% if standard_instructions %}
+          <!-- Dropdown for selecting value (standard instructions) -->
+          <div class="value-dropdown">
+            <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: 250</button>
+              <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+                <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+                <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+                <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+                <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+                <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+                <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red">250</div>
+                <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+                <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+                <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+                <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+                <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+              </div>
+          </div>
+        {% endif %}
+
+        {% if not standard_instructions %}
+          <!-- Dropdown for selecting type (alternative instructions) -->
+          <div class="value-dropdown">
+            <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: 5</button>
+              <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+                <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+                <div class="value-dropdown-option" onclick="selectValue(1, this)">1</div>
+                <div class="value-dropdown-option" onclick="selectValue(2, this)">2</div>
+                <div class="value-dropdown-option" onclick="selectValue(3, this)">3</div>
+                <div class="value-dropdown-option" onclick="selectValue(4, this)">4</div>
+                <div class="value-dropdown-option" onclick="selectValue(5, this)" style="color: red">5</div>
+                <div class="value-dropdown-option" onclick="selectValue(6, this)">6</div>
+                <div class="value-dropdown-option" onclick="selectValue(7, this)">7</div>
+                <div class="value-dropdown-option" onclick="selectValue(8, this)">8</div>
+                <div class="value-dropdown-option" onclick="selectValue(9, this)">9</div>
+                <div class="value-dropdown-option" onclick="selectValue(10, this)">10</div>
+              </div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <!-- Continue button to proceed -->
+      <button id="continue-button">Continue</button>
+    </div>
+  {% endif %}
+
+  {% if not integrated_payoff_matrix %}
+    <!-- Display calculator header when matrix is not integrated -->
+    <p style="font-size: 1.5vw; margin-top:-1vh;"><b>Payoff Calculator</b></p>
+    <div class="button-row-calculator">
+
+      <!-- Value selection for payoff calculator -->
+      <div class="value-dropdown">
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+          <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
+            <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
+            <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
+            <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
+            <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
+            <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
+            <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red">250</div>
+            <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
+            <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
+            <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
+            <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
+            <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+          </div>
+      </div>
+
+      <!-- Dropdown for selecting user's bid -->
+      <div id="your-bid-dropdown" class="your-bid-dropdown">
+        <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn"  onclick="toggleDropdown(this)">Your Bid</button>
+        <div id="your-bid-dropdown-content" class="your-bid-dropdown-content" style="display: none;">
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(0)">0</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(50)">50</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(100)">100</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(150)">150</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(200)">200</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(250)">250</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(300)">300</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(350)">350</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(400)">400</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(450)">450</div>
+          <div class="your-bid-dropdown-option" onclick="selectYourBid(500)">500</div>
+        </div>
+      </div>
+
+      <!-- Dropdown for selecting opponent's bid -->
+      <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
+        <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
+        <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(100)">100</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(150)">150</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(200)">200</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(250)">250</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(300)">300</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(350)">350</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(400)">400</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(450)">450</div>
+          <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(500)">500</div>
+        </div>
+      </div>
+
+      <!-- Display showing the calculated payoff -->
+      <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+
+      <!-- Continue button in calculator mode -->
+      <button id="continue-button">Continue</button>
+    </div> 
+  {% endif %}
 
 {{ endblock }}

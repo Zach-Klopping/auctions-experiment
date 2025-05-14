@@ -1,0 +1,19 @@
+{{ block content }}
+
+<!-- Title Section -->
+<div class="title">
+    <p>Failed Attention Checks</p>
+</div>
+
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<p>Unfortunately, you have failed multiple attention checks and you will be unable to continue with the experiment. Please return to the Prolific Website.</p>
+
+{{ endblock }}

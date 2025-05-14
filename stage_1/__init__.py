@@ -107,6 +107,11 @@ class P5(Page):
 
 
 class P6(Page):
+    '''Payoff Example'''
+    pass
+
+
+class P7(Page):
     '''Instructions: Payoff Table/Calculator'''
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
@@ -134,15 +139,15 @@ class P6(Page):
     def live_method(player: Player, data):
         if data.get('select_value') == 'select_value':
             player.stg1_value_dropdown_click += 1
-    
-    
-class P7(Page):
+
+
+class P8(Page):
     '''Attention Check 1'''
     form_model = 'player'
     form_fields = ['attn_check_1']
 
 
-class P8(Page):
+class P9(Page):
     '''Comprehension Quiz'''
     def vars_for_template(player):
         return {
@@ -191,7 +196,7 @@ class P8(Page):
                 return {player.id_in_group: {'advance_page': True}}
 
 
-class P9(Page):
+class P10(Page):
     '''Attention Check 2'''
     form_model = 'player'
     form_fields = ['attn_check_2']
@@ -203,14 +208,14 @@ class P9(Page):
             player.auction_value = random.choice(range(0, 11, 1))
 
 
-class P10(Page):
+class P11(Page):
     '''Optional Kickout Page'''
     def is_displayed(player):
         if player.attn_check_1 == 1 and player.attn_check_2 == 1:
             return True
 
 
-class P11_1(Page):
+class P12_1(Page):
     '''Auction/Game with Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
@@ -247,7 +252,7 @@ class P11_1(Page):
             player.stg2_value_dropdown_click += 1
 
 
-class P11_2(Page):
+class P12_2(Page):
     '''Auction Without Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
@@ -265,12 +270,13 @@ class P11_2(Page):
 
     def js_vars(player):
         integrated_endowment = player.session.config['integrated_endowment']
+        standard_instructions = player.session.config['standard_instructions']
         if integrated_endowment == True:
             constant = 450
         else:
             constant = 0
         auction_value = player.auction_value
-        return dict(auction_value = auction_value, constant = constant)
+        return dict(auction_value = auction_value, constant = constant, standard_instructions = standard_instructions)
     
     @staticmethod
     def live_method(player: Player, data):
@@ -278,7 +284,7 @@ class P11_2(Page):
             player.stg2_value_dropdown_click += 1
 
 
-class P12(Page):
+class P13(Page):
     '''Follow-Up Quiz'''
     form_model = 'player'
     form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
@@ -296,7 +302,7 @@ class P12(Page):
             player.fllw_up_Q3_incorrect += 1
 
 
-class P13(Page):
+class P14(Page):
     '''Demographics'''
     form_model = 'player'
     form_fields = ['demographic_1','demographic_2']
@@ -322,12 +328,14 @@ class P13(Page):
             player.follow_up_quiz_payment += 0.25
 
 
-class P14(Page):
+class P15(Page):
     '''Submitting Payment'''
     def vars_for_template(player):        
         return {
             'standard_instructions' : player.session.config['standard_instructions'] == True
         }
+    
 
 
-page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11_1, P11_2, P12, P13, P14]
+
+page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, P13, P14, P15]

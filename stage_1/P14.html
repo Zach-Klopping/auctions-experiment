@@ -1,7 +1,7 @@
 {{ block content }}
 
 <div class="title">
-    <p>Submitting Payment</p>
+    <p>Follow-Up Survey</p>
 </div>
 
 <!-- Show popup warning if JavaScript is disabled -->
@@ -13,11 +13,30 @@
 <!-- Link to the external CSS file -->
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<p>You are now done with the experiment. On top of the $2.00 you earned for completing the experiment, you will recieve your payoff from the {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} including your initial endowment of 450 cents, as well as any bonuses you earned from the two quizzes. Within 7 days we will send you your payment along with a message explaining how that payment is broken down. In order to recieve this payment you must submit the completion code, listed below, on Prolific. We appreciate your partcipation!</p>
+<p>Please answer the following two questions.</p>
 
-<!-- Payment -->
-<p style="font-weight:700; font-size:1.4vw;"> Completion Code:</p>
-<p style="font-weight:500; margin-top:-1vh; color:red">You must enter this code on Prolific in order to be paid.</p>
+<!-- Question 1 -->
+<p>Have you ever taken a college/university course in economics? </p>
+<p>
+    <label><input type="radio" name="demographic_1" value="1"> Yes</label>
+</p>
+<p>
+    <label><input type="radio" name="demographic_1" value="0"> No</label>
+</p>
+<span class="error-message" id="errorQ1"></span>
 
+<!-- Question 2 -->
+<p>Have you ever taken a course on game theory? </p>
+<p>
+    <label><input type="radio" name="demographic_2" value="1"> Yes</label>
+</p>
+<p>
+    <label><input type="radio" name="demographic_2" value="0"> No</label>
+</p>
+<span class="error-message" id="errorQ2"></span>
+
+<!-- Submit button with validation for demographics -->
+<button type="submit" onclick="return validateDemographics()" id="continue-button">Continue</button>
 
 {{ endblock }}
+

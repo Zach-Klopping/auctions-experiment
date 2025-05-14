@@ -297,7 +297,7 @@ function selectYourBid(bid) {
 }
 function selectOpponentBid(bid) {
     const button = document.querySelector('.opponent-bid-dropdown-btn');
-    document.querySelector('.opponent-bid-dropdown-btn').innerText = `Opponent Bid: ${bid}`;
+    document.querySelector('.opponent-bid-dropdown-btn').innerText = `Other's Bid: ${bid}`;
     toggleDropdown(button);
     tryCalculatePayoff();
 }

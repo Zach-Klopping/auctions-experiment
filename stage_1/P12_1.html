@@ -36,7 +36,7 @@
     </li>
     {% if not computer_opponent %}
     <!-- Value dropdown for participants when there is no computer opponent -->
-    <li>{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %} for Payoff Table <span style="color:rgb(187, 124, 255)">(Purple)</span>
+    <li>{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %} for Payoff Table <span style="color:rgb(195, 139, 255)">(Purple)</span>
       <ul style="margin-left: 1vw;">
         <li style="margin-bottom: 0vh;">Accesses a pulldown menu that allows you to see the payoff table for other {% if standard_instructions %} values {% endif %} {% if not standard_instructions %} types. {% endif %}</li>
         <li style="margin-bottom: -1vh;">Your {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} is highlighted in <span style="color:red">red</span> so you can easily find it.</li>
@@ -86,7 +86,7 @@
     {% if not computer_opponent and standard_instructions%}
       <!-- Dropdown for selecting Value for Payoff Table -->
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{ auction_value }}</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{ auction_value }}</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
           <!-- Value options in the dropdown -->
           <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
@@ -142,7 +142,7 @@
     {% if not standard_instructions %}
       <!-- Dropdown for selecting Type for Payoff Table -->
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: {{ auction_value }}</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: {{ auction_value }}</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
           <!-- Type options in the dropdown -->
           <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
