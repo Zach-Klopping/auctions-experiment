@@ -1,17 +1,20 @@
-// ==================================================
-// Disable Copying on the Page
-// ==================================================
-document.addEventListener('copy', function(event) {
-    event.preventDefault();
-    document.getElementById('copy-popup').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
+// ===================================================================
+// Disable Back Button, Selecting Text and Right Click on the Page
+// ====================================================================
+document.addEventListener('DOMContentLoaded', function () {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+        history.go(1);
+    };
+    document.addEventListener('selectstart', function (e) {
+    e.preventDefault();
+    });
+
+    document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    });
 });
-
-function closeCopyPopup() {
-    document.getElementById('copy-popup').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-}
-
+    
 // ==================================================
 // Validations to Ensure Answers have been Given
 // ==================================================
@@ -241,7 +244,7 @@ function updatePayoffTable() {
     }
 
     tableHTML += `<tr><th></th><th colspan="${validValues.length + 1}">${columnHeader}</th></tr>`;
-    tableHTML += `<tr><th rowspan="${validValues.length + 1}" style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center;">${rowHeader}</th><th></th>`;
+    tableHTML += `<tr><th rowspan="${validValues.length + 1}" class="vertical-header">${rowHeader}</th><th></th>`;
     validValues.forEach(bid => tableHTML += `<th>${bid}</th>`);
     tableHTML += '</tr>';
 

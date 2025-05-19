@@ -35,6 +35,13 @@ li {
 ol li::marker {
     font-weight: bold;
 }
+.vertical-header {
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+}
 
 /* ================================
    Continue Button & Positioning
