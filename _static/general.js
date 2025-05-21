@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     });
 });
+if (typeof js_vars.completionlink !== 'undefined') {
+    window.onload = function() {
+        window.location.href = js_vars.completionlink;
+    }
+}
     
 // ==================================================
 // Validations to Ensure Answers have been Given

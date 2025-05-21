@@ -497,6 +497,9 @@ class P15(Page):
             'auction_instructions' : player.auction_instructions,
             'game_instructions' : player.game_instructions
         }
+    def js_vars(player):
+        return dict(
+                completionlink=player.subsession.session.config['completionlink'])
     
 
 page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, P13, P14, P15]

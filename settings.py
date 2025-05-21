@@ -17,7 +17,8 @@ SESSION_CONFIGS = [
         computer_integrated = False,
         computer_isolated = False,
         number_in_treatment = 1,
-     ),
+        completion_link = 'https://app.prolific.com/submissions/complete?cc=ABC123'
+    )
 ]
 
 ROOMS = [
