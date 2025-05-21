@@ -17,13 +17,6 @@
 <!-- Include HTML fragment for the introduction section -->
 {{ include 'stage_1/instructions/P3_introduction.html' }}
 
-<!-- User ID input field with label and error message placeholder -->
-<div class="id-wrapper">
-  <label for="user_id">Please paste your unique Prolific ID into the text box.</label>
-  <input type="text" id="user_id" name="user_id" required>
-  <span class="error-message" id="IDerror"></span>
-</div>
-
 <!-- Submit button with validation function on click -->
 <button type="submit" onclick="return validateUserID()" id="continue-button">Continue</button>
 

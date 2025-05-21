@@ -213,8 +213,6 @@ class P2(Page):
 
 class P3(Page):
     ''' Instructions: Introduction (ID)'''
-    form_model = 'player'
-    form_fields = ['user_id']
 
     def vars_for_template(player):
         return {
