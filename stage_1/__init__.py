@@ -13,7 +13,7 @@ class C(BaseConstants):
         'Q1': 'emily',
         'Q2': '0',
         'Q3': '29',
-    },
+    }
 
 
 class Subsession(BaseSubsession):
