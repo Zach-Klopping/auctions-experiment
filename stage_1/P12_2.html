@@ -15,21 +15,21 @@
 <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
 <!-- Instructions text -->
-<p>The payoff calculator below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 450 cents.</p>
+<p>The payoff calculator below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the other participant. The earnings shown by the payoff calculator include your participation fee of $6.50.</p>
 <p style="margin-bottom: 0.4vh;">There are three buttons below the payoff table:</p>
-<ul style="padding-left: 5vw;">
+<ul style="padding-left: 4vw;">
   <li>Instructions <span style="color:orange">(Orange)</span>
-    <ul>
+    <ul style="padding-left: 3.5vw;">
       <li style="margin-bottom: -1vh;">Accesses the full instructions for the experiment.</li>
     </ul>
   </li>
   <li>Select Your Bid <span style="color:rgb(110, 207, 255)">(Blue)</span>
-    <ul>
+    <ul style="padding-left: 3.5vw;">
       <li style="margin-bottom: -1vh;">Accesses a pulldown menu that you will use to select a bid.</li>
     </ul>
   </li>
   <li>Confirm Your Bid <span style="color:rgb(76, 234, 76)">(Green)</span>
-    <ul>
+    <ul style="padding-left: 3.5vw;">
       <li style="margin-bottom: 0vw;">Use this button to confirm your bid and continue to the final screen.</li>
       <li style="margin-bottom: 1.5vh;">This button will only turn green after you select a bid.</li>
     </ul>
@@ -48,7 +48,7 @@
 
   <!-- Dropdown to choose value for the payoff calculator -->
   <div class="value-dropdown">
-    <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+    <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: {{auction_value}} </button>
       <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
         <!-- Options for value selection -->
           <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>

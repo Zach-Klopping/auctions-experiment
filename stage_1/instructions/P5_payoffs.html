@@ -1,18 +1,18 @@
-{% if standard_instructions and computer_opponent %}
+{% if computer_instructions %}
     <p>After you learn your value for the widget, you will submit a bid for the widget. Bids must be in 50 cent increments (0, 50, 100, 150 … 450, 500). </p>
     <p>The computerized bidder will also submit a bid for the widget. The computer's bids are randomly drawn from the possible bids (0, 50, 100, 150 … 450, 500), with each possible bid being equally likely. The draws for your value and the computer's bid are “independent”. This means that the two draws are done separately, and the outcome of your draw tells you nothing about the computer's bid. You will know your value for the widget but will not know what bid will be drawn for the computerized bidder.</p>
     <p>You win the auction if your bid is higher than the computer's bid. If you win, you will earn the difference between your value for the widget and the computer's bid. If you lose the auction, you earn zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser. </p>
-    <p>Your total payout will consist of the $2.00 for your time, your 400 cent initial endowment, and your earnings from the auction.</p>
+    <p>Your total payout will consist of the $6.50 fixed participation fee plus your earnings from the auction.</p>
 {% endif %}
 
-{% if standard_instructions and not computer_opponent %}
+{% if auction_instructions %}
     <p>After you learn your value for the widget, you will submit a bid for the widget. Bids must be in 50 cent increments (0, 50, 100, 150… 450, 500). The other participant will also submit a bid for the widget.</p>
     <p>The auction is won by the person, you or the other participant, who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
-    <p>Your total payout will consist of the $2.00 for your time, your 400 cent initial endowment, and your earnings from the auction.</p>
+    <p>Your total payout will consist of the $6.50 fixed participation fee plus your earnings from the auction.</p>
 {% endif %}
 
-{% if not standard_instructions %}
+{% if game_instructions %}
     <p>After you learn your type, you will submit a number between 0 and 10. The other participant will also submit a number between 0 and 10. </p>
     <p>Your payoffs for the game depend on your type, your number, and the other participant's number. If you submit the highest number, your payoff is the difference between your type and the other participant's number, <i>multiplied by 50 cents.</i> If your number is the lowest number, your payoff is zero. In case of a tie, your payoff is the difference between your type and the other participant's number, <i>multiplied by 25 cents.</i></p>
-    <p>Your total payout will consist of the $2.00 for your time, your 400 cent initial endowment, and your earnings from the game.</p>
+    <p>Your total payout will consist of the $6.50 fixed participation fee plus your earnings from the auction.</p>
 {% endif %}

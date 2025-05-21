@@ -1,0 +1,23 @@
+{{ block content }}
+
+<div class="title">
+    <p>Submitting Payment</p>
+</div>
+
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<p>You are now done with the experiment. On top of the $2.00 you earned for completing the experiment, you will recieve your payoff from the {% if auction_instructions %} auction, {% endif %} {% if game_instructions %} game, {% endif %} including your initial endowment of 450 cents, as well as any bonuses you earned from the two quizzes. Within 7 days we will send you your payment along with a message explaining how that payment is broken down. In order to recieve this payment you must submit the completion code, listed below, on Prolific. We appreciate your partcipation!</p>
+
+<!-- Payment -->
+<p style="font-weight:700; font-size:1.4vw;"> Completion Code:</p>
+<p style="font-weight:500; margin-top:-1vh; color:red">You must enter this code on Prolific in order to be paid.</p>
+
+
+{{ endblock }}

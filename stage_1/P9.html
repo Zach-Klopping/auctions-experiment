@@ -1,41 +1,159 @@
 {{ block content }}
 
-<!-- Title Section -->
-<div class="title">
-    <p>Attention Check 2</p>
-</div>
+<!-- Container for page content with extended height to accommodate content -->
+<div class="container" style="height:140vh;">
 
-<!-- Show popup warning if JavaScript is disabled -->
-{{ include '_static/popups/js_warning.html' }}
+  <!-- Page title -->
+  <div class="title">
+    <p>Instructions: Comprehension Quiz</p>
+  </div>
 
-<!-- Load general JavaScript file -->
-<script src="{% static 'general.js' %}"></script>
+  <!-- Include warning if JavaScript is disabled -->
+  {{ include '_static/popups/js_warning.html' }}
 
-<!-- Link to the external CSS file -->
-<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+  <!-- Load general JavaScript file -->
+  <script src="{% static 'general.js' %}"></script>
 
-<!-- Instructions for the attention check question -->
-<p>Please answer the following question before continuing to the remainder of the experiment:</p>
-<p>I logged into Prolific on eight different days last week.</p>
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-<!-- Radio buttons for the user to select Yes or No -->
-<p>
-    <label>
-        <input id="attn_check_2_yes" type="radio" name="attn_check_2" value="1" required>
-        Yes, this is true of me
-    </label>
-</p>
-<p>
-    <label>
-        <input id="attn_check_2_no" type="radio" name="attn_check_2" value="0" required>
-        No, this is not true of me
-    </label>
-</p>
+  <!-- Quiz instructions with conditional phrasing based on context -->
+  {% if auction_instructions or computer_instructions %}
+  <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
+  <p>You should use the payoff {% if integrated_matrix %} table {% endif %}{% if not integrated_matrix %} calculator {% endif %}shown below to answer the quiz questions. Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. If you cannot remember something about the instructions for the auction, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+  {% endif %}
+  
+  {% if game_instructions %}
+  <p>Before starting the real game, please answer the following three questions. These questions test your comprehension of the instructions. All numbers used in these questions have been drawn randomly. As such, the numbers in these questions do not provide any guidance on how you ought to choose in the real game.</p>
+  <p>You should use the payoff table shown below to answer the quiz questions. Your type for this example was randomly drawn; a new tpe will be drawn for the actual game, so be certain to check what your type is in the game. If you cannot remember something about the instructions for the game, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+  {% endif %}
 
-<!-- Error message section for invalid selection -->
-<span id="attn-error-message" style="display: none; color: red;"></span>
+  <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
 
-<!-- Continue button that triggers the validation function when clicked -->
-<button type="submit" onclick="return validateAttentionCheck2()" id="continue-button">Continue</button>
+  <!-- Quiz questions -->
+  <ol>
+    <!-- Question 1: Numerical input -->
+    <li>
+      <div class="question-flex">
+        <span>
+          Suppose you {% if auction_instructions %} bid {{ Q1_number_1 }}{% endif %} {% if game_instructions %} choose {{ Q1_number_1 }} {% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions %} bids {{ Q1_number_2 }}. {% endif %} {% if game_instructions %} chooses {{ Q1_number_2 }}. {% endif %} What will your payoff from the {% if auction_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question.
+        </span>
+        <input type="number"
+               id="Q1" name="Q1" style="width: 4vw; border: 0.15vw solid black;" required
+               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+        <span class="error-message" id="errorQ1"></span>
+      </div>
+    </li>
+
+    <!-- Question 2: Numerical input -->
+    <li>
+      <div class="question-flex">
+        <span>
+          Suppose you {% if auction_instructions %} bid {{ Q2_number_1 }} {% endif %} {% if game_instructions %} choose {{ Q2_number_1 }}{% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions %} bids {{ Q2_number_2 }}.{% endif %} {% if game_instructions %} chooses {{ Q2_number_2 }}. {% endif %} What will your payoff from the {% if auction_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question.
+        </span>
+        <input type="number"
+               id="Q2" name="Q2" style="width: 4vw; border: 0.15vw solid black;" required
+               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+        <span class="error-message" id="errorQ2"></span>
+      </div>
+    </li>
+
+    <!-- Question 3: True/False dropdown -->
+    <li>
+      <div class="question-flex">
+        <span>
+          {% if computer_instructions %} 
+          Knowing what value has randomly been drawn for me does <b><i>not</i></b> tell me anything about what the computer will bid. 
+          {% endif %} 
+          {% if not computer_instructions %} 
+          Knowing what {% if auction_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if auction_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has been randomly drawn for the other participant.
+          {% endif %}
+        </span>
+        <select id="Q3" name="Q3" style="height: 4vh; border: 0.15vw solid black;" required>
+          <option></option>
+          <option value="1">True</option>
+          <option value="0">False</option>
+        </select>
+        <span class="error-message" id="errorQ3"></span>
+      </div>
+    </li>
+  </ol>
+
+  <!-- Quiz submission and instructions buttons (if not using integrated matrix) -->
+  {% if not integrated_matrix %}
+    <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
+    <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
+  {% endif %}
+
+  <!-- Integrated matrix view with instructions and payoff table placeholder -->
+  {% if integrated_matrix %}
+    <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;">
+      <b>{% if auction_instructions or computer_instructions %} Your randomly drawn value for the widget is {{ quiz_value }} {% endif %} {% if game_instructions %} Your type is 5 {% endif %}</b>
+    </p>
+    <div class="quiz-page" id="payoff-table-container"></div>
+    <div class="button">
+      <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
+      <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
+    <div>
+  {% endif %}
+
+  <!-- Payoff calculator UI if matrix is not integrated -->
+  {% if not integrated_matrix %}
+    <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-3vh;"><b>Your randomly drawn value for the widget is {{ quiz_value }}</b></p>
+
+    <!-- Value selection dropdown -->
+    <div class="button-row-calculator">
+      <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
+      <div class="value-dropdown">
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: {{ quiz_value }}</button>
+      </div>
+
+    <!-- Your bid selection -->
+    <div id="your-bid-dropdown" class="your-bid-dropdown">
+      <button type="button" style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn" onclick="toggleDropdown(this)">Your Bid</button>
+      <div id="your-bid-dropdown-content" class="your-bid-dropdown-content" style="display: none;">
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(0)">0</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(50)">50</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(100)">100</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(150)">150</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(200)">200</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(250)">250</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(300)">300</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(350)">350</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(400)">400</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(450)">450</div>
+        <div class="your-bid-dropdown-option" onclick="selectYourBid(500)">500</div>
+      </div>
+    </div>
+
+    <!-- Opponent bid selection -->
+    <div id="opponent-bid-dropdown" class="opponent-bid-dropdown">
+      <button type="button" style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn" onclick="toggleDropdown(this)">Other's Bid</button>
+      <div id="opponent-bid-dropdown-content" class="opponent-bid-dropdown-content" style="display: none;">
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(0)">0</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(50)">50</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(100)">100</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(150)">150</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(200)">200</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(250)">250</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(300)">300</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(350)">350</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(400)">400</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(450)">450</div>
+        <div class="opponent-bid-dropdown-option" onclick="selectOpponentBid(500)">500</div>
+      </div>
+    </div>
+
+    <!-- Display calculated payoff -->
+    <div>
+      <p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p>
+    </div>
+  </div>
+{% endif %}
+
+<!-- Include pop-up instructions button -->
+{{ include '_static/popups/instructions_bttn.html' }}
 
 {{ endblock }}

@@ -2,9 +2,9 @@
 
 <!-- Main container for the page with height adjusted for the viewport -->
 <div class="container" style="height:170vh;">
-  <!-- Title section to display Auction or Game text based on the standard_instructions flag -->
+  <!-- Title section to display Auction or Game text based on the auction_instructions flag -->
   <div class="title">
-    <p>{% if standard_instructions %} Auction {% endif %}{% if not standard_instructions %} Game {% endif %}</p>
+    <p>{% if auction_instructions or computer_instructions %} Auction {% endif %}{% if game_instructions %} Game {% endif %}</p>
   </div>
 
   <!-- Including a JS file that displays a warning if JavaScript is disabled -->
@@ -16,17 +16,17 @@
   <!-- Link to the external CSS file -->
   <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
-  {% if standard_instructions %}
-    <!-- Instructions specific to the auction context when standard_instructions is true -->
-    <p>The payoff table below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the {% if computer_opponent %}computer{% endif %}{% if not computer_opponent %}other participant{% endif%}. {% if integrated_endowment %} This includes your initial endowment of 450 cents. {% endif %}</p>
+  {% if auction_instructions or computer_instructions %}
+    <!-- Instructions specific to the auction context when auction_instructions is true -->
+    <p>The payoff table below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the {% if computer_instructions %}computer{% endif %}{% if not computer_instructions %}other participant{% endif%}. {% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %}</p>
   {% endif %}
-  {% if not standard_instructions %}
-    <!-- Instructions specific to the game context when standard_instructions is false -->
+  {% if game_instructions %}
+    <!-- Instructions specific to the game context when auction_instructions is false -->
     <p>The payoff table below shows your earnings from the game as a function of your type, your number, and the other participant's number. {% if integrated_endowment %} This includes your initial endowment of 450 cents. {% endif %}</p>
   {% endif %}
 
   <!-- Description of the buttons below the payoff table with their colors and functionalities -->
-  <p style="margin-bottom: 0.4vh;">There are {% if computer_opponent %}three{% endif %}{% if not computer_opponent %}four{% endif%} buttons below the payoff table:</p>
+  <p style="margin-bottom: 0.4vh;">There are {% if computer_instructions %}three{% endif %}{% if not computer_instructions %}four{% endif%} buttons below the payoff table:</p>
   <ul style="margin-left: 2vw;">
     <!-- Instructions Button -->
     <li>Instructions <span style="color:orange">(Orange)</span>
@@ -34,44 +34,44 @@
         <li style="margin-bottom: -1vh;">Accesses the full instructions for the experiment.</li>
       </ul>
     </li>
-    {% if not computer_opponent %}
-    <!-- Value dropdown for participants when there is no computer opponent -->
-    <li>{% if standard_instructions %} Value {% endif %}{% if not standard_instructions %} Type {% endif %} for Payoff Table <span style="color:rgb(187, 124, 255)">(Purple)</span>
+    {% if not computer_instructions %}
+    <!-- Value dropdown for participants when there is no computer instructions -->
+    <li>{% if auction_instructions %} Value {% endif %}{% if game_instructions %} Type {% endif %} for Payoff Table <span style="color:rgb(195, 139, 255)">(Purple)</span>
       <ul style="margin-left: 1vw;">
-        <li style="margin-bottom: 0vh;">Accesses a pulldown menu that allows you to see the payoff table for other {% if standard_instructions %} values {% endif %} {% if not standard_instructions %} types. {% endif %}</li>
-        <li style="margin-bottom: -1vh;">Your {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} is highlighted in <span style="color:red">red</span> so you can easily find it.</li>
+        <li style="margin-bottom: 0vh;">Accesses a pulldown menu that allows you to see the payoff table for other {% if auction_instructions %} values {% endif %} {% if game_instructions %} types. {% endif %}</li>
+        <li style="margin-bottom: -1vh;">Your {% if auction_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} is highlighted in <span style="color:red">red</span> so you can easily find it.</li>
       </ul>
     </li>
     {% endif %}
     <!-- Select Your Bid Button -->
-    <li>Select Your {% if standard_instructions %} Bid {% endif %} {% if not standard_instructions %} Number {% endif %} <span style="color:rgb(110, 207, 255)">(Blue)</span>
+    <li>Select Your {% if auction_instructions or computer_instructions %} Bid {% endif %} {% if game_instructions %} Number {% endif %} <span style="color:rgb(110, 207, 255)">(Blue)</span>
       <ul style="margin-left: 1vw;">
-        <li style="margin-bottom: -1vh;">Accesses a pulldown menu that you will use to select a {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} number. {% endif %}</li>
+        <li style="margin-bottom: -1vh;">Accesses a pulldown menu that you will use to select a {% if auction_instructions or computer_instructions %} bid {% endif %} {% if game_instructions %} number. {% endif %}</li>
       </ul>
     </li>
     <!-- Confirm Your Bid Button -->
-    <li>Confirm Your {% if standard_instructions %} Bid {% endif %} {% if not standard_instructions %} number {% endif %} <span style="color:rgb(76, 234, 76)">(Green)</span>
+    <li>Confirm Your {% if auction_instructions or computer_instructions %} Bid {% endif %} {% if game_instructions %} number {% endif %} <span style="color:rgb(76, 234, 76)">(Green)</span>
       <ul style="margin-left: 1vw;">
-        <li style="margin-bottom: 0vh;">Use this button to confirm your {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} number {% endif %} and continue to the final screen.</li>
-        <li style="margin-bottom: -1vh;">This button will only turn green after you select a {% if standard_instructions %} bid. {% endif %} {% if not standard_instructions %} number. {% endif %}</li>
+        <li style="margin-bottom: 0vh;">Use this button to confirm your {% if auction_instructions or computer_instructions %} bid {% endif %} {% if game_instructions %} number {% endif %} and continue to the final screen.</li>
+        <li style="margin-bottom: -1vh;">This button will only turn green after you select a {% if auction_instructions or computer_instructions %} bid. {% endif %} {% if game_instructions %} number. {% endif %}</li>
       </ul>
     </li>
   </ul>
 
-  <!-- Instructions related to auction outcomes when there is a computer opponent -->
-  {% if standard_instructions and computer_opponent%}   
+  <!-- Instructions related to auction outcomes when there is computer instructions -->
+  {% if computer_instructions %}   
   <p>You win the auction if your bid is higher than the computer's bid. If you win, you earn the difference between your value for the widget and the computer's bid. If you lose, you earn zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
   <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top: 1vh; margin-bottom: 3vh;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
   {% endif %}
 
-  <!-- Instructions related to auction outcomes when there is no computer opponent -->
-  {% if standard_instructions and not computer_opponent%}     
+  <!-- Instructions related to auction outcomes when there is computer instructions -->
+  {% if auction_instructions and not computer_instructions %}     
   <p>The auction is won by the person who submits the highest bid. The winning bidder earns the difference between their value for the widget and the losing bid (i.e. the bid submitted by the other person). The losing bidder earns zero. In case of a tie, you will earn the average of what you would get as the winner and as the loser.</p>
   <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top: 1vh; margin-bottom: 3vh;"><b>Your randomly drawn value for the widget is {{ auction_value }}</b></p>
   {% endif %}
 
-  <!-- Instructions for the game if not standard instructions (i.e., non-auction) -->
-  {% if not standard_instructions %}
+  <!-- Instructions for the game if game instructions (i.e., non-auction) -->
+  {% if game_instructions %}
   <p>If you submit the highest number, your payoff is the difference between your type and the other's participant's number, <i>multiplied by 50 cents.</i> If your number is the lowest number, your payoff is zero. In case of a tie, your payoff is the difference between your type and the other's participant's number, <i>multiplied by 25 cents.</i></p>
   <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top: 1vh; margin-bottom: 3vh;"><b>Your type is {{ auction_value }}</b></p>
   {% endif %}
@@ -83,10 +83,10 @@
   <div class="button-row">
     <!-- Button to access instructions -->
     <button type="button" class="instructions_bttn" style="background-color:orange;" onclick="showInstructions()">Instructions</button>
-    {% if not computer_opponent and standard_instructions%}
+    {% if auction_instructions%}
       <!-- Dropdown for selecting Value for Payoff Table -->
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{ auction_value }}</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{ auction_value }}</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
           <!-- Value options in the dropdown -->
           <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
@@ -120,7 +120,7 @@
           <div class="bid-dropdown-option" onclick="confirmBid(500)">500</div>
         </div>
     {% endif %}
-    {% if computer_opponent and standard_instructions %}
+    {% if computer_instructions %}
       <!-- Dropdown for selecting Bid -->
       <div id="bid-dropdown" class="bid-dropdown">
         <button type="button" class="bid-dropdown-btn" style="background-color: rgb(110, 207, 255);" onclick="toggleDropdown(this)">Select Your Bid</button>
@@ -139,10 +139,10 @@
           <div class="bid-dropdown-option" onclick="confirmBid(500)">500</div>
         </div>
     {% endif %}
-    {% if not standard_instructions %}
+    {% if game_instructions %}
       <!-- Dropdown for selecting Type for Payoff Table -->
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(187, 124, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: {{ auction_value }}</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: {{ auction_value }}</button>
         <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
           <!-- Type options in the dropdown -->
           <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if auction_value == 0 %}style="color: red;"{% endif %}>0</div>
@@ -180,7 +180,7 @@
     <!-- Error message for bid selection -->
     <span id="bid-error-message"></span>
     <!-- Button to confirm the bid selection -->
-    <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your {% if standard_instructions %} Bid: {% endif %} {% if not standard_instructions %} Number: {% endif %} <span id="selected-bid-display"></span></button>
+    <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your {% if auction_instructions or computer_instructions %} Bid: NA{% endif %} {% if game_instructions %} Number: NA{% endif %} <span id="selected-bid-display"></span></button>
     <input type="hidden" name="selected_bid" id="selected-bid-input">
   </div>
 </div>
