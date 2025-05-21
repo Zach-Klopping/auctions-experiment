@@ -146,7 +146,7 @@ class Player(BasePlayer):
     game_instructions = models.BooleanField()
 
     # Participant ID
-    user_id = models.StringField()
+    prolific_id = models.StringField()
 
     # Ethics Check Box
     ethics = models.BooleanField()
@@ -207,6 +207,8 @@ class P2(Page):
     ''' Ethics Statement'''
     form_model = 'player'
     form_fields = ['ethics']
+    def before_next_page(player, timeout_happened):
+        player.prolific_id = player.participant.label
 
 
 class P3(Page):
