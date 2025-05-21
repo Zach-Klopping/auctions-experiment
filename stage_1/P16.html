@@ -1,0 +1,17 @@
+{{ block content }}
+
+<div class="title">
+    <p>Redirect</p>
+</div>
+
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+
+{{ endblock }}
