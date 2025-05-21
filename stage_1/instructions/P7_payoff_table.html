@@ -1,29 +1,29 @@
-{% if integrated_payoff_matrix %}  
-  {% if standard_instructions and computer_opponent %}
+{% if integrated_matrix %}  
+  {% if computer_instructions %}
     <p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the computer's bid. Your bid determines the row of the payoff table and the computer's bid determines the column.{% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %} </p>
     <p>Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. </p>
-    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;"><b>Your value for the widget is 250 cents.</b></p>
+    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;"><b>Your value for the widget is {{ instruction_value }}.</b></p>
   {% endif %}
 
-  {% if standard_instructions and not computer_opponent %}
+  {% if auction_instructions %}
     <p>The payoff table below shows what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. Your bid determines the row of the payoff table and the other participant's bid determines the column. {% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %}</p>
     <p>Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant.</p>
     <p>Notice that you can change the value used to calculate the payoff table using the pull-down menu labeled “Value for Payoff Table” (<span style="color:rgb(195, 139, 255)">purple</span> button). The default is the value that has randomly been drawn for you. Using the pull-down menu does not change your value, but lets you see what payoff table looks like for the other participant if they draw a different value than you. Your value is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
-    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;"><b>Your value for the widget is 250 cents.</b></p>
+    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;"><b>Your value for the widget is {{ instruction_value }}.</b></p>
   {% endif %}
 
-  {% if not standard_instructions %}
+  {% if game_instructions %}
     <p>The payoff table below shows what you will earn from the game as a function of your type, your number, and the other participant's number. Your number determines the row of the payoff table and the other participant's number determines the column. {% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %}</p>
     <p>Your type for this example was randomly drawn; a new type will be drawn for the actual game, so be certain to check what your type is in the game. Remember, knowing your type tells you nothing about the random type drawn for the other participant.</p>
     <p>Notice that you can change the type used to calculate the payoff table using the pull-down menu labeled “Value for Payoff Table” (<span style="color:rgb(195, 139, 255)">purple</span> button). The default is the type that has randomly been drawn for you. Using the pull-down menu does not change your type, but lets you see what payoff table looks like for the other participant if they draw a different type than you. Your type is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
-    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top: 1.5vh;"><b>Your type is 5</b></p>
+    <p class="center-text" style="color: red; font-size: 1.5vw; margin-top: 1.5vh;"><b>Your type is {{ instruction_value }}</b></p>
   {% endif %}
 {% endif %}
 
-{% if not integrated_payoff_matrix %}
-  <p>The payoff calculator, shown below, lets you calculate what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. This includes your initial endowment of 450 cents.</p>
+{% if not integrated_matrix %}
+  <p>The payoff calculator, shown below, lets you calculate what you will earn from the auction as a function of your value for the widget, your bid, and the bid of the other participant. {% if integrated_endowment %} The earnings shown in the payoff calculator include your participation fee of $6.50.{% endif %} </p>
   <p>Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. Remember, knowing your value for the widget tells you nothing about the random value drawn for the other participant. </p>
   <p>Notice that you can change the value used to calculate the payoff. The default is the value that has randomly been drawn for you. To change the value used to calculate the payoff, use the pull-down menu labeled “Value for Payoff.” This does not change your value, but lets you see what the payoffs look like for the other participant if they draw a different value than you. Your value is highlighted in <span style="color:red">red</span> on the pull-down menu so you can always easily find it.</p>
-  <p>To calculate what your payoff might be, use the pull-down menus labeled "Your Bid” and “Other's Bid” to enter values for your bid and the other participant's bid. The resulting payoff will show in the window labeled “Your Payoff”. </p>
-  <p class="center-text" style="color: red; font-size: 1.5vw;"><b>Your value for the widget is 250 cents.</b></p>
+  <p>To calculate what your payoff might be, use the pull-down menus labeled "Your Bid” and “Other's Bid” to enter values for your bid and the other participant's bid. Once you have entered information into the payoff calculator, your resulting payoff will show in the area labeled “Your Payoff”.</p>
+  <p class="center-text" style="color: red; font-size: 1.5vw;"><b>Your value for the widget is {{ instruction_value }}.</b></p>
 {% endif %}

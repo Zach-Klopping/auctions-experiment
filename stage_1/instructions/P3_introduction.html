@@ -1,7 +1,7 @@
-{% if standard_instructions %}
+{% if auction_instructions or computer_instructions %}
     <p>You are about to participate in a single auction where you will bid to buy a “widget”. You will earn a fixed payment of $6.50 for participation in the auction plus any gains or losses from the auction. The minimum you can earn is $2.00. Based on a typical completion time of 15 minutes, you are guaranteed pay of $8/hour. </p>
 {% endif %}
 
-{% if not standard_instructions %}
+{% if game_instructions %}
     <p>You are about to participate in a single game. You will earn a fixed payment of $6.50 for participation in the game plus any gains or losses from the game. The minimum you can earn is $2.00. Based on a typical completion time of 15 minutes, you are guaranteed pay of $8/hour. </p>
 {% endif %}

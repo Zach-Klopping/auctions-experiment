@@ -18,8 +18,16 @@
   <link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
 
   <!-- Quiz instructions with conditional phrasing based on context -->
-  <p>Before starting the real {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} please answer the following three questions. These questions test your comprehension of the instructions. All {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} numbers {% endif %} used in these questions have been drawn randomly. As such, the {% if standard_instructions %} bids {% endif %} {% if not standard_instructions %} numbers {% endif %} in these questions do not provide any guidance on how you ought to {% if standard_instructions %} bid {% endif %} {% if not standard_instructions %} choose {% endif %} in the real {% if standard_instructions %} auction. {% endif %} {% if not standard_instructions %} game. {% endif %}</p>
-  <p>You should use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} shown below to answer the quiz questions. Your {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} for this example was randomly drawn; a new {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} will be drawn for the actual {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} so be certain to check what your {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} is in the {% if standard_instructions %} auction. {% endif %} {% if not standard_instructions %} game. {% endif %} If you cannot remember something about the instructions for the  {% if standard_instructions %} auction, {% endif %} {% if not standard_instructions %} game, {% endif %} click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+  {% if auction_instructions or computer_instructions %}
+  <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
+  <p>You should use the payoff {% if integrated_matrix %} table {% endif %}{% if not integrated_matrix %} calculator {% endif %}shown below to answer the quiz questions. Your value for this example was randomly drawn; a new value will be drawn for the actual auction, so be certain to check what your value is in the auction. If you cannot remember something about the instructions for the auction, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+  {% endif %}
+  
+  {% if game_instructions %}
+  <p>Before starting the real game, please answer the following three questions. These questions test your comprehension of the instructions. All numbers used in these questions have been drawn randomly. As such, the numbers in these questions do not provide any guidance on how you ought to choose in the real game.</p>
+  <p>You should use the payoff table shown below to answer the quiz questions. Your type for this example was randomly drawn; a new tpe will be drawn for the actual game, so be certain to check what your type is in the game. If you cannot remember something about the instructions for the game, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
+  {% endif %}
+
   <p>You will have two chances to answer these questions. If you get them all correct on your first try, you will earn a bonus of 50 cents. If you get them all correct only on your second chance, you will get a bonus of 20 cents. You will be able to continue with the experiment if you do not answer all three questions correctly but will not receive any bonus.</p>
 
   <!-- Quiz questions -->
@@ -28,8 +36,8 @@
     <li>
       <div class="question-flex">
         <span>
-          Suppose you {% if standard_instructions %} bid 100{% endif %} {% if not standard_instructions %} choose 2 {% endif %} and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids 400. {% endif %} {% if not standard_instructions %} chooses 8. {% endif %} What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies? 
-          Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
+          Suppose you {% if auction_instructions %} bid {{ Q1_number_1 }}{% endif %} {% if game_instructions %} choose {{ Q1_number_1 }} {% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions %} bids {{ Q1_number_2 }}. {% endif %} {% if game_instructions %} chooses {{ Q1_number_2 }}. {% endif %} What will your payoff from the {% if auction_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
                id="Q1" name="Q1" style="width: 4vw; border: 0.15vw solid black;" required
@@ -42,8 +50,8 @@
     <li>
       <div class="question-flex">
         <span>
-          Suppose you {% if standard_instructions %} bid 300 {% endif %} {% if not standard_instructions %} choose 6{% endif %} and the {% if computer_opponent %} computer {% endif %} {% if not computer_opponent %} other participant {% endif %} {% if standard_instructions %} bids 50.{% endif %} {% if not standard_instructions %} chooses 1. {% endif %} What will your payoff from the {% if standard_instructions %} auction {% endif %} {% if not standard_instructions %} game {% endif %} be in pennies? 
-          Please use the payoff {% if integrated_payoff_matrix %} table {% endif %} {% if not integrated_payoff_matrix %} calculator {% endif %} below to answer this question.
+          Suppose you {% if auction_instructions %} bid {{ Q2_number_1 }} {% endif %} {% if game_instructions %} choose {{ Q2_number_1 }}{% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions %} bids {{ Q2_number_2 }}.{% endif %} {% if game_instructions %} chooses {{ Q2_number_2 }}. {% endif %} What will your payoff from the {% if auction_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question.
         </span>
         <input type="number"
                id="Q2" name="Q2" style="width: 4vw; border: 0.15vw solid black;" required
@@ -56,17 +64,17 @@
     <li>
       <div class="question-flex">
         <span>
-          {% if computer_opponent %} 
+          {% if computer_instructions %} 
           Knowing what value has randomly been drawn for me does <b><i>not</i></b> tell me anything about what the computer will bid. 
           {% endif %} 
-          {% if not computer_opponent %} 
-          Knowing what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if standard_instructions %} value {% endif %} {% if not standard_instructions %} type {% endif %} has been randomly drawn for the other participant.
+          {% if not computer_instructions %} 
+          Knowing what {% if auction_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if auction_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has been randomly drawn for the other participant.
           {% endif %}
         </span>
         <select id="Q3" name="Q3" style="height: 4vh; border: 0.15vw solid black;" required>
           <option></option>
-          <option value="true">True</option>
-          <option value="false">False</option>
+          <option value="1">True</option>
+          <option value="0">False</option>
         </select>
         <span class="error-message" id="errorQ3"></span>
       </div>
@@ -74,15 +82,15 @@
   </ol>
 
   <!-- Quiz submission and instructions buttons (if not using integrated matrix) -->
-  {% if not integrated_payoff_matrix %}
+  {% if not integrated_matrix %}
     <button type="button" class="instructions_bttn" style="background-color: orange;" onclick="showInstructions()">Instructions</button>
     <button type="button" id="continue-button" onclick="CheckQuiz1Answers()">Continue</button>
   {% endif %}
 
   <!-- Integrated matrix view with instructions and payoff table placeholder -->
-  {% if integrated_payoff_matrix %}
+  {% if integrated_matrix %}
     <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-0.5vh;">
-      <b>{% if standard_instructions %} Your randomly drawn value for the widget is 250 {% endif %} {% if not standard_instructions %} Your type is 5 {% endif %}</b>
+      <b>{% if auction_instructions or computer_instructions %} Your randomly drawn value for the widget is {{ quiz_value }} {% endif %} {% if game_instructions %} Your type is 5 {% endif %}</b>
     </p>
     <div class="quiz-page" id="payoff-table-container"></div>
     <div class="button">
@@ -92,14 +100,14 @@
   {% endif %}
 
   <!-- Payoff calculator UI if matrix is not integrated -->
-  {% if not integrated_payoff_matrix %}
-    <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-3vh;"><b>Your randomly drawn value for the widget is 250</b></p>
+  {% if not integrated_matrix %}
+    <p class="center-text-auctions" style="color: red; font-size: 1.5vw; margin-top:-3vh;"><b>Your randomly drawn value for the widget is {{ quiz_value }}</b></p>
 
     <!-- Value selection dropdown -->
     <div class="button-row-calculator">
       <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: {{ quiz_value }}</button>
       </div>
 
     <!-- Your bid selection -->

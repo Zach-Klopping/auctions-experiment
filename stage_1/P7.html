@@ -5,7 +5,7 @@
   
   <!-- Title header: dynamically shows "Table" or "Calculator" -->
   <div class="title" >
-    <p>Instructions: Payoff {% if integrated_payoff_matrix %} Table {% endif %}{% if not integrated_payoff_matrix %} Calculator {% endif %}</p>
+    <p>Instructions: Payoff {% if integrated_matrix %} Table {% endif %}{% if not integrated_matrix %} Calculator {% endif %}</p>
   </div>
 
   <!-- Show popup warning if JavaScript is disabled -->
@@ -20,53 +20,53 @@
   <!-- Include page-specific payoff table structure -->
   {{ include 'stage_1/instructions/P7_payoff_table.html' }}
 
-  {% if integrated_payoff_matrix %}
-    {% if computer_opponent %}
+  {% if integrated_matrix %}
+    {% if computer_instructions %}
       <!-- Container for payoff table shown to computer-opponent players -->
       <div class="quiz-page" id="payoff-table-container" style="width: 61vw;"></div>
     {% endif %}  
 
     <div class="button-row">
-      {% if not computer_opponent %}
+      {% if not computer_instructions %}
         <!-- Container for payoff table shown to human-opponent players -->
         <div class="instructions-page" id="payoff-table-container" style="width: 105vw;"></div>
 
-        {% if standard_instructions %}
+        {% if auction_instructions %}
           <!-- Dropdown for selecting value (standard instructions) -->
           <div class="value-dropdown">
-            <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: 250</button>
+            <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff Table: {{instruction_value}} </button>
               <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
-                <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-                <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
-                <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
-                <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
-                <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
-                <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red">250</div>
-                <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
-                <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
-                <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
-                <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
-                <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+                <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if instruction_value == 0 %}style="color: red;"{% endif %}>0</div>
+                <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if instruction_value == 50 %}style="color: red;"{% endif %}>50</div>
+                <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if instruction_value == 100 %}style="color: red;"{% endif %}>100</div>
+                <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if instruction_value == 150 %}style="color: red;"{% endif %}>150</div>
+                <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if instruction_value == 200 %}style="color: red;"{% endif %}>200</div>
+                <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if instruction_value == 250 %}style="color: red;"{% endif %}>250</div>
+                <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if instruction_value == 300 %}style="color: red;"{% endif %}>300</div>
+                <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if instruction_value == 350 %}style="color: red;"{% endif %}>350</div>
+                <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if instruction_value == 400 %}style="color: red;"{% endif %}>400</div>
+                <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if instruction_value == 450 %}style="color: red;"{% endif %}>450</div>
+                <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if instruction_value == 500 %}style="color: red;"{% endif %}>500</div>
               </div>
           </div>
         {% endif %}
 
-        {% if not standard_instructions %}
+        {% if game_instructions %}
           <!-- Dropdown for selecting type (alternative instructions) -->
           <div class="value-dropdown">
             <button type="button" style="background-color: rgb(195, 139, 255);" class="value-dropdown-btn" onclick="toggleDropdown(this)">Type for Payoff Table: 5</button>
               <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
-                <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-                <div class="value-dropdown-option" onclick="selectValue(1, this)">1</div>
-                <div class="value-dropdown-option" onclick="selectValue(2, this)">2</div>
-                <div class="value-dropdown-option" onclick="selectValue(3, this)">3</div>
-                <div class="value-dropdown-option" onclick="selectValue(4, this)">4</div>
-                <div class="value-dropdown-option" onclick="selectValue(5, this)" style="color: red">5</div>
-                <div class="value-dropdown-option" onclick="selectValue(6, this)">6</div>
-                <div class="value-dropdown-option" onclick="selectValue(7, this)">7</div>
-                <div class="value-dropdown-option" onclick="selectValue(8, this)">8</div>
-                <div class="value-dropdown-option" onclick="selectValue(9, this)">9</div>
-                <div class="value-dropdown-option" onclick="selectValue(10, this)">10</div>
+                  <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if instruction_value == 0 %}style="color: red;"{% endif %}>0</div>
+                  <div class="value-dropdown-option" onclick="selectValue(1, this)" {% if instruction_value == 1 %}style="color: red;"{% endif %}>1</div>
+                  <div class="value-dropdown-option" onclick="selectValue(2, this)" {% if instruction_value == 2 %}style="color: red;"{% endif %}>2</div>
+                  <div class="value-dropdown-option" onclick="selectValue(3, this)" {% if instruction_value == 3 %}style="color: red;"{% endif %}>3</div>
+                  <div class="value-dropdown-option" onclick="selectValue(4, this)" {% if instruction_value == 4 %}style="color: red;"{% endif %}>4</div>
+                  <div class="value-dropdown-option" onclick="selectValue(5, this)" {% if instruction_value == 5 %}style="color: red;"{% endif %}>5</div>
+                  <div class="value-dropdown-option" onclick="selectValue(6, this)" {% if instruction_value == 6 %}style="color: red;"{% endif %}>6</div>
+                  <div class="value-dropdown-option" onclick="selectValue(7, this)" {% if instruction_value == 7 %}style="color: red;"{% endif %}>7</div>
+                  <div class="value-dropdown-option" onclick="selectValue(8, this)" {% if instruction_value == 8 %}style="color: red;"{% endif %}>8</div>
+                  <div class="value-dropdown-option" onclick="selectValue(9, this)" {% if instruction_value == 9 %}style="color: red;"{% endif %}>9</div>
+                  <div class="value-dropdown-option" onclick="selectValue(10, this)" {% if instruction_value == 10 %}style="color: red;"{% endif %}>10</div>
               </div>
           </div>
         {% endif %}
@@ -77,26 +77,26 @@
     </div>
   {% endif %}
 
-  {% if not integrated_payoff_matrix %}
+  {% if not integrated_matrix %}
     <!-- Display calculator header when matrix is not integrated -->
     <p style="font-size: 1.5vw; margin-top:-1vh;"><b>Payoff Calculator</b></p>
     <div class="button-row-calculator">
 
       <!-- Value selection for payoff calculator -->
       <div class="value-dropdown">
-        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: 250</button>
+        <button type="button" style="background-color: rgb(195, 139, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn" onclick="toggleDropdown(this)">Value for Payoff: {{instruction_value}} </button>
           <div id="value-dropdown-content" class="value-dropdown-content" style="display: none;">
-            <div class="value-dropdown-option" onclick="selectValue(0, this)">0</div>
-            <div class="value-dropdown-option" onclick="selectValue(50, this)">50</div>
-            <div class="value-dropdown-option" onclick="selectValue(100, this)">100</div>
-            <div class="value-dropdown-option" onclick="selectValue(150, this)">150</div>
-            <div class="value-dropdown-option" onclick="selectValue(200, this)">200</div>
-            <div class="value-dropdown-option" onclick="selectValue(250, this)" style="color: red">250</div>
-            <div class="value-dropdown-option" onclick="selectValue(300, this)">300</div>
-            <div class="value-dropdown-option" onclick="selectValue(350, this)">350</div>
-            <div class="value-dropdown-option" onclick="selectValue(400, this)">400</div>
-            <div class="value-dropdown-option" onclick="selectValue(450, this)">450</div>
-            <div class="value-dropdown-option" onclick="selectValue(500, this)">500</div>
+              <div class="value-dropdown-option" onclick="selectValue(0, this)" {% if instruction_value == 0 %}style="color: red;"{% endif %}>0</div>
+              <div class="value-dropdown-option" onclick="selectValue(50, this)" {% if instruction_value == 50 %}style="color: red;"{% endif %}>50</div>
+              <div class="value-dropdown-option" onclick="selectValue(100, this)" {% if instruction_value == 100 %}style="color: red;"{% endif %}>100</div>
+              <div class="value-dropdown-option" onclick="selectValue(150, this)" {% if instruction_value == 150 %}style="color: red;"{% endif %}>150</div>
+              <div class="value-dropdown-option" onclick="selectValue(200, this)" {% if instruction_value == 200 %}style="color: red;"{% endif %}>200</div>
+              <div class="value-dropdown-option" onclick="selectValue(250, this)" {% if instruction_value == 250 %}style="color: red;"{% endif %}>250</div>
+              <div class="value-dropdown-option" onclick="selectValue(300, this)" {% if instruction_value == 300 %}style="color: red;"{% endif %}>300</div>
+              <div class="value-dropdown-option" onclick="selectValue(350, this)" {% if instruction_value == 350 %}style="color: red;"{% endif %}>350</div>
+              <div class="value-dropdown-option" onclick="selectValue(400, this)" {% if instruction_value == 400 %}style="color: red;"{% endif %}>400</div>
+              <div class="value-dropdown-option" onclick="selectValue(450, this)" {% if instruction_value == 450 %}style="color: red;"{% endif %}>450</div>
+              <div class="value-dropdown-option" onclick="selectValue(500, this)" {% if instruction_value == 500 %}style="color: red;"{% endif %}>500</div>
           </div>
       </div>
 

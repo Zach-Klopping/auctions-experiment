@@ -138,9 +138,9 @@ function Quiz1showErrorMessage(question) {
 }
 function CheckQuiz1Answers() {
     var answers_quiz1 = {
-        Q1: document.querySelector('input[name="Q1"]').value.trim(),
-        Q2: document.querySelector('input[name="Q2"]').value.trim(),
-        Q3: document.querySelector('select[name="Q3"]').value.trim(),
+        Q1: parseInt(document.querySelector('input[name="Q1"]').value.trim(), 10),
+        Q2: parseInt(document.querySelector('input[name="Q2"]').value.trim(), 10),
+        Q3: Number(document.querySelector('select[name="Q3"]').value.trim()),
     };
 
     var correct_answers_quiz1 = js_vars.correct_answers_quiz1;
@@ -171,8 +171,10 @@ function CheckQuiz1Answers() {
 // ==================================================
 function createPayoffTable(value) {
     var constant = js_vars.constant;
-    var standard_instructions = js_vars.standard_instructions
-    const validValues = standard_instructions
+    var auction_instructions = js_vars.auction_instructions
+    var computer_instructions = js_vars.computer_instructions
+    const validValues = (auction_instructions || computer_instructions)
+
     ? Array.from({ length: 11 }, (_, i) => i * 50)
     : Array.from({ length: 11 }, (_, i) => i);
     const payoffTable = {};
@@ -180,7 +182,7 @@ function createPayoffTable(value) {
     validValues.forEach(bid1 => {
         validValues.forEach(bid2 => {
             let payoff;
-            if (standard_instructions) {
+            if (auction_instructions || computer_instructions) {
                 if (bid1 > bid2) {
                     payoff = constant + (value - bid2);
                 } else if (bid1 === bid2) {
@@ -205,6 +207,7 @@ function createPayoffTable(value) {
 function updatePayoffTable() {
     const popupContainer = document.getElementById('instructions-bttn');
     const isPopup = popupContainer !== null && popupContainer.style.display === 'block';
+    console.log("isPopup:", isPopup);
 
     const tableContainer = isPopup
         ? document.getElementById('payoff-table-popup')
@@ -212,30 +215,44 @@ function updatePayoffTable() {
     if (!tableContainer) return;
 
     let value;
-    const valuedropdown = document.querySelector('.value-dropdown-btn');
-    if (valuedropdown) {
-        const selectedText = valuedropdown.innerText;
-        const parsed = parseInt(selectedText.split(": ")[1]);
-        value = isNaN(parsed) ? js_vars.auction_value : parsed;
+    const valueDropdown = document.querySelector('.value-dropdown-btn');
+
+    if (valueDropdown) {
+        const selectedText = valueDropdown.innerText;
+        const parts = selectedText.split(": ");
+        const parsed = parts.length > 1 ? parseInt(parts[1], 10) : NaN;
+
+        value = !isNaN(parsed)
+            ? parsed
+            : fallbackValue();
     } else {
-        value = js_vars.auction_value;
+        value = fallbackValue();
     }
 
-    var standard_instructions = js_vars.standard_instructions;
-    const validValues = standard_instructions
+    function fallbackValue() {
+        if (isPopup) return js_vars.instruction_value;
+                    console.log("Using instruction_value due to popup:", js_vars.instruction_value);
+        if (js_vars.auction_value == null && js_vars.quiz_value == null) {
+            return js_vars.instruction_value;
+        }
+        return js_vars.auction_value ?? js_vars.quiz_value ?? js_vars.instruction_value;
+    }
+
+    var auction_instructions = js_vars.auction_instructions;
+    var computer_instructions = js_vars.computer_instructions
+    const validValues = (auction_instructions || computer_instructions)
     ? Array.from({ length: 11 }, (_, i) => i * 50)
     : Array.from({ length: 11 }, (_, i) => i);
-    var computer_opponent = js_vars.computer_opponent
 
     const payoffTable = createPayoffTable(value);
     let tableHTML = '<table>';
 
     let columnHeader, rowHeader;
 
-    if (computer_opponent) {
+    if (computer_instructions) {
         columnHeader = "Computer's Bid";
         rowHeader = "My Bid";
-    } else if (standard_instructions) {
+    } else if (auction_instructions) {
         columnHeader = "Other Participant's Bid";
         rowHeader = "My Bid";
     } else {
@@ -274,7 +291,7 @@ function toggleDropdown(button) {
     }
 }
 function selectValue(value, option) {
-    var standard_instructions = js_vars.standard_instructions;
+    var auction_instructions = js_vars.auction_instructions;
     const dropdown = option.closest('.value-dropdown');
     if (!dropdown) return;
 
@@ -283,7 +300,7 @@ function selectValue(value, option) {
 
     const label = button.classList.contains('PC-value-dropdown-btn')
         ? `Value for Payoff: ${value}`
-        : (standard_instructions ? `Value for Payoff Table: ${value}` : `Type for Payoff Table: ${value}`);
+        : (auction_instructions ? `Value for Payoff Table: ${value}` : `Type for Payoff Table: ${value}`);
 
     button.innerText = label;
 
@@ -305,10 +322,11 @@ function selectOpponentBid(bid) {
     tryCalculatePayoff();
 }
 function confirmBid(bid) {
-    var standard_instructions = js_vars.standard_instructions;
+    var auction_instructions = js_vars.auction_instructions;
+    var computer_instructions = js_vars.computer_instructions;
     const button = document.querySelector('.bid-dropdown-btn');
-    const label = standard_instructions ? 'Select Your Bid' : 'Select Your Number';
-    const confirmLabel = standard_instructions ? 'Confirm Your Bid' : 'Confirm Your Number';
+    const label = (auction_instructions || computer_instructions) ? 'Select Your Bid' : 'Select Your Number';
+    const confirmLabel = (auction_instructions || computer_instructions) ? 'Confirm Your Bid' : 'Confirm Your Number';
     
     button.innerText = `${label}: ${bid}`;
     document.getElementById('selected-bid-input').value = bid;
