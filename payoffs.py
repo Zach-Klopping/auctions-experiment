@@ -2,7 +2,7 @@ import psycopg2
 import random
 from urllib.parse import urlparse
 
-DATABASE_URL = "postgres://u63656jfp5036f:p1600db826af17c9c5067ddf6cf040c8160d1d176f3b271115f53fa56660d1d8a@ec2-50-17-54-153.compute-1.amazonaws.com:5432/d8lsjt39onnlut"  # e.g. from env var
+DATABASE_URL = "postgres://u18u3petajkfkh:pa432f0ba9164ab174c4f3f753f85f45c605880d4bfceedca2bec40bd4ea80756@ec2-18-232-21-134.compute-1.amazonaws.com:5432/d8opo5kc40iidt"  # e.g. from env var
 
 def parse_database_url(db_url):
     result = urlparse(db_url)
