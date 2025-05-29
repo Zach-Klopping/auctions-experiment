@@ -184,8 +184,6 @@ def creating_session(subsession: Subsession):
             player.constant = 650
         else:
             player.constant = 0
-        
-        player.selected_bid1 = random.choice(range(150, 351, 50))
 
 
 class Group(BaseGroup):
@@ -241,7 +239,6 @@ class Player(BasePlayer):
     instruction_value = models.IntegerField()
     auction_value = models.IntegerField()
     selected_bid = models.IntegerField()
-    selected_bid1 = models.IntegerField()
 
     # Quiz 
     quiz_value = models.IntegerField()
@@ -536,32 +533,6 @@ class P16(Page):
     def js_vars(player):
         return dict(
                 completion_link=player.subsession.session.config['completion_link'])    
-    
-def calculate_payoffs(session):
-    all_players = []
-    for subsession in session.get_subsessions():
-        all_players.extend(subsession.get_players())
-
-    # Shuffle to randomize pairings
-    random.shuffle(all_players)
-
-    for i in range(0, len(all_players), 2):
-        p1 = all_players[i]
-        p2 = all_players[i + 1]
-
-        # Example payoff logic — change as needed
-        if p1.selected_bid1 > p2.selected_bid1:
-            p1.payoff = p1.constant + (p1.auction_value - p2.selected_bid1) + p1.follow_up_quiz_payment + p1.comprehension_quiz_payment
-            p2.payoff = p2.constant + p2.follow_up_quiz_payment + p2.comprehension_quiz_payment
-
-        elif p1.selected_bid1 < p2.selected_bid1:
-            p1.payoff = p1.constant + p1.follow_up_quiz_payment + p1.comprehension_quiz_payment
-            p2.payoff = p2.constant + (p2.auction_value - p1.selected_bid1) + p2.follow_up_quiz_payment + p2.comprehension_quiz_payment
-        
-        elif p1.selected_bid1 == p2.selected_bid1:
-            p1.payoff = p1.constant + ((p1.auction_value - p2.selected_bid1) // 2) + p1.follow_up_quiz_payment + p1.comprehension_quiz_payment
-            p2.payoff = p2.constant + ((p2.auction_value - p1.selected_bid1) // 2) + p2.follow_up_quiz_payment + p2.comprehension_quiz_payment
-
 
 
 page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, P13, P14, P15, P16]
