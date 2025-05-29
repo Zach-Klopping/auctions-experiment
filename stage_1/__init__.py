@@ -254,7 +254,7 @@ class Player(BasePlayer):
     Q2_number_2 = models.IntegerField()
 
     # Payments
-    payoff = models.FloatField(initial=0)
+    game_payoff = models.FloatField(initial=0)
     comprehension_quiz_payment = models.FloatField(default = 0.00)
     follow_up_quiz_payment = models.FloatField(default = 0.00)
 

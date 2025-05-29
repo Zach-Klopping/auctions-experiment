@@ -37,7 +37,7 @@ def calculate_payoffs_postgres():
                     'auction_value': row[3],
                     'follow_up_quiz_payment': row[4],
                     'comprehension_quiz_payment': row[5],
-                    'payoff': 0
+                    'game_payoff': 0
                 }
                 for row in players
             ]
@@ -49,19 +49,19 @@ def calculate_payoffs_postgres():
                 p2 = players[i+1]
                 
                 if p1['selected_bid1'] > p2['selected_bid1']:
-                    p1['payoff'] = p1['constant'] + (p1['auction_value'] - p2['selected_bid1']) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
-                    p2['payoff'] = p2['constant'] + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
+                    p1['game_payoff'] = p1['constant'] + (p1['auction_value'] - p2['selected_bid1']) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    p2['game_payoff'] = p2['constant'] + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
                 elif p1['selected_bid1'] < p2['selected_bid1']:
-                    p1['payoff'] = p1['constant'] + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
-                    p2['payoff'] = p2['constant'] + (p2['auction_value'] - p1['selected_bid1']) + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
+                    p1['game_payoff'] = p1['constant'] + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    p2['game_payoff'] = p2['constant'] + (p2['auction_value'] - p1['selected_bid1']) + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
                 else:
-                    p1['payoff'] = p1['constant'] + ((p1['auction_value'] - p2['selected_bid1']) // 2) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
-                    p2['payoff'] = p2['constant'] + ((p2['auction_value'] - p1['selected_bid1']) // 2) + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
+                    p1['game_payoff'] = p1['constant'] + ((p1['auction_value'] - p2['selected_bid1']) // 2) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    p2['game_payoff'] = p2['constant'] + ((p2['auction_value'] - p1['selected_bid1']) // 2) + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
             
             for p in players:
                 cur.execute(
-                    "UPDATE stage_1_player SET payoff = %s WHERE id = %s",
-                    (p['payoff'], p['id'])
+                    "UPDATE stage_1_player SET game_payoff = %s WHERE id = %s",
+                    (p['game_payoff'], p['id'])
                 )
             conn.commit()
 
