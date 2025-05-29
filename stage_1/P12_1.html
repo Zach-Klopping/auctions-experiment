@@ -180,7 +180,7 @@
     <!-- Error message for bid selection -->
     <span id="bid-error-message"></span>
     <!-- Button to confirm the bid selection -->
-    <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your {% if auction_instructions or computer_instructions %} Bid: NA{% endif %} {% if game_instructions %} Number: NA{% endif %} <span id="selected-bid-display"></span></button>
+    <button type="submit" onclick="return validateBidSelection()" id="confirm-button">Confirm Your {% if auction_instructions or computer_instructions %} Bid: None{% endif %} {% if game_instructions %} Number: None{% endif %} <span id="selected-bid-display"></span></button>
     <input type="hidden" name="selected_bid" id="selected-bid-input">
   </div>
 </div>

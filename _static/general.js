@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     });
 });
-if (typeof js_vars.completionlink !== 'undefined') {
+if (typeof js_vars.completion_link !== 'undefined') {
     window.onload = function() {
-        window.location.href = js_vars.completionlink;
+        window.location.href = js_vars.completion_link;
     }
 }
     
