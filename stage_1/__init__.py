@@ -309,7 +309,6 @@ class P6(Page):
             player.instruction_value = random.choice(range(150, 351, 50))
 
 
-
 class P7(Page):
     '''Instructions: Payoff Table/Calculator'''
     def js_vars(player):
@@ -340,17 +339,17 @@ class P8(Page):
     form_fields = ['attn_check_1']
     def before_next_page(player, timeout_happened):
         if player.game_instructions:
-            player.Q1_number_1 = random.choice(range(player.quiz_value, 11, 1))
+            player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 1, 11, 1))
             player.Q2_number_1 = random.choice(range(0, player.quiz_value + 1, 1))
             player.Q2_number_2 = random.choice(range(player.quiz_value, 11, 1))
-            player.correct_answer_1 = player.constant + (player.quiz_value - player.Q2_number_2)
+            player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
             player.correct_answer_2 = player.constant
             player.correct_answer_3 = True 
         else:
-            player.Q1_number_1 = random.choice(range(player.quiz_value + 1, 501, 50))
+            player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 50, 501, 50))
             player.Q2_number_1 = random.choice(range(0, player.quiz_value + 1, 50))
             player.Q2_number_2 = random.choice(range(player.quiz_value, 501, 50))
-            player.correct_answer_1 = player.constant + (player.quiz_value - player.Q2_number_2)
+            player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
             player.correct_answer_2 = player.constant
             player.correct_answer_3 = True 
 
@@ -394,7 +393,7 @@ class P9(Page):
             if answers_quiz1.get('Q2') != player.correct_answer_2:
                 player.Q2_incorrect += 1
                 
-            if answers_quiz1.get('Q3') != player.correct_answer_3:
+            if bool(answers_quiz1.get('Q3')) != bool(player.correct_answer_3):
                 player.Q3_incorrect += 1
 
             if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2:
@@ -527,6 +526,7 @@ class P15(Page):
             'auction_instructions' : player.auction_instructions,
             'game_instructions' : player.game_instructions
         }
+
 
 class P16(Page):
     '''Redirect Page'''

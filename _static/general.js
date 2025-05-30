@@ -145,7 +145,7 @@ function CheckQuiz1Answers() {
     var answers_quiz1 = {
         Q1: parseInt(document.querySelector('input[name="Q1"]').value.trim(), 10),
         Q2: parseInt(document.querySelector('input[name="Q2"]').value.trim(), 10),
-        Q3: Number(document.querySelector('select[name="Q3"]').value.trim()),
+        Q3: document.querySelector('select[name="Q3"]').value.trim() === "1",
     };
 
     var correct_answers_quiz1 = js_vars.correct_answers_quiz1;
