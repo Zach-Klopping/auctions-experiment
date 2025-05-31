@@ -14,27 +14,31 @@
                 {{ include 'stage_1/instructions/P4_values.html' }}
                 <h3><b style ="font-size:2vw">Payoffs</b></h3>
                 {{ include 'stage_1/instructions/P5_payoffs.html' }}
-                <h3><b style ="font-size:2vw">Payoff {% if integrated_matrix %} Table {% endif %}{% if not integrated_matrix %} Calculator {% endif %}</b></h3>
-                {{ include 'stage_1/instructions/P7_payoff_table.html' }}
+                <h3><b style ="font-size:2vw">Payoff Example</b></h3>
+                {{ include 'stage_1/instructions/P6_payoff_example.html' }}
+                {% if not control_instructions %}
+                    <h3><b style ="font-size:2vw">Payoff {% if integrated_matrix %} Table {% endif %}{% if not integrated_matrix %} Calculator {% endif %}</b></h3>
+                    {{ include 'stage_1/instructions/P7_payoff_table.html' }}
 
-                {% if integrated_matrix %}
-                    <div id="payoff-table-popup" class="instructions-popup" style="width: 105vw;"></div>
-                    {% if auction_instructions or computer_instructions %}
-                    <button type="button" style="background-color: rgb(187, 124, 255);"> Value for Payoff Table: {{instruction_value}} </button>
+                    {% if integrated_matrix %}
+                        <div id="payoff-table-popup" class="instructions-popup" style="width: 105vw;"></div>
+                        {% if auction_instructions or computer_instructions %}
+                        <button type="button" style="background-color: rgb(187, 124, 255);"> Value for Payoff Table: {{instruction_value}} </button>
+                        {% endif %}
+                        {% if game_instructions %}
+                        <button type="button" style="background-color: rgb(187, 124, 255);"> Type for Payoff Table: {{instruction_value}} </button>
+                        {% endif %}
                     {% endif %}
-                    {% if game_instructions %}
-                    <button type="button" style="background-color: rgb(187, 124, 255);"> Type for Payoff Table: {{instruction_value}} </button>
-                    {% endif %}
-                {% endif %}
 
-                {% if not integrated_matrix %} 
-                    <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
-                    <div class="button-row-calculator">
-                        <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn">Value for Payoff: {{instruction_value}}</button>
-                        <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn">Your Bid</button>
-                        <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn">Other's Bid</button>
-                        <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
-                    </div>
+                    {% if not integrated_matrix %} 
+                        <p style="font-size: 1.5vw;"><b>Payoff Calculator</b></p>
+                        <div class="button-row-calculator">
+                            <button type="button" style="background-color: rgb(187, 124, 255);" class="PC-value-dropdown-btn" id="PC-value-dropdown-btn">Value for Payoff: {{instruction_value}}</button>
+                            <button type="button"  style="background-color: rgb(255, 110, 209);" class="your-bid-dropdown-btn" id="your-bid-dropdown-btn">Your Bid</button>
+                            <button type="button"  style="background-color: rgb(255, 255, 110);" class="opponent-bid-dropdown-btn" id="opponent-bid-dropdown-btn">Other's Bid</button>
+                            <div><p><b style="font-size: 1.5vw;" id="payoff-display">Your Payoff: <span style="color:red"> N/A</span></b></p></div>
+                        </div>
+                    {% endif %}
                 {% endif %}
         </div>
     </div>

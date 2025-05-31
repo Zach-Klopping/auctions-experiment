@@ -47,6 +47,7 @@ def calculate_payoffs_postgres():
             
             # For each treatment group, shuffle players deterministically, then pair and calculate payoffs
             for treatment, group in players_by_treatment.items():
+                group = [p for p in group if p['selected_bid'] is not None]
                 random.seed(treatment)  # Seed by treatment for reproducible shuffling
                 random.shuffle(group)
                 # Ensure even number of players to form pairs

@@ -212,7 +212,6 @@ function createPayoffTable(value) {
 function updatePayoffTable() {
     const popupContainer = document.getElementById('instructions-bttn');
     const isPopup = popupContainer !== null && popupContainer.style.display === 'block';
-    console.log("isPopup:", isPopup);
 
     const tableContainer = isPopup
         ? document.getElementById('payoff-table-popup')
@@ -236,7 +235,6 @@ function updatePayoffTable() {
 
     function fallbackValue() {
         if (isPopup) return js_vars.instruction_value;
-                    console.log("Using instruction_value due to popup:", js_vars.instruction_value);
         if (js_vars.auction_value == null && js_vars.quiz_value == null) {
             return js_vars.instruction_value;
         }
@@ -421,7 +419,7 @@ function calculatePayoff() {
     } else {
         payoff = constant;
     }
-
+    liveSend({'calculate_payoff': 'calculate_payoff'});
     document.getElementById("payoff-display").innerHTML = `Your Payoff: <span style="color: green">${payoff}</span>`;
 
     return false;

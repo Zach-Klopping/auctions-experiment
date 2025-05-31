@@ -29,8 +29,9 @@ def creating_session(subsession: Subsession):
 
         # Create a dictionary to store which treatments are enabled based on session config
         possible_treatments = {
-            'control_isolated': subsession.session.config.get('control_isolated'),
-            'control_integrated': subsession.session.config.get('control_integrated'),
+            'control': subsession.session.config.get('control'),
+            'calculator_isolated': subsession.session.config.get('calculator_isolated'),
+            'calculator_integrated': subsession.session.config.get('calculator_integrated'),
             'table_isolated': subsession.session.config.get('table_isolated'),
             'table_integrated': subsession.session.config.get('table_integrated'),
             'no_auction_isolated': subsession.session.config.get('no_auction_isolated'),
@@ -62,8 +63,12 @@ def creating_session(subsession: Subsession):
         subsession.session.vars['treatment_index'] += 1
 
         # Define sets of treatments for boolean flags
+        control_treatment = {
+            'control',
+        }
+
         integrated_endowment_treatments = {
-            'control_integrated',
+            'calculator_integrated',
             'table_integrated',
             'no_auction_integrated',
             'computer_integrated',
@@ -81,8 +86,8 @@ def creating_session(subsession: Subsession):
         auction_instructions_treatments = {
             'table_integrated',
             'table_isolated',
-            'control_integrated',
-            'control_isolated',
+            'calculator_integrated',
+            'calculator_isolated',
         }
 
         computer_instructions_treatments = {
@@ -96,6 +101,7 @@ def creating_session(subsession: Subsession):
         }
 
         # Set boolean attributes on player based on their assigned treatment
+        player.control_instructions = player.treatment in control_treatment
         player.integrated_endowment = player.treatment in integrated_endowment_treatments
         player.integrated_matrix = player.treatment in integrated_matrix_treatments
         player.auction_instructions = player.treatment in auction_instructions_treatments
@@ -106,10 +112,11 @@ def creating_session(subsession: Subsession):
     if 'auction_values_list' not in subsession.session.vars or 'final_pairs' not in subsession.session.vars:
         # Check if any auction-related treatments are enabled in the session config
         standard_values_enabled = (
+            subsession.session.config.get('control') or
             subsession.session.config.get('table_integrated') or
             subsession.session.config.get('table_isolated') or
-            subsession.session.config.get('control_integrated') or
-            subsession.session.config.get('control_isolated') or 
+            subsession.session.config.get('calculator_integrated') or
+            subsession.session.config.get('calculator_isolated') or 
             subsession.session.config.get('computer_integrated') or 
             subsession.session.config.get('computer_isolated')
         )
@@ -117,13 +124,13 @@ def creating_session(subsession: Subsession):
         # Set ranges of values based on whether auction instructions are enabled
         if standard_values_enabled:
             values = list(range(0, 501, 50))
-            quiz_range = list(range(150, 351, 50))     
-            question_range = list(range(0, 501, 50))   
+            quiz_value = 250 
+            question_range = list(range(0, 500, 50))   
 
         else:
             values = list(range(0, 11))
-            quiz_range = list(range(4, 7, 1))     
-            question_range = list(range(0, 11, 1))  
+            quiz_value = 5
+            question_range = list(range(0, 10, 1))  
             
         # Count how many treatments are enabled
         enabled_treatments = sum(1 for enabled in possible_treatments.values() if enabled)
@@ -140,22 +147,15 @@ def creating_session(subsession: Subsession):
         subsession.session.vars['auction_values_index'] = 0
 
         # Calculate total players based on enabled treatments and players per treatment
-        total_players = enabled_treatments * number_in_treatment  # Example: 3 × 110 = 330
+        total_players = enabled_treatments * number_in_treatment  
+
+        # Calculate values in question_range that are less than or greater than quiz_value
+        less_opts = [x for x in question_range if x < quiz_value]
+        greater_opts = [x for x in question_range if x > quiz_value]
+
         # Generate a random quiz value for each player from the quiz_range
-        quiz_values = [random.choice(quiz_range) for _ in range(total_players)]
-
-        less_pairs = []
-        greater_pairs = []
-
-        # Create pairs for quiz: one lower and one higher value relative to quiz_value
-        for qv in quiz_values:
-            less_opts = [x for x in question_range if x < qv]
-            greater_opts = [x for x in question_range if x > qv]
-
-            if len(less_pairs) < total_players // 2:
-                less_pairs.append((qv, random.choice(less_opts)))
-            elif len(greater_pairs) < total_players // 2:
-                greater_pairs.append((qv, random.choice(greater_opts)))
+        less_pairs = [(quiz_value, random.choice(less_opts)) for _ in range(total_players // 2)]
+        greater_pairs = [(quiz_value, random.choice(greater_opts)) for _ in range(total_players // 2)]
 
         # Combine pairs and shuffle the final list
         final_pairs = less_pairs + greater_pairs
@@ -191,19 +191,17 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    # Treatments
-    treatment = models.StringField()
-    integrated_endowment = models.BooleanField()
-    integrated_matrix = models.BooleanField()
-    auction_instructions = models.BooleanField()
-    computer_instructions = models.BooleanField()
-    game_instructions = models.BooleanField()
-
-    # Constant
-    constant = models.IntegerField()
-
     # Participant ID
     prolific_id = models.StringField()
+
+    # Treatment
+    treatment = models.StringField()
+
+    # Constant, Auction Value's and Partcipant Bid
+    constant = models.IntegerField()
+    instruction_value = models.IntegerField()
+    auction_value = models.IntegerField()
+    selected_bid = models.IntegerField()
 
     # Ethics Check Box
     ethics = models.BooleanField()
@@ -217,9 +215,21 @@ class Player(BasePlayer):
     Q2_incorrect = models.IntegerField(default = 0)
     Q3_incorrect = models.IntegerField(default = 0)
 
+    # Quiz 
+    quiz_value = models.IntegerField()
+    correct_answer_1 = models.IntegerField()
+    correct_answer_2 = models.IntegerField()
+    correct_answer_3 = models.BooleanField()
+    Q1_number_1 = models.IntegerField()
+    Q1_number_2 = models.IntegerField()
+    Q2_number_1 = models.IntegerField()
+    Q2_number_2 = models.IntegerField()
+
     # Value For Payoff Table Dropdown Click Counter
     stg1_value_dropdown_click = models.IntegerField(default=0)
     stg2_value_dropdown_click = models.IntegerField(default=0)
+    stg1_calculate_payoff = models.IntegerField(default=0)
+    stg2_calculate_payoff = models.IntegerField(default=0)
 
     # Follow-Up Question's Answer
     fllw_up_Q1 = models.StringField()
@@ -235,25 +245,18 @@ class Player(BasePlayer):
     demographic_1 = models.BooleanField()
     demographic_2 = models.BooleanField()
 
-    # Auction Value and Partcipant Bid
-    instruction_value = models.IntegerField()
-    auction_value = models.IntegerField()
-    selected_bid = models.IntegerField()
-
-    # Quiz 
-    quiz_value = models.IntegerField()
-    correct_answer_1 = models.IntegerField()
-    correct_answer_2 = models.IntegerField()
-    correct_answer_3 = models.BooleanField()
-    Q1_number_1 = models.IntegerField()
-    Q1_number_2 = models.IntegerField()
-    Q2_number_1 = models.IntegerField()
-    Q2_number_2 = models.IntegerField()
-
     # Payments
-    game_payoff = models.FloatField(initial=0)
     comprehension_quiz_payment = models.FloatField(default = 0.00)
     follow_up_quiz_payment = models.FloatField(default = 0.00)
+    game_payoff = models.FloatField(initial=0)
+
+    # Instruction Booleans
+    control_instructions = models.BooleanField()
+    integrated_endowment = models.BooleanField()
+    integrated_matrix = models.BooleanField()
+    auction_instructions = models.BooleanField()
+    computer_instructions = models.BooleanField()
+    game_instructions = models.BooleanField()
 
 
 class P1(Page):
@@ -265,15 +268,16 @@ class P2(Page):
     ''' Ethics Statement'''
     form_model = 'player'
     form_fields = ['ethics']
+    
     def before_next_page(player, timeout_happened):
         player.prolific_id = player.participant.label
 
 
 class P3(Page):
     ''' Instructions: Introduction (ID)'''
-
     def vars_for_template(player):
         return {
+            'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'computer_instructions' : player.computer_instructions,
             'game_instructions' : player.game_instructions
@@ -284,6 +288,7 @@ class P4(Page):
     '''Instructions: Values'''
     def vars_for_template(player):
         return {
+            'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'computer_instructions' : player.computer_instructions,
             'game_instructions' : player.game_instructions
@@ -295,22 +300,29 @@ class P5(Page):
     def vars_for_template(player):
         return {
             'auction_instructions' : player.auction_instructions,
+            'control_instructions' : player.control_instructions,
             'game_instructions' : player.game_instructions,
             'computer_instructions' : player.computer_instructions
         }
 
 
 class P6(Page):
-    '''Payoff Example'''
+    '''Instructions: Payoff Example'''
     def before_next_page(player, timeout_happened):
         if player.game_instructions:
-            player.instruction_value = random.choice(range(3, 7, 1))
+            player.instruction_value = 7
         else:
-            player.instruction_value = random.choice(range(150, 351, 50))
+            player.instruction_value = 350
 
 
 class P7(Page):
     '''Instructions: Payoff Table/Calculator'''
+    def is_displayed(player):
+        if player.control_instructions:
+            return False
+        else:
+            return True
+
     def js_vars(player):
         return dict(constant = player.constant, 
                     auction_instructions = player.auction_instructions, 
@@ -329,25 +341,30 @@ class P7(Page):
     
     @staticmethod
     def live_method(player: Player, data):
-        if data.get('select_value') == 'select_value':
-            player.stg1_value_dropdown_click += 1
+        if player.integrated_matrix:
+            if data.get('select_value') == 'select_value':
+                player.stg1_value_dropdown_click += 1
+        else:
+            if data.get('calculate_payoff') == 'calculate_payoff':
+                player.stg1_calculate_payoff += 1
 
 
 class P8(Page):
     '''Attention Check 1'''
     form_model = 'player'
     form_fields = ['attn_check_1']
+
     def before_next_page(player, timeout_happened):
         if player.game_instructions:
             player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 1, 11, 1))
-            player.Q2_number_1 = random.choice(range(0, player.quiz_value + 1, 1))
+            player.Q2_number_1 = random.choice(range(0, player.quiz_value, 1))
             player.Q2_number_2 = random.choice(range(player.quiz_value, 11, 1))
             player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
             player.correct_answer_2 = player.constant
             player.correct_answer_3 = True 
         else:
             player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 50, 501, 50))
-            player.Q2_number_1 = random.choice(range(0, player.quiz_value + 1, 50))
+            player.Q2_number_1 = random.choice(range(0, player.quiz_value, 50))
             player.Q2_number_2 = random.choice(range(player.quiz_value, 501, 50))
             player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
             player.correct_answer_2 = player.constant
@@ -358,6 +375,7 @@ class P9(Page):
     '''Comprehension Quiz'''
     def vars_for_template(player):
         return {
+            'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
             'auction_instructions' : player.auction_instructions,
@@ -381,8 +399,12 @@ class P9(Page):
     
     @staticmethod
     def live_method(player: Player, data):
-        if data.get('select_value') == 'select_value':
-            player.stg1_value_dropdown_click += 1
+        if player.integrated_matrix:
+            if data.get('select_value') == 'select_value':
+                player.stg1_value_dropdown_click += 1
+        else:
+            if data.get('calculate_payoff') == 'calculate_payoff':
+                player.stg1_calculate_payoff += 1
 
         if data.get('submit_quiz') == 'submit_quiz':
             answers_quiz1 = data.get('answers_quiz1', {})
@@ -417,11 +439,13 @@ class P12_1(Page):
     '''Auction/Game with Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
+
     def is_displayed(player):
         return player.integrated_matrix
     
     def vars_for_template(player):
         return {
+            'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
             'auction_value' : player.auction_value,
@@ -448,11 +472,13 @@ class P12_2(Page):
     '''Auction Without Matrix'''
     form_model = 'player'
     form_fields = ['selected_bid']
+
     def is_displayed(player):
         return not player.integrated_matrix
     
     def vars_for_template(player):
         return {
+            'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
             'auction_value' : player.auction_value,
@@ -471,8 +497,8 @@ class P12_2(Page):
     
     @staticmethod
     def live_method(player: Player, data):
-        if data.get('select_value') == 'select_value':
-            player.stg2_value_dropdown_click += 1
+        if data.get('calculate_payoff') == 'calculate_payoff':
+            player.stg2_calculate_payoff += 1
 
 
 class P13(Page):
@@ -497,6 +523,7 @@ class P14(Page):
     '''Demographics'''
     form_model = 'player'
     form_fields = ['demographic_1','demographic_2']
+    
     def before_next_page(player, timeout_happened):
         if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
             player.comprehension_quiz_payment = 0.50
@@ -523,6 +550,7 @@ class P15(Page):
     '''Submitting Payment'''
     def vars_for_template(player):        
         return {
+            'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'game_instructions' : player.game_instructions
         }
