@@ -37,20 +37,6 @@ function validateEthicsStatement() {
     }
     return true;
 }
-function validateUserID() {
-    const userIDInput = document.getElementById('user_id');
-    const errorSpan = document.getElementById('IDerror');
-
-    if (!userIDInput.value.trim()) {
-        if (errorSpan) {
-            errorSpan.textContent = 'Please enter your unique Prolific ID';
-            errorSpan.style.display = 'inline-block';
-            errorSpan.style.fontWeight = 'bold';
-        }
-        return false;
-    }
-    return true;
-}
 
 function validateAttentionCheck1() {
     const selectedOption = document.querySelector('input[name="attn_check_1"]:checked');
@@ -307,7 +293,8 @@ function selectValue(value, option) {
 
     button.innerText = label;
 
-    liveSend({'select_value': 'select_value'});
+    liveSend({'dropdown_value': value });
+
     toggleDropdown(button);
     updatePayoffTable();
     tryCalculatePayoff();
@@ -406,24 +393,25 @@ function liveRecv(data) {
 // Calculate Function
 // ==================================================
 function calculatePayoff() {
-    const payoffValue = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
+    const valueDropdown = parseInt(document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const yourBidValue = parseInt(document.getElementById("your-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
     const opponentBidValue = parseInt(document.getElementById("opponent-bid-dropdown-btn").innerText.split(":")[1].trim(), 10);
     var constant = js_vars.constant;
 
     let payoff;
     if (yourBidValue > opponentBidValue) {
-        payoff = constant + (payoffValue - opponentBidValue);
+        payoff = constant + (valueDropdown - opponentBidValue);
     } else if (yourBidValue === opponentBidValue) {
-        payoff = constant + (Math.floor((payoffValue - opponentBidValue) / 2));
+        payoff = constant + (Math.floor((valueDropdown - opponentBidValue) / 2));
     } else {
         payoff = constant;
     }
-    liveSend({'calculate_payoff': 'calculate_payoff'});
+
+    liveSend({'value_dropdown': valueDropdown, 'your_bid_value': yourBidValue, 'opponent_bid_value': opponentBidValue});
+
     document.getElementById("payoff-display").innerHTML = `Your Payoff: <span style="color: green">${payoff}</span>`;
 
     return false;
-
 }
 function tryCalculatePayoff() {
     const val1 = document.getElementById("PC-value-dropdown-btn").innerText.split(":")[1]?.trim();

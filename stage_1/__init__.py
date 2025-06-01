@@ -1,5 +1,7 @@
 from otree.api import *
 import random
+import json
+import datetime
 
 doc = '''Instructions and Game for Second-Price Auction Experiment'''
 
@@ -225,11 +227,19 @@ class Player(BasePlayer):
     Q2_number_1 = models.IntegerField()
     Q2_number_2 = models.IntegerField()
 
-    # Value For Payoff Table Dropdown Click Counter
-    stg1_value_dropdown_click = models.IntegerField(default=0)
-    stg2_value_dropdown_click = models.IntegerField(default=0)
-    stg1_calculate_payoff = models.IntegerField(default=0)
-    stg2_calculate_payoff = models.IntegerField(default=0)
+    # Data Tracker
+    instr_value_dropdown = models.LongStringField(initial="[]")
+    quiz_value_dropdown = models.LongStringField(initial="[]")
+    game_value_dropdown = models.LongStringField(initial="[]")
+    instr_calculate_payoff = models.LongStringField(initial="[]")
+    quiz_calculate_payoff = models.LongStringField(initial="[]")
+    game_calculate_payoff = models.LongStringField(initial="[]")
+
+    # Data tracking function
+    def append_json_values(player, field_name, new_value):
+        current = json.loads(getattr(player, field_name))
+        current.append(new_value)
+        setattr(player, field_name, json.dumps(current))
 
     # Follow-Up Question's Answer
     fllw_up_Q1 = models.StringField()
@@ -258,57 +268,121 @@ class Player(BasePlayer):
     computer_instructions = models.BooleanField()
     game_instructions = models.BooleanField()
 
+    # Timestamps
+    page_timestamps = models.LongStringField(initial='[]')
+    page_enter_time = models.StringField()
+    current_page_name = models.StringField()
+
+
+def track_timestamps(player, timeout_happened):
+    enter_time_str = player.field_maybe_none('page_enter_time')
+
+    submit_time = datetime.datetime.utcnow().isoformat()
+
+    try:
+        start = datetime.datetime.fromisoformat(enter_time_str)
+        end = datetime.datetime.fromisoformat(submit_time)
+        duration = (end - start).total_seconds()
+    except Exception as e:
+        duration = None
+
+    data = json.loads(player.page_timestamps or "[]")
+    data.append({
+        "page": player.current_page_name,
+        "duration": duration
+    })
+    player.page_timestamps = json.dumps(data)
+
 
 class P1(Page):
     ''' Consent Page'''
-    pass
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
+
+    def vars_for_template(player):
+        return {'page_name': 'Consent'}
 
 
 class P2(Page):
     ''' Ethics Statement'''
     form_model = 'player'
-    form_fields = ['ethics']
+    form_fields = ['ethics', 'page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Ethics'}
     
     def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
         player.prolific_id = player.participant.label
 
 
 class P3(Page):
     ''' Instructions: Introduction (ID)'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def vars_for_template(player):
         return {
+            'page_name': 'Introduction',
             'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'computer_instructions' : player.computer_instructions,
             'game_instructions' : player.game_instructions
         }
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P4(Page):
     '''Instructions: Values'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def vars_for_template(player):
         return {
+            'page_name': 'Values',
             'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'computer_instructions' : player.computer_instructions,
             'game_instructions' : player.game_instructions
         }
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P5(Page):
     '''Instructions: Payoffs'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def vars_for_template(player):
         return {
+            'page_name': 'Payoffs',
             'auction_instructions' : player.auction_instructions,
             'control_instructions' : player.control_instructions,
             'game_instructions' : player.game_instructions,
             'computer_instructions' : player.computer_instructions
         }
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P6(Page):
     '''Instructions: Payoff Example'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Payoff Example'}
+
     def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
         if player.game_instructions:
             player.instruction_value = 7
         else:
@@ -317,6 +391,9 @@ class P6(Page):
 
 class P7(Page):
     '''Instructions: Payoff Table/Calculator'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def is_displayed(player):
         if player.control_instructions:
             return False
@@ -331,6 +408,7 @@ class P7(Page):
     
     def vars_for_template(player):
         return {
+            'page_name': 'Payoff Matrix',
             'integrated_endowment' : player.integrated_endowment,
             'instruction_value' : player.instruction_value,
             'auction_instructions' : player.auction_instructions,
@@ -342,19 +420,32 @@ class P7(Page):
     @staticmethod
     def live_method(player: Player, data):
         if player.integrated_matrix:
-            if data.get('select_value') == 'select_value':
-                player.stg1_value_dropdown_click += 1
+            if 'dropdown_value' in data:
+                value = data['dropdown_value']
+                player.append_json_values('instr_value_dropdown', value)
         else:
-            if data.get('calculate_payoff') == 'calculate_payoff':
-                player.stg1_calculate_payoff += 1
+            if 'your_bid_value' in data:
+                payoff_data = {
+                    'value': data.get('value_dropdown'),
+                    'your_bid': data.get('your_bid_value'),
+                    'opponent_bid': data.get('opponent_bid_value'),
+                }
+                player.append_json_values('instr_calculate_payoff', payoff_data)
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P8(Page):
     '''Attention Check 1'''
     form_model = 'player'
-    form_fields = ['attn_check_1']
+    form_fields = ['attn_check_1', 'page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Check 1'}
 
     def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
         if player.game_instructions:
             player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 1, 11, 1))
             player.Q2_number_1 = random.choice(range(0, player.quiz_value, 1))
@@ -373,8 +464,12 @@ class P8(Page):
 
 class P9(Page):
     '''Comprehension Quiz'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def vars_for_template(player):
         return {
+            'page_name': 'Quiz',
             'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
@@ -400,11 +495,17 @@ class P9(Page):
     @staticmethod
     def live_method(player: Player, data):
         if player.integrated_matrix:
-            if data.get('select_value') == 'select_value':
-                player.stg1_value_dropdown_click += 1
+            if 'dropdown_value' in data:
+                value = data['dropdown_value']
+                player.append_json_values('quiz_value_dropdown', value)
         else:
-            if data.get('calculate_payoff') == 'calculate_payoff':
-                player.stg1_calculate_payoff += 1
+            if 'your_bid_value' in data:
+                payoff_data = {
+                    'value': data.get('value_dropdown'),
+                    'your_bid': data.get('your_bid_value'),
+                    'opponent_bid': data.get('opponent_bid_value'),
+                }
+                player.append_json_values('quiz_calculate_payoff', payoff_data)
 
         if data.get('submit_quiz') == 'submit_quiz':
             answers_quiz1 = data.get('answers_quiz1', {})
@@ -420,31 +521,50 @@ class P9(Page):
 
             if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2:
                 return {player.id_in_group: {'advance_page': True}}
+        
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P10(Page):
     '''Attention Check 2'''
     form_model = 'player'
-    form_fields = ['attn_check_2']
+    form_fields = ['attn_check_2', 'page_enter_time', 'current_page_name']
+    
+    def vars_for_template(player):
+        return {'page_name': 'Check 2'}
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P11(Page):
     '''Optional Kickout Page'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Kickout'}
+
     def is_displayed(player):
         if player.attn_check_1 == 1 and player.attn_check_2 == 1:
             return True
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P12_1(Page):
     '''Auction/Game with Matrix'''
     form_model = 'player'
-    form_fields = ['selected_bid']
+    form_fields = ['selected_bid', 'page_enter_time', 'current_page_name']
 
     def is_displayed(player):
         return player.integrated_matrix
     
     def vars_for_template(player):
         return {
+            'page_name': 'Game',
             'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
@@ -464,20 +584,25 @@ class P12_1(Page):
 
     @staticmethod
     def live_method(player: Player, data):
-        if data.get('select_value') == 'select_value':
-            player.stg2_value_dropdown_click += 1
+        if 'dropdown_value' in data:
+            value = data['dropdown_value']
+            player.append_json_values('game_value_dropdown', value)
+
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P12_2(Page):
     '''Auction Without Matrix'''
     form_model = 'player'
-    form_fields = ['selected_bid']
+    form_fields = ['selected_bid', 'page_enter_time', 'current_page_name']
 
     def is_displayed(player):
         return not player.integrated_matrix
     
     def vars_for_template(player):
         return {
+            'page_name': 'Game',
             'control_instructions' : player.control_instructions,
             'integrated_matrix' : player.integrated_matrix,
             'integrated_endowment' : player.integrated_endowment,
@@ -497,16 +622,28 @@ class P12_2(Page):
     
     @staticmethod
     def live_method(player: Player, data):
-        if data.get('calculate_payoff') == 'calculate_payoff':
-            player.stg2_calculate_payoff += 1
+        if 'your_bid_value' in data:
+            payoff_data = {
+                'value': data.get('value_dropdown'),
+                'your_bid': data.get('your_bid_value'),
+                'opponent_bid': data.get('opponent_bid_value'),
+            }
+            player.append_json_values('game_calculate_payoff', payoff_data)
+
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 class P13(Page):
     '''Follow-Up Quiz'''
     form_model = 'player'
-    form_fields = ['fllw_up_Q1','fllw_up_Q2','fllw_up_Q3']
+    form_fields = ['fllw_up_Q1', 'fllw_up_Q2', 'fllw_up_Q3', 'page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'CRT'}
 
     def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
         correct_answers = C.correct_answers_follow_up_quiz
 
         if str(player.fllw_up_Q1).strip().lower() != str(correct_answers['Q1']).strip().lower():
@@ -522,9 +659,13 @@ class P13(Page):
 class P14(Page):
     '''Demographics'''
     form_model = 'player'
-    form_fields = ['demographic_1','demographic_2']
-    
+    form_fields = ['demographic_1', 'demographic_2', 'page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Demographics'}
+
     def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
         if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
             player.comprehension_quiz_payment = 0.50
 
@@ -548,19 +689,35 @@ class P14(Page):
 
 class P15(Page):
     '''Submitting Payment'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
     def vars_for_template(player):        
         return {
+            'page_name': 'Payment',
             'control_instructions' : player.control_instructions,
             'auction_instructions' : player.auction_instructions,
             'game_instructions' : player.game_instructions
         }
 
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
+
 
 class P16(Page):
     '''Redirect Page'''
+    form_model = 'player'
+    form_fields = ['page_enter_time', 'current_page_name']
+
+    def vars_for_template(player):
+        return {'page_name': 'Redirect'}
+
     def js_vars(player):
         return dict(
                 completion_link=player.subsession.session.config['completion_link'])    
+    
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
 
 
 page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, P13, P14, P15, P16]

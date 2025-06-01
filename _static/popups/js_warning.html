@@ -32,3 +32,14 @@
       </div>
     </div>
 </noscript>
+
+
+<input type="hidden" name="current_page_name" value="{{ page_name }}">
+<input type="hidden" name="page_enter_time" id="page_enter_time">
+
+<script>
+const field = document.getElementById('page_enter_time');
+if (field) {
+  field.value = new Date().toISOString().replace('Z', '');
+}
+</script>
