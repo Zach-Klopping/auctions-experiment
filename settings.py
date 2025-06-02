@@ -1,6 +1,9 @@
 from os import environ
+from dotenv import load_dotenv
 
-DEBUG = True
+load_dotenv() 
+
+DEBUG = False
 
 SESSION_CONFIGS = [
     dict(
@@ -41,9 +44,10 @@ REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 
 ADMIN_USERNAME = 'admin'
-# for security, best to set admin password in an environment variable
+
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 
 DEMO_PAGE_INTRO_HTML = """ """
 
-SECRET_KEY = '7464521975030'
+SECRET_KEY = environ.get('OTREE_SECRET_KEY')
+

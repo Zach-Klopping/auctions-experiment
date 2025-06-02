@@ -422,16 +422,21 @@ class P7(Page):
         if player.integrated_matrix:
             if 'dropdown_value' in data:
                 value = data['dropdown_value']
-                player.append_json_values('instr_value_dropdown', value)
+                existing = json.loads(getattr(player, 'instr_value_dropdown')) or []
+                index = len(existing) + 1
+                player.append_json_values('instr_value_dropdown', {'index': index, 'value': value})
         else:
             if 'your_bid_value' in data:
+                existing = json.loads(getattr(player, 'instr_calculate_payoff')) or []
+                index = len(existing) + 1
                 payoff_data = {
+                    'index': index,
                     'value': data.get('value_dropdown'),
                     'your_bid': data.get('your_bid_value'),
                     'opponent_bid': data.get('opponent_bid_value'),
                 }
                 player.append_json_values('instr_calculate_payoff', payoff_data)
-    
+
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
 
@@ -497,10 +502,15 @@ class P9(Page):
         if player.integrated_matrix:
             if 'dropdown_value' in data:
                 value = data['dropdown_value']
-                player.append_json_values('quiz_value_dropdown', value)
+                existing = json.loads(getattr(player, 'quiz_value_dropdown')) or []
+                index = len(existing) + 1
+                player.append_json_values('quiz_value_dropdown', {'index': index, 'value': value})
         else:
             if 'your_bid_value' in data:
+                existing = json.loads(getattr(player, 'quiz_calculate_payoff')) or []
+                index = len(existing) + 1
                 payoff_data = {
+                    'index': index,
                     'value': data.get('value_dropdown'),
                     'your_bid': data.get('your_bid_value'),
                     'opponent_bid': data.get('opponent_bid_value'),
@@ -586,7 +596,9 @@ class P12_1(Page):
     def live_method(player: Player, data):
         if 'dropdown_value' in data:
             value = data['dropdown_value']
-            player.append_json_values('game_value_dropdown', value)
+            existing = json.loads(getattr(player, 'game_value_dropdown')) or []
+            index = len(existing) + 1
+            player.append_json_values('game_value_dropdown', {'index': index, 'value': value})
 
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
@@ -623,7 +635,10 @@ class P12_2(Page):
     @staticmethod
     def live_method(player: Player, data):
         if 'your_bid_value' in data:
+            existing = json.loads(getattr(player, 'game_calculate_payoff')) or []
+            index = len(existing) + 1
             payoff_data = {
+                'index': index,
                 'value': data.get('value_dropdown'),
                 'your_bid': data.get('your_bid_value'),
                 'opponent_bid': data.get('opponent_bid_value'),
