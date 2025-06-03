@@ -41,7 +41,7 @@
     <li style="margin-left: -0.8vw">
       <div class="question-flex">
         <span>
-          Suppose you {% if auction_instructions or control_instructions %} bid <b>{{ Q1_number_1 }}</b> {% endif %} {% if game_instructions %} choose <b>{{ Q1_number_1 }}</b> {% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions or control_instructions %} bids <b>{{ Q1_number_2 }}</b>. {% endif %} {% if game_instructions %} chooses <b>{{ Q1_number_2 }}</b>. {% endif %} What will your payoff from the {% if auction_instructions or control_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Suppose you bid <b>{{ Q1_number_1 }}</b> and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} bids <b>{{ Q1_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies? 
           {% if not control_instructions %}Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question. {% endif %}
         </span>
         <input type="number"
@@ -55,7 +55,7 @@
     <li style="margin-left: -0.8vw">
       <div class="question-flex">
         <span>
-          Suppose you {% if auction_instructions or control_instructions %} bid <b>{{ Q2_number_1 }}</b> {% endif %} {% if game_instructions %} choose <b>{{ Q2_number_1 }}</b>{% endif %} and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} {% if auction_instructions or control_instructions %} bids <b>{{ Q2_number_2 }}</b>.{% endif %} {% if game_instructions %} chooses <b>{{ Q2_number_2 }}</b>. {% endif %} What will your payoff from the {% if auction_instructions or control_instructions %} auction {% endif %} {% if game_instructions %} game {% endif %} be in pennies? 
+          Suppose you bid <b>{{ Q2_number_1 }}</b> and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} bids <b>{{ Q2_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies?
           {% if not control_instructions %} Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question. {% endif %}
         </span>
         <input type="number"

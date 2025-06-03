@@ -68,6 +68,21 @@ function validateAttentionCheck2() {
     return true;
 }
 
+function validateFeedback() {
+    const selectedOption = document.querySelector('input[name="feedback_bool"]:checked');
+    const errorSpan = document.getElementById('feedback-error-message');
+
+    if (!selectedOption) {
+        if (errorSpan) {
+            errorSpan.textContent = 'Please select an option';
+            errorSpan.style.display = 'block';
+            errorSpan.style.fontWeight = 'bold';
+        }
+        return false;
+    }
+    return true;
+}
+
 function ValidateQuiz2() {
     let isValid = true;
     const questions = [

@@ -20,8 +20,9 @@ SESSION_CONFIGS = [
         no_auction_isolated = False,
         computer_integrated = False,
         computer_isolated = False,
+        pilot = False,
         number_in_treatment = 2,
-        completion_link = 'https://app.prolific.com/submissions/complete?cc=ABC123'
+        completion_link = 'https://app.prolific.com/submissions/complete?cc=CK1J3I63'
     )
 ]
 

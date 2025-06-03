@@ -1,0 +1,44 @@
+{{ block content }}
+
+<!-- Page title -->
+<div class="title">
+    <p>Feedback</p>
+</div>
+  
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Load general CSS stylesheet for consistent styling -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+<p>Please answer the following question before continuing to the remainder of the experiment:</p>
+<p>Was there anything in the instructions for the auction that you found confusing?</p>
+<p>
+    <label>
+        <input id="feedback_yes" type="radio" name="feedback_bool" value="1" required>
+        Yes
+    </label>
+</p>
+<p>
+    <label>
+        <input id="feedback_no" type="radio" name="feedback_bool" value="0" required>
+        No
+    </label>
+</p>
+
+<!-- Error message placeholder for failed validation -->
+<span class="error-message" id="feedback-error-message" ></span>
+
+<!-- Text Field -->
+<p>If you answered yes to the proceeding question, please explain what you found confusing.</p>
+<p>
+    <textarea name="feedback_text" rows="4" cols="75"></textarea>
+</p>
+
+<!-- Continue button triggers validation function -->
+<button type="submit" onclick="return validateFeedback()" id="continue-button">Continue</button>
+
+{{ endblock }}

@@ -18,11 +18,11 @@
 
   {% if auction_instructions or computer_instructions %}
     <!-- Instructions specific to the auction context when auction_instructions is true -->
-    <p>The payoff table below shows your earnings from the auction as a function of your value for the widget, your bid, and the bid of the {% if computer_instructions %}computer{% endif %}{% if not computer_instructions %}other participant{% endif%}. {% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %}</p>
+    <p>The payoff table below shows your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings {% endif %} as a function of your value for the widget, your bid, and the bid of the {% if computer_instructions %}computer{% endif %}{% if not computer_instructions %}other participant{% endif%}. {% if integrated_endowment %} The earnings shown in the payoff table include your participation fee of $6.50. {% endif %}</p>
   {% endif %}
   {% if game_instructions %}
     <!-- Instructions specific to the game context when auction_instructions is false -->
-    <p>The payoff table below shows your earnings from the game as a function of your type, your number, and the other participant's number. {% if integrated_endowment %} This includes your initial endowment of 450 cents. {% endif %}</p>
+    <p>The payoff table below shows your {% if not integrated_endowment %} earnings from the game {% endif %}{% if integrated_endowment %} total earnings {% endif %} as a function of your type, your number, and the other participant's number. {% if integrated_endowment %} This includes your initial endowment of 450 cents. {% endif %}</p>
   {% endif %}
 
   <!-- Description of the buttons below the payoff table with their colors and functionalities -->

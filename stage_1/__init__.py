@@ -70,6 +70,7 @@ def creating_session(subsession: Subsession):
         }
 
         integrated_endowment_treatments = {
+            'control',
             'calculator_integrated',
             'table_integrated',
             'no_auction_integrated',
@@ -170,9 +171,12 @@ def creating_session(subsession: Subsession):
     # Assign auction and quiz values to each player sequentially
     for player in subsession.get_players():
         # Assign auction value
-        i = subsession.session.vars['auction_values_index']
-        player.auction_value = subsession.session.vars['auction_values_list'][i]
-        subsession.session.vars['auction_values_index'] += 1
+        if subsession.session.config.get('pilot'):
+            player.auction_value = random.choice([100, 200, 300, 400])
+        else:
+            i = subsession.session.vars['auction_values_index']
+            player.auction_value = subsession.session.vars['auction_values_list'][i]
+            subsession.session.vars['auction_values_index'] += 1
 
         # Assign quiz value and associated second number
         j = subsession.session.vars['final_pairs_index']
@@ -272,11 +276,15 @@ class Player(BasePlayer):
     page_timestamps = models.LongStringField(initial='[]')
     page_enter_time = models.StringField()
     current_page_name = models.StringField()
+    total_time_spent = models.FloatField()
+
+    # Feedback
+    feedback_bool = models.BooleanField()
+    feedback_text = models.LongStringField()
 
 
 def track_timestamps(player, timeout_happened):
     enter_time_str = player.field_maybe_none('page_enter_time')
-
     submit_time = datetime.datetime.utcnow().isoformat()
 
     try:
@@ -292,6 +300,11 @@ def track_timestamps(player, timeout_happened):
         "duration": duration
     })
     player.page_timestamps = json.dumps(data)
+
+    if player.current_page_name == 'Payment':
+        total_seconds = round(sum(item["duration"] for item in data if item["duration"] is not None))
+        total_minutes = total_seconds / 60
+        player.total_time_spent = total_minutes
 
 
 class P1(Page):
@@ -734,5 +747,16 @@ class P16(Page):
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
 
+class Feedback(Page):
+    ''' Feedback Page'''
+    form_model = 'player'
+    form_fields = ['feedback_bool', 'feedback_text']
 
-page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, P13, P14, P15, P16]
+    def is_displayed(player):
+        return True
+    
+    def vars_for_template(player):
+        return {'page_name': 'Feedback'}
+        
+
+page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, Feedback, P13, P14, P15, P16]
