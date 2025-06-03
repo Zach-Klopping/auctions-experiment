@@ -27,7 +27,7 @@ def calculate_payoffs_postgres():
     with psycopg2.connect(**conn_params) as conn:
         with conn.cursor() as cur:
             # Query all relevant player data, including treatment for grouping
-            cur.execute(""" SELECT id, selected_bid, auction_value, follow_up_quiz_payment, comprehension_quiz_payment, treatment FROM stage_1_player ORDER BY id """)
+            cur.execute(""" SELECT participant_id_in_session, selected_bid, auction_value, follow_up_quiz_payment, comprehension_quiz_payment, treatment FROM stage_1_player ORDER BY participant_id_in_session """)
             rows = cur.fetchall()
             
             from collections import defaultdict
@@ -35,7 +35,7 @@ def calculate_payoffs_postgres():
             players_by_treatment = defaultdict(list)
             for row in rows:
                 player_dict = {
-                    'id': row[0],
+                    'participant_id_in_session': row[0],
                     'selected_bid': row[1],
                     'auction_value': row[2],
                     'follow_up_quiz_payment': row[3],
@@ -73,13 +73,13 @@ def calculate_payoffs_postgres():
                         raw_payoff_p2 = 650 + ((p2['auction_value'] - p1['selected_bid']) // 2) + p2['follow_up_quiz_payment'] + p2['comprehension_quiz_payment']
             
                     # Convert from cents to dollars and subtract fixed cost of 2.00 dollars
-                    p1['game_payoff'] = (raw_payoff_p1 / 100) - 2.00
-                    p2['game_payoff'] = (raw_payoff_p2 / 100) - 2.00
+                    p1['game_payoff'] = round((raw_payoff_p1 / 100) - 2.00, 2)
+                    p2['game_payoff'] = round((raw_payoff_p1 / 100) - 2.00, 2)
 
                     # Print result info for each pair
-                    print(f"Pairing Player {p1['id']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
-                    print(f" -> Player {p1['id']} payoff: ${p1['game_payoff']:.2f}")
-                    print(f" -> Player {p2['id']} payoff: ${p2['game_payoff']:.2f}")
+                    print(f"Pairing Player {p1['participant_id_in_session']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) with Player {p2['participant_id_in_session']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
+                    print(f" -> Player {p1['participant_id_in_session']} payoff: ${p1['game_payoff']:.2f}")
+                    print(f" -> Player {p2['participant_id_in_session']} payoff: ${p2['game_payoff']:.2f}")
 
                 # Code if there is an odd number
                 if last_player:
@@ -95,10 +95,10 @@ def calculate_payoffs_postgres():
                     else:  # bids equal, split difference
                         raw_payoff_p1 = 650 + ((p1['auction_value'] - p2['selected_bid']) // 2) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
 
-                    p1['game_payoff'] = (raw_payoff_p1 / 100) - 2.00
+                    p1['game_payoff'] = round((raw_payoff_p1 / 100) - 2.00, 2)
 
-                    print(f"Leftover Player {p1['id']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) paired randomly with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
-                    print(f" -> Player {p1['id']} payoff: ${p1['game_payoff']:.2f}")
+                    print(f"Leftover Player {p1['participant_id_in_session']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) paired randomly with Player {p2['participant_id_in_session']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
+                    print(f" -> Player {p1['participant_id_in_session']} payoff: ${p1['game_payoff']:.2f}")
                                 
             # Flatten all players back into a single list for database update
             all_players = [p for group in players_by_treatment.values() for p in group]
@@ -109,7 +109,7 @@ def calculate_payoffs_postgres():
             for p in all_players:
                 cur.execute(
                     "UPDATE stage_1_player SET game_payoff = %s WHERE id = %s",
-                    (p['game_payoff'], p['id'])
+                    (p['game_payoff'], p['participant_id_in_session'])
                 )
             # Commit all updates
             conn.commit()

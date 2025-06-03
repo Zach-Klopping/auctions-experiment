@@ -304,7 +304,7 @@ def track_timestamps(player, timeout_happened):
     if player.current_page_name == 'Payment':
         total_seconds = round(sum(item["duration"] for item in data if item["duration"] is not None))
         total_minutes = total_seconds / 60
-        player.total_time_spent = total_minutes
+        player.total_time_spent = round(total_minutes, 2)
 
 
 class P1(Page):
