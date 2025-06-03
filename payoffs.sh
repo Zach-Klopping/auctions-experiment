@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export DATABASE_URL=$(heroku config:get DATABASE_URL -a auctions-experiment)
+export DATABASE_URL=$(heroku config:get DATABASE_URL -a game-theory-experiment)
 python calculate_payoffs.py

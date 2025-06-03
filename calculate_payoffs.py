@@ -50,9 +50,11 @@ def calculate_payoffs_postgres():
                 group = [p for p in group if p['selected_bid'] is not None]
                 random.seed(treatment)  # Seed by treatment for reproducible shuffling
                 random.shuffle(group)
-                # Ensure even number of players to form pairs
-                if len(group) % 2 != 0:
-                    raise ValueError(f"Number of players in treatment '{treatment}' must be even to form pairs.")
+                
+                n = len(group)
+                last_player = None
+                if n % 2 != 0:
+                    last_player = group.pop()  
                 
                 # Process players in pairs (2 at a time)
                 for i in range(0, len(group), 2):
@@ -78,9 +80,30 @@ def calculate_payoffs_postgres():
                     print(f"Pairing Player {p1['id']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
                     print(f" -> Player {p1['id']} payoff: ${p1['game_payoff']:.2f}")
                     print(f" -> Player {p2['id']} payoff: ${p2['game_payoff']:.2f}")
+
+                # Code if there is an odd number
+                if last_player:
+                    partner = random.choice(group)
+                    
+                    p1 = last_player
+                    p2 = partner
+                    
+                    if p1['selected_bid'] > p2['selected_bid']:
+                        raw_payoff_p1 = 650 + (p1['auction_value'] - p2['selected_bid']) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    elif p1['selected_bid'] < p2['selected_bid']:
+                        raw_payoff_p1 = 650 + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    else:  # bids equal, split difference
+                        raw_payoff_p1 = 650 + ((p1['auction_value'] - p2['selected_bid']) // 2) + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+
+                    p1['game_payoff'] = (raw_payoff_p1 / 100) - 2.00
+
+                    print(f"Leftover Player {p1['id']} paired randomly with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
+                    print(f" -> Player {p1['id']} payoff: ${p1['game_payoff']:.2f}")
                                 
             # Flatten all players back into a single list for database update
             all_players = [p for group in players_by_treatment.values() for p in group]
+            if last_player:
+                all_players.append(last_player)
             
             # Update each player's payoff in the database
             for p in all_players:

@@ -5,7 +5,7 @@ git pull
 
 
 heroku login
-heroku git:remote -a auctions-experiment
+heroku git:remote -a game-theory-experiment
 git push -f heroku main
 
 
