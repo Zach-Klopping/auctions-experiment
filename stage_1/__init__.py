@@ -280,7 +280,7 @@ class Player(BasePlayer):
 
     # Feedback
     feedback_bool = models.BooleanField()
-    feedback_text = models.LongStringField()
+    feedback_text = models.LongStringField(blank=True)
 
 
 def track_timestamps(player, timeout_happened):
@@ -600,6 +600,7 @@ class P12_1(Page):
 
     def js_vars(player):
         return dict(constant = player.constant, 
+                    control_instructions = player.control_instructions,
                     auction_value = player.auction_value, 
                     instruction_value = player.instruction_value,
                     auction_instructions = player.auction_instructions,
@@ -641,6 +642,7 @@ class P12_2(Page):
     def js_vars(player):
         auction_value = player.auction_value
         return dict(auction_value = auction_value, 
+                    control_instructions = player.control_instructions,
                     constant = player.constant,         
                     instruction_value = player.instruction_value,
                     auction_instructions = player.auction_instructions)
@@ -753,8 +755,8 @@ class Feedback(Page):
     form_fields = ['feedback_bool', 'feedback_text']
 
     def is_displayed(player):
-        return True
-    
+        return player.subsession.session.config.get('pilot', False)
+
     def vars_for_template(player):
         return {'page_name': 'Feedback'}
         

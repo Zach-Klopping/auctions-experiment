@@ -329,9 +329,10 @@ function selectOpponentBid(bid) {
 function confirmBid(bid) {
     var auction_instructions = js_vars.auction_instructions;
     var computer_instructions = js_vars.computer_instructions;
+    var control_instructions = js_vars.control_instructions;
     const button = document.querySelector('.bid-dropdown-btn');
-    const label = (auction_instructions || computer_instructions) ? 'Select Your Bid' : 'Select Your Number';
-    const confirmLabel = (auction_instructions || computer_instructions) ? 'Confirm Your Bid' : 'Confirm Your Number';
+    const label = (auction_instructions || computer_instructions || control_instructions) ? 'Select Your Bid' : 'Select Your Number';
+    const confirmLabel = (auction_instructions || computer_instructions || control_instructions) ? 'Confirm Your Bid' : 'Confirm Your Number';
     
     button.innerText = `${label}: ${bid}`;
     document.getElementById('selected-bid-input').value = bid;

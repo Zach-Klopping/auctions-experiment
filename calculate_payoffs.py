@@ -97,7 +97,7 @@ def calculate_payoffs_postgres():
 
                     p1['game_payoff'] = (raw_payoff_p1 / 100) - 2.00
 
-                    print(f"Leftover Player {p1['id']} paired randomly with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
+                    print(f"Leftover Player {p1['id']} (bid: {p1['selected_bid']}, value: {p1['auction_value']}) paired randomly with Player {p2['id']} (bid: {p2['selected_bid']}, value: {p2['auction_value']})")
                     print(f" -> Player {p1['id']} payoff: ${p1['game_payoff']:.2f}")
                                 
             # Flatten all players back into a single list for database update

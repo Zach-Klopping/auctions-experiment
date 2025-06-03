@@ -1,0 +1,5 @@
+Pairing Player 22 (bid: 100, value: 50) with Player 23 (bid: 450, value: 350)
+ -> Player 22 payoff: $4.50
+ -> Player 23 payoff: $7.00
+Leftover Player 21 (bid: 100, value: 0) paired randomly with Player 23 (bid: 450, value: 350)
+ -> Player 21 payoff: $4.50
