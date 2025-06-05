@@ -28,7 +28,7 @@ def calculate_payoffs_postgres():
     with psycopg2.connect(**conn_params) as conn:
         with conn.cursor() as cur:
             # Query all relevant player data, including treatment for grouping
-            cur.execute(""" SELECT id, participant_id_in_session, selected_bid, auction_value, follow_up_quiz_payment, comprehension_quiz_payment, treatment FROM stage_1_player ORDER BY id """)
+            cur.execute(""" SELECT id, id_in_group, selected_bid, auction_value, follow_up_quiz_payment, comprehension_quiz_payment, treatment FROM stage_1_player ORDER BY id """)
             rows = cur.fetchall()
             
             # Group players by their treatment assignment for paired payoff calculation
@@ -40,7 +40,7 @@ def calculate_payoffs_postgres():
 
                 player_dict = {
                     'id': row[0],
-                    'participant_id_in_session': row[1],
+                    'id_in_group': row[1],
                     'selected_bid': row[2],
                     'auction_value': row[3],
                     'follow_up_quiz_payment': row[4],
@@ -64,11 +64,9 @@ def calculate_payoffs_postgres():
                 fixed_auction_values = list(players_by_auction_value.keys())
 
                 for p1 in group:
-                    # Pick random auction value (partner's auction value)
-                    matched_value = random.choice(fixed_auction_values)
-
-                    # Pick a random partner player with that auction value within the same treatment
-                    partner_candidates = players_by_auction_value[matched_value]
+                    valid_values = [val for val in fixed_auction_values if any(p['id'] != p1['id'] for p in players_by_auction_value[val])]
+                    matched_value = random.choice(valid_values)
+                    partner_candidates = [p for p in players_by_auction_value[matched_value] if p['id'] != p1['id']]
                     p2 = random.choice(partner_candidates)
 
                     # Calculate payoff for p1 compared to p2
@@ -81,12 +79,13 @@ def calculate_payoffs_postgres():
 
                     p1['payoff_from_auction'] = auction_p1
 
-                    full_p1 = 650 + auction_p1 + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
-                    p1['game_payoff'] = round(full_p1 / 100 - 2.00, 2)
+                    full_p1 = 450 + auction_p1 + p1['follow_up_quiz_payment'] + p1['comprehension_quiz_payment']
+                    p1['game_payoff'] = round(full_p1 / 100, 2)
 
-                    print(f"Player {p1['participant_id_in_session']} (bid: {p1['selected_bid']}, auction_value: {p1['auction_value']}) "
-                          f"matched with Player {p2['participant_id_in_session']} (bid: {p2['selected_bid']}, auction_value: {p2['auction_value']})")
-                    print(f" -> P1 payoff_from auction: ${p1['payoff_from_auction']} | game_payoff: ${p1['game_payoff']}")
+                    print(f" -> Matched value: {matched_value}")
+                    print(f"Player {p1['id_in_group']} (bid: {p1['selected_bid']}, auction_value: {p1['auction_value']}) "
+                          f"matched with Player {p2['id_in_group']} (bid: {p2['selected_bid']}, auction_value: {p2['auction_value']})")
+                    print(f" -> P1 payoff_from auction: {p1['payoff_from_auction']} | game_payoff: ${p1['game_payoff']:.2f}")
             
            # Update each player's payoff in the database
             for p in all_players:

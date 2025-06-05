@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-DEBUG = True
+DEBUG = False
 
 SESSION_CONFIGS = [
     dict(
@@ -13,17 +13,17 @@ SESSION_CONFIGS = [
         num_demo_participants = 1,
         control_integrated = True,
         control_isolated = False,
-        calculator_integrated = False,
-        calculator_isolated = False,
         table_integrated = False,
         table_isolated = False,
+        calculator_integrated = False,
+        calculator_isolated = False,
         no_auction_integrated = False,
         no_auction_isolated = False,
         computer_integrated = False,
         computer_isolated = False,
         pilot = False,
         number_in_treatment = 2,
-        completion_link = 'https://app.prolific.com/submissions/complete?cc=CK1J3I63'
+        completion_link = 'https://app.prolific.com/submissions/complete?cc=CGH8YZX1'
     )
 ]
 
