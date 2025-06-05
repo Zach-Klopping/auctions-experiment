@@ -13,3 +13,4 @@ __pycache__/
 *.otreezip
 .env
 payoff_log.txt
+data/

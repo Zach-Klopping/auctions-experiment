@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-DEBUG = False
+DEBUG = True
 
 SESSION_CONFIGS = [
     dict(
@@ -11,7 +11,8 @@ SESSION_CONFIGS = [
         display_name = "Full Experiment",
         app_sequence = ['stage_1'],
         num_demo_participants = 1,
-        control = True,
+        control_integrated = True,
+        control_isolated = False,
         calculator_integrated = False,
         calculator_isolated = False,
         table_integrated = False,

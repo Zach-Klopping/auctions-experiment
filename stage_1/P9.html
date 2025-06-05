@@ -19,17 +19,17 @@
 
   <!-- Quiz instructions with conditional phrasing based on context -->
   {% if auction_instructions or computer_instructions %}
-  <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
+  <p>Before starting the real auction, please answer the following four questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
   <p>You should use the payoff{% if integrated_matrix %} table {% endif %}{% if not integrated_matrix %} calculator {% endif %}shown below to answer the quiz questions. Your value for the comprehension quiz was chosen to illustrate how the payoff {% if integrated_matrix %} table {% endif %}{% if not integrated_matrix %} calculator {% endif %} works; a new value will be randomly drawn for the actual auction, so be certain to check what your value is in the auction.  If you cannot remember something about the instructions for the auction, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
   {% endif %}
 
   {% if control_instructions %}
-  <p>Before starting the real auction, please answer the following three questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
+  <p>Before starting the real auction, please answer the following four questions. These questions test your comprehension of the instructions. All bids used in these questions have been drawn randomly. As such, the bids in these questions do not provide any guidance on how you ought to bid in the real auction.</p>
   <p>Your value for the comprehension quiz was chosen to illustrate how the payoffs work; a new value will be randomly drawn for the actual auction, so be certain to check what your value is in the auction. If you cannot remember something about the instructions for the auction, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
   {% endif %}
 
   {% if game_instructions %}
-  <p>Before starting the real game, please answer the following three questions. These questions test your comprehension of the instructions. All numbers used in these questions have been drawn randomly. As such, the numbers in these questions do not provide any guidance on how you ought to choose in the real game.</p>
+  <p>Before starting the real game, please answer the following four questions. These questions test your comprehension of the instructions. All numbers used in these questions have been drawn randomly. As such, the numbers in these questions do not provide any guidance on how you ought to choose in the real game.</p>
   <p>You should use the payoff table shown below to answer the quiz questions. Your type for the comprehension quiz was chosen to illustrate how the payoff table works; a new type will be randomly drawn for the actual game, so be certain to check what your type is in the game.  If you cannot remember something about the instructions for the game, click on the <span style="color:orange">orange</span> button labeled “Instructions” to open a pop-up window with the instructions.</p>
   {% endif %}
 
@@ -55,8 +55,8 @@
     <li style="margin-left: -0.8vw">
       <div class="question-flex">
         <span>
-          Suppose you bid <b>{{ Q2_number_1 }}</b> and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} bids <b>{{ Q2_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies?
-          {% if not control_instructions %} Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question. {% endif %}
+          Suppose you bid <b>{{ Q2_number_1 }}</b> and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} bids <b>{{ Q2_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies? 
+          {% if not control_instructions %}Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question. {% endif %}
         </span>
         <input type="number"
                id="Q2" name="Q2" style="width: 4vw; border: 0.15vw solid black;" required
@@ -65,7 +65,21 @@
       </div>
     </li>
 
-    <!-- Question 3: True/False dropdown -->
+    <!-- Question 3: Numerical input -->
+    <li style="margin-left: -0.8vw">
+      <div class="question-flex">
+        <span>
+          Suppose you bid <b>{{ Q3_number_1 }}</b> and the {% if computer_instructions %} computer {% endif %} {% if not computer_instructions %} other participant {% endif %} bids <b>{{ Q3_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies?
+          {% if not control_instructions %} Please use the payoff {% if integrated_matrix %} table {% endif %} {% if not integrated_matrix %} calculator {% endif %} below to answer this question. {% endif %}
+        </span>
+        <input type="number"
+               id="Q3" name="Q3" style="width: 4vw; border: 0.15vw solid black;" required
+               onkeydown="if((event.key >= '0' && event.key <= '9') || event.key === 'Backspace' || (event.key === '-')) return true; else return false;">
+        <span class="error-message" id="errorQ3"></span>
+      </div>
+    </li>
+
+    <!-- Question 4: True/False dropdown -->
     <li style="margin-left: -0.8vw">
       <div class="question-flex">
         <span>
@@ -76,12 +90,12 @@
           Knowing what {% if auction_instructions or control_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has randomly been drawn for me does <b><i>not</i></b> tell me anything about what {% if auction_instructions or control_instructions %} value {% endif %} {% if game_instructions %} type {% endif %} has been randomly drawn for the other participant.
           {% endif %}
         </span>
-        <select id="Q3" name="Q3" style="height: 4vh; border: 0.15vw solid black;" required>
+        <select id="Q4" name="Q4" style="height: 4vh; border: 0.15vw solid black;" required>
           <option></option>
           <option value="1">True</option>
           <option value="0">False</option>
         </select>
-        <span class="error-message" id="errorQ3"></span>
+        <span class="error-message" id="errorQ4"></span>
       </div>
     </li>
   </ol>

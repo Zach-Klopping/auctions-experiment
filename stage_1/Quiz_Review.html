@@ -1,0 +1,40 @@
+{{ block content }}
+
+<div class="title">
+    <p>Quiz Feedback</p>
+</div>
+
+<!-- Show popup warning if JavaScript is disabled -->
+{{ include '_static/popups/js_warning.html' }}
+
+<!-- Load general JavaScript file -->
+<script src="{% static 'general.js' %}"></script>
+
+<!-- Link to the external CSS file -->
+<link rel="stylesheet" type="text/css" href="{% static 'general.css' %}">
+
+{% if Q1_incorrect >= 2 %}
+<p>1. Suppose you bid <b>{{ Q1_number_1 }}</b> and the other participant bids <b>{{ Q1_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies?</p>
+<p>You did not get this question correct. Here is an explanation of the correct answer. Your bid is higher than the bid of the other participant (<b>{{ Q1_number_1 }}</b> > <b>{{ Q1_number_2 }}</b>), so you win the widget. The widget is worth <b>{{ quiz_value }}</b> cents to you and you pay <b>{{ Q1_number_2 }}</b> cents, the other participant's bid. Your earnings from the auction are <b>{{ correct_answer_1_cents }}</b> cents (<b>{{ quiz_value }}</b> - <b>{{ Q1_number_2 }}</b> = <b>{{ correct_answer_1_cents }}</b>).{% if integrated_endowment %} Your total earnings for the experiment are the sum of the <b>$6.50</b> participation fee plus the <b>${{ correct_answer_1_dollars }}</b> you earned from the auction. Your total earnings are <b>${{ total_Q1_earnings }}.{% endif %}</b></p>
+{% endif %}
+
+{% if Q2_incorrect >= 2 %}
+<p>2. Suppose you bid <b>{{ Q2_number_1 }}</b> and the other participant bids <b>{{ Q2_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies?</p>
+<p>You did not get this question correct. Here is an explanation of the correct answer. Your bid is higher than the bid of the other participant (<b>{{ Q2_number_1 }}</b> > <b>{{ Q2_number_2 }}</b>), so you win the widget. The widget is worth <b>{{ quiz_value }}</b> cents to you and you pay <b>{{ Q2_number_2 }}</b> cents, the other participant's bid. Your earnings from the auction are <b>{{ correct_answer_2_cents }}</b> cents (<b>{{ quiz_value }}</b> - <b>{{ Q2_number_2 }}</b> = <b>{{ correct_answer_2_cents }}</b>).{% if integrated_endowment %} Your total earnings for the experiment are the sum of the <b>$6.50</b> participation fee plus the <b>${{ correct_answer_2_dollars }}</b> you earned from the auction. Your total earnings are <b>${{ total_Q2_earnings }}.{% endif %}</b></p>
+{% endif %}
+
+{% if Q3_incorrect >= 2 %}
+<p>3. Suppose you bid <b>{{ Q3_number_1 }}</b> and the other participant bids <b>{{ Q3_number_2 }}</b>. What will your {% if not integrated_endowment %} earnings from the auction {% endif %}{% if integrated_endowment %} total earnings, including your participation fee of $6.50, {% endif %} be in pennies? </p>
+<p>You did not get this question correct. Here is an explanation of the correct answer. Your bid is lower than the bid of the other participant (<b>{{ Q3_number_1 }}</b> < <b>{{ Q3_number_2 }}</b>), so you do not win the widget. Your earnings from the auction are <b>0</b> cents.{% if integrated_endowment %} The <b>$6.50</b> participation fee is your total earnings for the experiment.{% endif %}</p>
+{% endif %}
+
+{% if Q4_incorrect >= 2 %}
+<p>4. Knowing what value has randomly been drawn for me does not tell me anything about what value has been randomly drawn for the other participant.</p>
+<p>You did not get this question correct. Here is an explanation of the correct answer. The correct answer is “True”. The values of the widget for you and the other participant are “independent”. This means that the two values are drawn separately, and knowing your value tells you nothing about the value of the widget for the other participant.</p>
+{% endif %}
+
+
+<button id="continue-button">Continue</button>
+
+
+{{ endblock }}

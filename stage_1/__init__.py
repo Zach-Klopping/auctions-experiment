@@ -31,7 +31,8 @@ def creating_session(subsession: Subsession):
 
         # Create a dictionary to store which treatments are enabled based on session config
         possible_treatments = {
-            'control': subsession.session.config.get('control'),
+            'control_isolated': subsession.session.config.get('control_isolated'),
+            'control_integrated': subsession.session.config.get('control_integrated'),
             'calculator_isolated': subsession.session.config.get('calculator_isolated'),
             'calculator_integrated': subsession.session.config.get('calculator_integrated'),
             'table_isolated': subsession.session.config.get('table_isolated'),
@@ -66,11 +67,12 @@ def creating_session(subsession: Subsession):
 
         # Define sets of treatments for boolean flags
         control_treatment = {
-            'control',
+            'control_integrated',
+            'control_isolated',
         }
 
         integrated_endowment_treatments = {
-            'control',
+            'control_integrated',
             'calculator_integrated',
             'table_integrated',
             'no_auction_integrated',
@@ -115,7 +117,8 @@ def creating_session(subsession: Subsession):
     if 'auction_values_list' not in subsession.session.vars or 'final_pairs' not in subsession.session.vars:
         # Check if any auction-related treatments are enabled in the session config
         standard_values_enabled = (
-            subsession.session.config.get('control') or
+            subsession.session.config.get('control_integrated') or
+            subsession.session.config.get('control_isolated') or
             subsession.session.config.get('table_integrated') or
             subsession.session.config.get('table_isolated') or
             subsession.session.config.get('calculator_integrated') or
@@ -126,14 +129,10 @@ def creating_session(subsession: Subsession):
 
         # Set ranges of values based on whether auction instructions are enabled
         if standard_values_enabled:
-            values = list(range(0, 501, 50))
-            quiz_value = 250 
-            question_range = list(range(0, 500, 50))   
+            values = list(range(0, 501, 50)) 
 
         else:
             values = list(range(0, 11))
-            quiz_value = 5
-            question_range = list(range(0, 10, 1))  
             
         # Count how many treatments are enabled
         enabled_treatments = sum(1 for enabled in possible_treatments.values() if enabled)
@@ -149,25 +148,6 @@ def creating_session(subsession: Subsession):
         subsession.session.vars['auction_values_list'] = auction_values
         subsession.session.vars['auction_values_index'] = 0
 
-        # Calculate total players based on enabled treatments and players per treatment
-        total_players = enabled_treatments * number_in_treatment  
-
-        # Calculate values in question_range that are less than or greater than quiz_value
-        less_opts = [x for x in question_range if x < quiz_value]
-        greater_opts = [x for x in question_range if x > quiz_value]
-
-        # Generate a random quiz value for each player from the quiz_range
-        less_pairs = [(quiz_value, random.choice(less_opts)) for _ in range(total_players // 2)]
-        greater_pairs = [(quiz_value, random.choice(greater_opts)) for _ in range(total_players // 2)]
-
-        # Combine pairs and shuffle the final list
-        final_pairs = less_pairs + greater_pairs
-        random.shuffle(final_pairs)
-
-        # Store final pairs and initialize index counter
-        subsession.session.vars['final_pairs'] = final_pairs
-        subsession.session.vars['final_pairs_index'] = 0
-
     # Assign auction and quiz values to each player sequentially
     for player in subsession.get_players():
         # Assign auction value
@@ -177,13 +157,6 @@ def creating_session(subsession: Subsession):
             i = subsession.session.vars['auction_values_index']
             player.auction_value = subsession.session.vars['auction_values_list'][i]
             subsession.session.vars['auction_values_index'] += 1
-
-        # Assign quiz value and associated second number
-        j = subsession.session.vars['final_pairs_index']
-        quiz_value, Q1_number_2 = subsession.session.vars['final_pairs'][j]
-        player.quiz_value = quiz_value
-        player.Q1_number_2 = Q1_number_2
-        subsession.session.vars['final_pairs_index'] += 1
 
     # Assign constant based on treatment
         if player.integrated_endowment:
@@ -220,17 +193,21 @@ class Player(BasePlayer):
     Q1_incorrect = models.IntegerField(default = 0)
     Q2_incorrect = models.IntegerField(default = 0)
     Q3_incorrect = models.IntegerField(default = 0)
+    Q4_incorrect = models.IntegerField(default = 0)
 
     # Quiz 
     quiz_value = models.IntegerField()
     correct_answer_1 = models.IntegerField()
     correct_answer_2 = models.IntegerField()
-    correct_answer_3 = models.BooleanField()
+    correct_answer_3 = models.IntegerField()
+    correct_answer_4 = models.BooleanField()
     Q1_number_1 = models.IntegerField()
     Q1_number_2 = models.IntegerField()
     Q2_number_1 = models.IntegerField()
     Q2_number_2 = models.IntegerField()
-
+    Q3_number_1 = models.IntegerField()
+    Q3_number_2 = models.IntegerField()
+    
     # Data Tracker
     instr_value_dropdown = models.LongStringField(initial="[]")
     quiz_value_dropdown = models.LongStringField(initial="[]")
@@ -262,6 +239,7 @@ class Player(BasePlayer):
     # Payments
     comprehension_quiz_payment = models.FloatField(default = 0.00)
     follow_up_quiz_payment = models.FloatField(default = 0.00)
+    payoff_from_auction = models.FloatField(default = 0.00)
     game_payoff = models.FloatField(initial=0)
 
     # Instruction Booleans
@@ -397,9 +375,9 @@ class P6(Page):
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
         if player.game_instructions:
-            player.instruction_value = 7
+            player.instruction_value = 6
         else:
-            player.instruction_value = 350
+            player.instruction_value = 300
 
 
 class P7(Page):
@@ -465,19 +443,29 @@ class P8(Page):
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
         if player.game_instructions:
-            player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 1, 11, 1))
-            player.Q2_number_1 = random.choice(range(0, player.quiz_value, 1))
-            player.Q2_number_2 = random.choice(range(player.quiz_value, 11, 1))
+            player.quiz_value = 5
+            player.Q1_number_2 = random.choice(range(0, player.quiz_value))
+            player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 1, 11))
+            player.Q2_number_2 = random.choice(range(player.quiz_value + 1, 10))
+            player.Q2_number_1 = random.choice(range(player.Q2_number_2 + 1, 11))
+            player.Q3_number_1 = random.choice(range(0, player.quiz_value))
+            player.Q3_number_2 = random.choice(range(player.quiz_value, 11))
             player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
-            player.correct_answer_2 = player.constant
-            player.correct_answer_3 = True 
+            player.correct_answer_2 = player.constant + (player.quiz_value - player.Q2_number_2)
+            player.correct_answer_3 = player.constant
+            player.correct_answer_4 = True 
         else:
+            player.quiz_value = 250
+            player.Q1_number_2 = random.choice(range(0, player.quiz_value, 50))
             player.Q1_number_1 = random.choice(range(player.Q1_number_2 + 50, 501, 50))
-            player.Q2_number_1 = random.choice(range(0, player.quiz_value, 50))
-            player.Q2_number_2 = random.choice(range(player.quiz_value, 501, 50))
+            player.Q2_number_2 = random.choice(range(player.quiz_value + 50, 500, 50))
+            player.Q2_number_1 = random.choice(range(player.Q2_number_2 + 50, 501, 50))
+            player.Q3_number_1 = random.choice(range(0, player.quiz_value, 50))
+            player.Q3_number_2 = random.choice(range(player.quiz_value, 501, 50))
             player.correct_answer_1 = player.constant + (player.quiz_value - player.Q1_number_2)
-            player.correct_answer_2 = player.constant
-            player.correct_answer_3 = True 
+            player.correct_answer_2 = player.constant + (player.quiz_value - player.Q2_number_2)
+            player.correct_answer_3 = player.constant
+            player.correct_answer_4 = True 
 
 
 class P9(Page):
@@ -497,9 +485,11 @@ class P9(Page):
             'computer_instructions' : player.computer_instructions,
             'game_instructions' : player.game_instructions,
             'Q1_number_1' : player.Q1_number_1,
-            'Q1_number_2': player.Q1_number_2,
-            'Q2_number_1': player.Q2_number_1,
-            'Q2_number_2': player.Q2_number_2,
+            'Q1_number_2' : player.Q1_number_2,
+            'Q2_number_1' : player.Q2_number_1,
+            'Q2_number_2' : player.Q2_number_2,
+            'Q3_number_1' : player.Q3_number_1,
+            'Q3_number_2' : player.Q3_number_2,
         }
     
     def js_vars(player):
@@ -508,7 +498,7 @@ class P9(Page):
                     instruction_value = player.instruction_value,
                     auction_instructions = player.auction_instructions,
                     computer_instructions = player.computer_instructions,
-                    correct_answers_quiz1={'Q1': player.correct_answer_1, 'Q2': player.correct_answer_2, 'Q3': player.correct_answer_3})
+                    correct_answers_quiz1={'Q1': player.correct_answer_1, 'Q2': player.correct_answer_2, 'Q3': player.correct_answer_3, 'Q4': player.correct_answer_4})
     
     @staticmethod
     def live_method(player: Player, data):
@@ -538,13 +528,58 @@ class P9(Page):
 
             if answers_quiz1.get('Q2') != player.correct_answer_2:
                 player.Q2_incorrect += 1
-                
-            if bool(answers_quiz1.get('Q3')) != bool(player.correct_answer_3):
+
+            if answers_quiz1.get('Q3') != player.correct_answer_3:
                 player.Q3_incorrect += 1
 
-            if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2:
+            if bool(answers_quiz1.get('Q4')) != bool(player.correct_answer_4):
+                player.Q4_incorrect += 1
+
+            if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2 or player.Q4_incorrect >= 2:
                 return {player.id_in_group: {'advance_page': True}}
         
+    def before_next_page(player, timeout_happened):
+        track_timestamps(player, timeout_happened)
+
+
+class Quiz_Review(Page):
+    '''Quiz Feedback'''
+    form_model = 'player'
+    form_fields = [ 'page_enter_time', 'current_page_name']
+
+    def is_displayed(player):
+        if player.Q1_incorrect >= 2 or player.Q2_incorrect >= 2 or player.Q3_incorrect >= 2 or player.Q4_incorrect >= 2:
+            return True
+
+    def js_vars(player):
+        return dict(Q1_incorrect = player.Q1_incorrect,
+                    Q2_incorrect = player.Q2_incorrect,
+                    Q3_incorrect = player.Q3_incorrect,
+                    Q4_incorrect = player.Q4_incorrect)
+    
+    def vars_for_template(player):
+        return {
+            'page_name': 'Quiz Feedback',
+            'integrated_endowment' : player.integrated_endowment,
+            'quiz_value' : player.quiz_value,
+            'Q1_incorrect' : player.Q1_incorrect,
+            'Q2_incorrect' : player.Q2_incorrect,
+            'Q3_incorrect' : player.Q3_incorrect,
+            'Q4_incorrect' : player.Q4_incorrect,
+            'correct_answer_1_cents' : (player.quiz_value - player.Q1_number_2),
+            'correct_answer_1_dollars' : f"{((player.quiz_value - player.Q1_number_2) / 100):.2f}",
+            'correct_answer_2_cents' : (player.quiz_value - player.Q2_number_2),
+            'correct_answer_2_dollars' : f"{((player.quiz_value - player.Q2_number_2) / 100):.2f}",
+            'Q1_number_1' : player.Q1_number_1,
+            'Q1_number_2': player.Q1_number_2,
+            'Q2_number_1': player.Q2_number_1,
+            'Q2_number_2': player.Q2_number_2,
+            'Q3_number_1' : player.Q3_number_1,
+            'Q3_number_2' : player.Q3_number_2,
+            'total_Q1_earnings': f"{(((player.quiz_value - player.Q1_number_2) / 100) + 6.5):.2f}",
+            'total_Q2_earnings': f"{(((player.quiz_value - player.Q2_number_2) / 100) + 6.5):.2f}"
+        }
+    
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
 
@@ -555,7 +590,9 @@ class P10(Page):
     form_fields = ['attn_check_2', 'page_enter_time', 'current_page_name']
     
     def vars_for_template(player):
-        return {'page_name': 'Check 2'}
+        return {
+            'page_name': 'Check 2',
+        }
     
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
@@ -696,25 +733,25 @@ class P14(Page):
 
     def before_next_page(player, timeout_happened):
         track_timestamps(player, timeout_happened)
-        if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0:
-            player.comprehension_quiz_payment = 0.50
+        if player.Q1_incorrect == 0 and player.Q2_incorrect == 0 and player.Q3_incorrect == 0 and player.Q4_incorrect == 0:
+            player.comprehension_quiz_payment = 50
 
-        elif player.Q1_incorrect <= 1 and player.Q2_incorrect <= 1 and player.Q3_incorrect <= 1:
-            player.comprehension_quiz_payment = 0.20
+        elif player.Q1_incorrect <= 1 and player.Q2_incorrect <= 1 and player.Q3_incorrect <= 1 and player.Q4_incorrect <= 1:
+            player.comprehension_quiz_payment = 20
 
         else:
-            player.comprehension_quiz_payment = 0.00
+            player.comprehension_quiz_payment = 0
             
         player.follow_up_quiz_payment = 0
         
         if player.fllw_up_Q1_incorrect == 0:
-            player.follow_up_quiz_payment += 0.25
+            player.follow_up_quiz_payment += 25
 
         if player.fllw_up_Q2_incorrect == 0:
-            player.follow_up_quiz_payment += 0.25
+            player.follow_up_quiz_payment += 25
             
         if player.fllw_up_Q3_incorrect == 0:
-            player.follow_up_quiz_payment += 0.25
+            player.follow_up_quiz_payment += 25
 
 
 class P15(Page):
@@ -761,4 +798,4 @@ class Feedback(Page):
         return {'page_name': 'Feedback'}
         
 
-page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12_1, P12_2, Feedback, P13, P14, P15, P16]
+page_sequence = [P1, P2, P3, P4, P5, P6, P7, P8, P9, Quiz_Review, P10, P11, P12_1, P12_2, Feedback, P13, P14, P15, P16]
