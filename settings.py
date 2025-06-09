@@ -22,6 +22,7 @@ SESSION_CONFIGS = [
         computer_integrated = False,
         computer_isolated = False,
         pilot = False,
+        wave_1 = False,
         number_in_treatment = 2,
         completion_link = 'https://app.prolific.com/submissions/complete?cc=CGH8YZX1'
     )

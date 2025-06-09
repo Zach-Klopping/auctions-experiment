@@ -2,6 +2,7 @@ from otree.api import *
 import random
 import json
 import datetime
+from collections import defaultdict
 
 doc = '''Instructions and Game for Second-Price Auction Experiment'''
 
@@ -45,14 +46,39 @@ def creating_session(subsession: Subsession):
 
         treatments = []
 
-        # Loop through each treatment name and check if it is enabled
-        for treatment_name in possible_treatments:
-            is_enabled = possible_treatments[treatment_name]
+        if subsession.session.config.get('wave_1'):
+            # Wave 1: Use the original logic with number_in_treatment
+            number_in_treatment = subsession.session.config.get('number_in_treatment')
+            
+            for treatment_name in possible_treatments:
+                is_enabled = possible_treatments[treatment_name]
+                if is_enabled:
+                    repeated_treatments = [treatment_name] * number_in_treatment
+                    treatments.extend(repeated_treatments)
+        
+        else:
+            # Not Wave 1: Use specific player counts to match hardcoded values
+            treatment_player_counts = {
+                'control_isolated': 17,
+                'control_integrated': 18,
+                'calculator_isolated': 0,
+                'calculator_integrated': 0,
+                'table_isolated': 21,
+                'table_integrated': 23,
+                'no_auction_isolated': 0,
+                'no_auction_integrated': 0,
+                'computer_isolated': 0,
+                'computer_integrated': 0,
+            }
 
-            # If treatment is enabled, add it multiple times to the treatments list
-            if is_enabled:
-                repeated_treatments = [treatment_name] * number_in_treatment
-                treatments.extend(repeated_treatments)
+            # Loop through each treatment name and check if it is enabled
+            for treatment_name in possible_treatments:
+                is_enabled = possible_treatments[treatment_name]
+                # If treatment is enabled, add it multiple times to the treatments list
+                if is_enabled:
+                        player_count = treatment_player_counts[treatment_name]
+                        repeated_treatments = [treatment_name] * player_count
+                        treatments.extend(repeated_treatments)
 
         # Randomly shuffle the full list of treatments before assigning to players
         random.shuffle(treatments)
@@ -126,43 +152,61 @@ def creating_session(subsession: Subsession):
             subsession.session.config.get('computer_integrated') or 
             subsession.session.config.get('computer_isolated')
         )
-
         # Set ranges of values based on whether auction instructions are enabled
         if standard_values_enabled:
             values = list(range(0, 501, 50)) 
 
         else:
             values = list(range(0, 11))
+
+        if subsession.session.config.get('wave_1'): 
+        # Group players by treatment
+            players_by_treatment = {}
+
+            for player in subsession.get_players():
+                treatment = player.treatment
+                if treatment not in players_by_treatment:
+                    players_by_treatment[treatment] = []
+                players_by_treatment[treatment].append(player)
             
-        # Count how many treatments are enabled
-        enabled_treatments = sum(1 for enabled in possible_treatments.values() if enabled)
+            for treatment in players_by_treatment:
+                players = players_by_treatment[treatment]
+                
+                # Create the auction values list for this treatment
+                treatment_auction_values = []
+                for v in values:
+                    treatment_auction_values += [v] * 10
+                random.shuffle(treatment_auction_values)
 
-        auction_values = []
-        # For each enabled treatment, add values repeated 10 times each
-        for _ in range(enabled_treatments):
-            for v in values:
-                auction_values.extend([v] * 10)
-        random.shuffle(auction_values)
+                for i in range(len(players)):
+                    players[i].auction_value = treatment_auction_values[i]
+                    print(f" Treatment: {treatment} | Auction Value: {players[i].auction_value}")
 
-        # Store the auction values and initialize the index counter
-        subsession.session.vars['auction_values_list'] = auction_values
-        subsession.session.vars['auction_values_index'] = 0
-
-    # Assign auction and quiz values to each player sequentially
-    for player in subsession.get_players():
-        # Assign auction value
-        if subsession.session.config.get('pilot'):
-            player.auction_value = random.choice([100, 200, 300, 400])
         else:
-            i = subsession.session.vars['auction_values_index']
-            player.auction_value = subsession.session.vars['auction_values_list'][i]
-            subsession.session.vars['auction_values_index'] += 1
+            hardcoded_values = {
+                'control_integrated': [0, 0, 0, 150, 150, 150, 150, 200, 200, 200, 250, 250, 300, 450, 450, 450, 450, 500],
+                'control_isolated': [0, 0, 0, 0, 0, 150, 200, 200, 200, 300, 300, 300, 300, 300, 400, 400, 450],
+                'table_integrated': [50, 200, 200, 200, 200, 200, 200, 200, 250, 250, 250, 350, 350, 350, 350, 350, 400, 400, 400, 400, 450, 500, 500],
+                'table_isolated': [50, 50, 50, 100, 100, 100, 100, 100, 150, 150, 150, 250, 250, 300, 350, 350, 350, 350, 400, 500, 500],
+            }
 
-    # Assign constant based on treatment
-        if player.integrated_endowment:
-            player.constant = 650
-        else:
-            player.constant = 0
+            players_by_treatment = defaultdict(list)
+
+            # Group players by treatment
+            for player in subsession.get_players():
+                players_by_treatment[player.treatment].append(player)
+
+            # Assign values per treatment
+            for treatment, players in players_by_treatment.items():
+                values = hardcoded_values[treatment][:]
+                random.shuffle(values)
+
+                
+                # Only assign up to the number of values available
+                for i in range(min(len(players), len(values))):
+                    player = players[i]
+                    value = values[i]
+                    player.auction_value = value
 
 
 class Group(BaseGroup):
@@ -291,6 +335,12 @@ class P1(Page):
     form_fields = ['page_enter_time', 'current_page_name']
 
     def before_next_page(player, timeout_happened):
+        # Assign constant based on treatment
+        if player.integrated_endowment:
+            player.constant = 650
+            
+        else:
+            player.constant = 0
         track_timestamps(player, timeout_happened)
 
     def vars_for_template(player):
